@@ -1,0 +1,19 @@
+{
+  "$schema": "https://wails.io/schemas/config.v2.json",
+  "name": "carmem",
+  "outputfilename": "carmem",
+  "icon": "assets/icons/appicon.svg",
+  "frontend:install": "npm install",
+  "frontend:build": "npm run build",
+  "frontend:dev:watcher": "npm run dev",
+  "frontend:dev:serverUrl": "auto",
+  "author": {
+    "name": "Dudu2231",
+    "email": "eduardonascimento2231@gmail.com"
+  },
+  "build": {
+    "windows": {
+      "webviewTag": "webkit2_41"
+    }
+  }
+}
