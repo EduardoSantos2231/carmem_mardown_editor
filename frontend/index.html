@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>carmem</title>
+    <link rel="stylesheet" href="./src/styles.css"/>
+</head>
+<body>
+    <div id="app">
+        <aside id="sidebar">
+            <div class="sidebar-header">
+                <span class="sidebar-title">Carmem</span>
+            </div>
+            <div class="sidebar-actions">
+                <button id="btn-new-file" title="Novo arquivo"></button>
+                <button id="btn-new-folder" title="Nova pasta"></button>
+                <button id="btn-delete" title="Excluir item selecionado"></button>
+                <button id="btn-rename" title="Renomear item selecionado"></button>
+            </div>
+            <div id="file-tree"></div>
+        </aside>
+        <div id="sidebar-resizer" class="resizer-vertical"></div>
+        <main id="main">
+            <div id="toolbar">
+                <span id="current-file">No file open</span>
+                <div class="toolbar-spacer"></div>
+                <button id="btn-zoom-out" title="Zoom: Ctrl+- - Diminuir">-</button>
+                <span id="zoom-level">100%</span>
+                <button id="btn-zoom-in" title="Zoom: Ctrl++ - Aumentar">+</button>
+                <button id="btn-vim" title="Vim Mode: clique para desativar"></button>
+                <button id="btn-preview" title="Preview: Ctrl+P - Alternar visualização"></button>
+                <button id="btn-theme" title="Theme: Alternar tema claro/escuro"></button>
+            </div>
+            <div id="editor-container">
+                <div id="editor"></div>
+                <div id="editor-placeholder" class="visible">
+                    <p>Selecione ou crie um arquivo na barra lateral para começar a editar.</p>
+                </div>
+                <div id="editor-preview-resizer" class="resizer-horizontal"></div>
+                <div id="preview" class="hidden"></div>
+            </div>
+            <div id="status-bar">
+                <span id="vim-status">VIM Mode: ON</span>
+                <span id="file-status"></span>
+            </div>
+        </main>
+    </div>
+    <script src="./src/main.js" type="module"></script>
+</body>
+</html>
