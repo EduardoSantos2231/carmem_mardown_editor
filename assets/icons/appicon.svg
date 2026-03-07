@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+
+  <!-- Fundo -->
+  <rect width="100%" height="100%" fill="#f3f3f3"/>
+
+  <!-- Página -->
+  <rect x="40" y="40" width="432" height="432" rx="20" fill="#ffffff" stroke="#d0d0d0" stroke-width="4"/>
+
+  <!-- Linhas do caderno -->
+  <g stroke="#c9d7ff" stroke-width="2">
+    <line x1="40" y1="100" x2="472" y2="100"/>
+    <line x1="40" y1="140" x2="472" y2="140"/>
+    <line x1="40" y1="180" x2="472" y2="180"/>
+    <line x1="40" y1="220" x2="472" y2="220"/>
+    <line x1="40" y1="260" x2="472" y2="260"/>
+    <line x1="40" y1="300" x2="472" y2="300"/>
+    <line x1="40" y1="340" x2="472" y2="340"/>
+    <line x1="40" y1="380" x2="472" y2="380"/>
+  </g>
+
+  <!-- Margem vermelha -->
+  <line x1="110" y1="40" x2="110" y2="472" stroke="#ff6b6b" stroke-width="3"/>
+
+  <!-- Letra C cursiva -->
+  <text
+    x="50%"
+    y="55%"
+    text-anchor="middle"
+    dominant-baseline="middle"
+    font-size="200"
+    font-family="Brush Script MT, Pacifico, cursive"
+    fill="#22c55e">
+    C
+  </text>
+
+</svg>
