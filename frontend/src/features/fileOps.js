@@ -1,6 +1,6 @@
 import * as go from '../../wailsjs/go/main/App';
 import { getConfig, getSelectedPath, setSelectedPath, getCurrentFile, setCurrentFile } from '../core/state.js';
-import { clearEditor, setEditorContent, getEditorContent } from '../core/editor.js';
+import { clearEditor, setEditorContent, getEditorContent, lockEditor } from '../core/editor.js';
 import { loadFileTree } from './fileTree.js';
 import { showModal, showConfirm } from '../ui/modal.js';
 
@@ -79,6 +79,12 @@ export async function deleteSelected() {
                 setSelectedPath(null);
                 setCurrentFile(null);
                 clearEditor();
+                lockEditor();
+                
+                const placeholder = document.getElementById('editor-placeholder');
+                if (placeholder) {
+                    placeholder.classList.add('visible');
+                }
                 
                 const currentFileEl = document.getElementById('current-file');
                 const fileStatusEl = document.getElementById('file-status');

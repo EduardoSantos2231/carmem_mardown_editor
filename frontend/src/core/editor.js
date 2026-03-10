@@ -1,6 +1,5 @@
 import { EditorView, basicSetup } from "codemirror";
-import { EditorState } from "@codemirror/state";
-import { StateEffect, StateField } from "@codemirror/state";
+import { EditorState, Compartment } from "@codemirror/state";
 import { markdown } from "@codemirror/lang-markdown";
 import { oneDark } from "@codemirror/theme-one-dark";
 import { vim } from "@replit/codemirror-vim";
@@ -8,12 +7,14 @@ import { getConfig, getIsVimEnabled, setEditor, getEditor, getIsEditorLocked, se
 import { updatePreview } from './preview.js';
 
 let onContentChangeCallback = null;
+let editableCompartment = new Compartment();
 
 export function initEditor() {
     const editorElement = document.getElementById('editor');
     
     const extensions = [
         basicSetup,
+        editableCompartment.of(EditorView.editable.of(false)),
         markdown(),
         EditorView.updateListener.of((update) => {
             if (update.docChanged && onContentChangeCallback) {
@@ -114,25 +115,11 @@ export function clearEditor() {
     });
 }
 
-const readOnlyEffect = StateEffect.define();
-
-const readOnlyField = StateField.define({
-    create() {
-        return EditorState.readOnly.of(true);
-    },
-    update(state, tr) {
-        return state.update({
-            effects: tr.effects.map(e => e.is(readOnlyEffect) ? EditorState.readOnly.of(e.value) : null)
-        }).state;
-    },
-    provide: f => EditorState.readOnly.from(f)
-});
-
 export function lockEditor() {
     const editor = getEditor();
     if (!editor) return;
     editor.dispatch({
-        effects: readOnlyEffect.of(true)
+        effects: editableCompartment.reconfigure(EditorView.editable.of(false))
     });
     setIsEditorLocked(true);
 }
@@ -141,7 +128,7 @@ export function unlockEditor() {
     const editor = getEditor();
     if (!editor) return;
     editor.dispatch({
-        effects: readOnlyEffect.of(false)
+        effects: editableCompartment.reconfigure(EditorView.editable.of(true))
     });
     setIsEditorLocked(false);
 }
