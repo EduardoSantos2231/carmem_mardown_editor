@@ -2,7 +2,7 @@ import * as go from '../../wailsjs/go/main/App';
 import { getConfig, getSelectedPath, setSelectedPath, getCurrentFile, setCurrentFile } from '../core/state.js';
 import { clearEditor, setEditorContent, getEditorContent } from '../core/editor.js';
 import { loadFileTree } from './fileTree.js';
-import { showModal } from '../ui/modal.js';
+import { showModal, showConfirm } from '../ui/modal.js';
 
 export async function getParentDir(path) {
     const parts = path.split('/');
@@ -70,24 +70,30 @@ export async function deleteSelected() {
     const item = document.querySelector(`[data-path="${selectedPath}"]`);
     const name = item?.querySelector('.name')?.textContent || 'this item';
     
-    if (!confirm(`Delete "${name}"?`)) return;
-    
-    try {
-        await go.Delete(selectedPath);
-        setSelectedPath(null);
-        setCurrentFile(null);
-        clearEditor();
-        
-        const currentFileEl = document.getElementById('current-file');
-        const fileStatusEl = document.getElementById('file-status');
-        
-        if (currentFileEl) currentFileEl.textContent = 'No file open';
-        if (fileStatusEl) fileStatusEl.textContent = '';
-        
-        await loadFileTree();
-    } catch (err) {
-        console.error('Error deleting:', err);
-    }
+    showConfirm(
+        'Confirmar Exclusão',
+        `Tem certeza que deseja excluir "${name}"?`,
+        async () => {
+            try {
+                await go.Delete(selectedPath);
+                setSelectedPath(null);
+                setCurrentFile(null);
+                clearEditor();
+                
+                const currentFileEl = document.getElementById('current-file');
+                const fileStatusEl = document.getElementById('file-status');
+                
+                if (currentFileEl) currentFileEl.textContent = 'No file open';
+                if (fileStatusEl) fileStatusEl.textContent = '';
+                
+                await loadFileTree();
+            } catch (err) {
+                console.error('Error deleting:', err);
+            }
+        },
+        null,
+        true
+    );
 }
 
 export async function renameSelected() {

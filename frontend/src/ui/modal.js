@@ -37,16 +37,17 @@ export function showModal(title, placeholder, callback) {
     });
 }
 
-export function showConfirm(title, message, onConfirm, onCancel) {
+export function showConfirm(title, message, onConfirm, onCancel, isDanger = false) {
     const modal = document.createElement('div');
     modal.className = 'modal';
+    const dangerClass = isDanger ? 'danger' : 'primary';
     modal.innerHTML = `
         <div class="modal-content">
             <h3>${title}</h3>
             <p>${message}</p>
-            <div class="modal-buttons">
-                <button class="cancel">Cancel</button>
-                <button class="primary">Confirm</button>
+            <div class="modal-buttons confirm">
+                <button class="cancel">Cancelar</button>
+                <button class="${dangerClass}">Confirmar</button>
             </div>
         </div>
     `;
@@ -57,7 +58,7 @@ export function showConfirm(title, message, onConfirm, onCancel) {
         modal.remove();
         if (onCancel) onCancel();
     });
-    modal.querySelector('.primary').addEventListener('click', () => {
+    modal.querySelector('.primary, .danger').addEventListener('click', () => {
         modal.remove();
         if (onConfirm) onConfirm();
     });
