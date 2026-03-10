@@ -296,6 +296,14 @@ body {
     border-color: var(--accent);
 }
 
+#btn-sidebar-toggle {
+    margin-right: 0.5rem;
+}
+
+#btn-sidebar-toggle.collapsed svg {
+    transform: rotate(180deg);
+}
+
 #zoom-level {
     font-size: 0.75rem;
     color: var(--text-secondary);

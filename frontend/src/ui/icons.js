@@ -4,6 +4,7 @@ export { icons };
 
 export function initToolbarIcons() {
     const buttons = {
+        'btn-sidebar-toggle': icons.panelLeft,
         'btn-new-file': icons.filePlus,
         'btn-new-folder': icons.folderPlus,
         'btn-delete': icons.trash2,

@@ -12,10 +12,12 @@ import { loadZoomLevel, applyZoom } from './features/zoom.js';
 import { loadPanelSizes, initResizers, updateEditorPreviewLayout } from './features/panels.js';
 import { applyTheme } from './features/theme.js';
 import { saveCurrentFile } from './features/fileOps.js';
+import { initSidebar } from './features/sidebar.js';
 
 async function init() {
     try {
         initToolbarIcons();
+        initSidebar();
         loadZoomLevel();
         
         const config = await go.GetConfig();

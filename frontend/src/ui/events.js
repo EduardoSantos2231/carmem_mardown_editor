@@ -5,6 +5,7 @@ import { applyTheme } from '../features/theme.js';
 import { zoomIn, zoomOut, resetZoom } from '../features/zoom.js';
 import { initResizers, updateEditorPreviewLayout } from '../features/panels.js';
 import { createNewFile, createNewFolder, deleteSelected, renameSelected, saveCurrentFile } from '../features/fileOps.js';
+import { toggleSidebar } from '../features/sidebar.js';
 
 export function updateVimStatus() {
     const isVimEnabled = getIsVimEnabled();
@@ -63,6 +64,7 @@ function handleContentChange() {
 }
 
 export function setupEventListeners() {
+    document.getElementById('btn-sidebar-toggle').addEventListener('click', toggleSidebar);
     document.getElementById('btn-new-file').addEventListener('click', createNewFile);
     document.getElementById('btn-new-folder').addEventListener('click', createNewFolder);
     document.getElementById('btn-delete').addEventListener('click', deleteSelected);
