@@ -6,7 +6,7 @@ export function showModal(title, placeholder, callback) {
             <h3>${title}</h3>
             <input type="text" placeholder="${placeholder}" />
             <div class="modal-buttons">
-                <button class="cancel">Cancel</button>
+                <button class="cancel">Cancelar</button>
                 <button class="primary">OK</button>
             </div>
         </div>

@@ -33,7 +33,7 @@ export async function saveCurrentFile() {
 export async function createNewFile() {
     const parentPath = await getParentPathForSelection();
     
-    showModal('New File', 'filename.md', async (name) => {
+    showModal('Novo Arquivo', 'nome-do-arquivo.md', async (name) => {
         try {
             await go.CreateFile(name, parentPath);
             await loadFileTree();
@@ -46,7 +46,7 @@ export async function createNewFile() {
 export async function createNewFolder() {
     const parentPath = await getParentPathForSelection();
     
-    showModal('New Folder', 'folder name', async (name) => {
+    showModal('Nova Pasta', 'nome da pasta', async (name) => {
         try {
             await go.CreateFolder(name, parentPath);
             await loadFileTree();
@@ -83,7 +83,7 @@ export async function deleteSelected() {
                 const currentFileEl = document.getElementById('current-file');
                 const fileStatusEl = document.getElementById('file-status');
                 
-                if (currentFileEl) currentFileEl.textContent = 'No file open';
+                if (currentFileEl) currentFileEl.textContent = 'Nenhum arquivo aberto';
                 if (fileStatusEl) fileStatusEl.textContent = '';
                 
                 await loadFileTree();
@@ -103,7 +103,7 @@ export async function renameSelected() {
     const item = document.querySelector(`[data-path="${selectedPath}"]`);
     const currentName = item?.querySelector('.name')?.textContent || '';
     
-    showModal('Rename', currentName, async (newName) => {
+    showModal('Renomear', currentName, async (newName) => {
         try {
             await go.Rename(selectedPath, newName);
             setSelectedPath(null);

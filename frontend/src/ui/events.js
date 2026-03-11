@@ -14,10 +14,10 @@ export function updateVimStatus() {
     
     if (statusEl) {
         if (isVimEnabled) {
-            statusEl.textContent = 'VIM Mode: ON';
+            statusEl.textContent = 'Modo Vim: ATIVADO';
             statusEl.classList.remove('off');
         } else {
-            statusEl.textContent = 'VIM Mode: OFF';
+            statusEl.textContent = 'Modo Vim: DESATIVADO';
             statusEl.classList.add('off');
         }
     }
@@ -25,10 +25,10 @@ export function updateVimStatus() {
     if (btn) {
         if (isVimEnabled) {
             btn.classList.add('active');
-            btn.title = 'Vim Mode: ESC - Ativar modo Vim';
+            btn.title = 'Modo Vim: ESC - Ativar modo Vim';
         } else {
             btn.classList.remove('active');
-            btn.title = 'Vim Mode: clique para ativar modo Vim';
+            btn.title = 'Modo Vim: clique para ativar modo Vim';
         }
     }
 }

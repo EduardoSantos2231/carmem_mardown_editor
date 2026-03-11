@@ -15,13 +15,13 @@ function updateSaveStatus(status) {
 
     switch (status) {
         case 'saved':
-            statusEl.innerHTML = `${icons.checkCircle}Saved`;
+            statusEl.innerHTML = `${icons.checkCircle}Salvo`;
             break;
         case 'saving':
-            statusEl.innerHTML = `${icons.loader}Saving...`;
+            statusEl.innerHTML = `${icons.loader}Salvando...`;
             break;
         case 'unsaved':
-            statusEl.innerHTML = `${icons.circle}Unsaved`;
+            statusEl.innerHTML = `${icons.circle}Não salvo`;
             break;
         case 'hidden':
             statusEl.innerHTML = '';

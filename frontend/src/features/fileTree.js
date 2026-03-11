@@ -160,7 +160,7 @@ function setupDragEvents(item, node) {
                 if (currentFile === draggedPath) {
                     setCurrentFile(null);
                     clearEditor();
-                    document.getElementById('current-file').textContent = 'No file open';
+                    document.getElementById('current-file').textContent = 'Nenhum arquivo aberto';
                     document.getElementById('file-status').textContent = '';
                 }
                 await loadFileTree();
