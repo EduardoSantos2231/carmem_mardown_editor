@@ -1,5 +1,5 @@
 import { getIsVimEnabled, setIsVimEnabled, getConfig } from '../core/state.js';
-import { initEditor, recreateEditor, getEditorContent, setContentChangeCallback } from '../core/editor.js';
+import { initEditor, recreateEditor, toggleVimExtension, getEditorContent, setContentChangeCallback } from '../core/editor.js';
 import { togglePreview, updatePreview, setPreviewButtonActive } from '../core/preview.js';
 import { applyTheme } from '../features/theme.js';
 import { zoomIn, zoomOut, resetZoom } from '../features/zoom.js';
@@ -36,7 +36,7 @@ export function updateVimStatus() {
 function toggleVimMode() {
     const newValue = !getIsVimEnabled();
     setIsVimEnabled(newValue);
-    recreateEditor();
+    toggleVimExtension();
     updateVimStatus();
 }
 

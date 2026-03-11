@@ -8,6 +8,14 @@ import { updatePreview } from './preview.js';
 
 let onContentChangeCallback = null;
 let editableCompartment = new Compartment();
+let vimCompartment = new Compartment();
+
+function getVimExtension() {
+    if (getIsVimEnabled()) {
+        return vim();
+    }
+    return [];
+}
 
 export function initEditor() {
     const editorElement = document.getElementById('editor');
@@ -15,6 +23,7 @@ export function initEditor() {
     const extensions = [
         basicSetup,
         editableCompartment.of(EditorView.editable.of(false)),
+        vimCompartment.of(getVimExtension()),
         markdown(),
         EditorView.updateListener.of((update) => {
             if (update.docChanged && onContentChangeCallback) {
@@ -35,10 +44,6 @@ export function initEditor() {
             }
         })
     ];
-
-    if (getIsVimEnabled()) {
-        extensions.push(vim());
-    }
 
     const config = getConfig();
     if (config.theme !== 'light') {
@@ -63,6 +68,7 @@ export function recreateEditor() {
     
     const content = editor.state.doc.toString();
     const scrollPos = editor.scrollDOM.scrollTop;
+    const wasLocked = getIsEditorLocked();
     
     const editorElement = document.getElementById('editor');
     editorElement.innerHTML = '';
@@ -75,6 +81,19 @@ export function recreateEditor() {
     });
     
     newEditor.scrollDOM.scrollTop = scrollPos;
+    
+    if (!wasLocked) {
+        unlockEditor();
+    }
+}
+
+export function toggleVimExtension() {
+    const editor = getEditor();
+    if (!editor) return;
+    
+    editor.dispatch({
+        effects: vimCompartment.reconfigure(getVimExtension())
+    });
 }
 
 export function setContentChangeCallback(callback) {
@@ -136,6 +155,7 @@ export function unlockEditor() {
 export default {
     initEditor,
     recreateEditor,
+    toggleVimExtension,
     setContentChangeCallback,
     getEditorContent,
     setEditorContent,

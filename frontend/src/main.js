@@ -13,6 +13,7 @@ import { loadPanelSizes, initResizers, updateEditorPreviewLayout } from './featu
 import { applyTheme } from './features/theme.js';
 import { saveCurrentFile } from './features/fileOps.js';
 import { initSidebar } from './features/sidebar.js';
+import { initAutosaveStatus, markUnsaved } from './features/autosave.js';
 
 async function init() {
     try {
@@ -26,6 +27,7 @@ async function init() {
         applyTheme(config.theme);
         await loadFileTree();
         
+        initAutosaveStatus();
         initEditor();
         lockEditor();
         
@@ -33,6 +35,7 @@ async function init() {
         
         setContentChangeCallback(() => {
             updatePreview();
+            markUnsaved();
         });
         
         updateVimStatus();

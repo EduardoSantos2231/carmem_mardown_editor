@@ -5,6 +5,8 @@ let isVimEnabled = true;
 let isEditorLocked = true;
 let config = { theme: 'dark', documents: '' };
 let selectedPath = null;
+let hasUnsavedChanges = false;
+let isSaving = false;
 
 const state = {
     get editor() { return editor; },
@@ -26,7 +28,13 @@ const state = {
     set config(value) { config = value; },
     
     get selectedPath() { return selectedPath; },
-    set selectedPath(value) { selectedPath = value; }
+    set selectedPath(value) { selectedPath = value; },
+    
+    get hasUnsavedChanges() { return hasUnsavedChanges; },
+    set hasUnsavedChanges(value) { hasUnsavedChanges = value; },
+    
+    get isSaving() { return isSaving; },
+    set isSaving(value) { isSaving = value; }
 };
 
 export function getEditor() {
@@ -83,6 +91,22 @@ export function getSelectedPath() {
 
 export function setSelectedPath(path) {
     selectedPath = path;
+}
+
+export function getHasUnsavedChanges() {
+    return hasUnsavedChanges;
+}
+
+export function setHasUnsavedChanges(value) {
+    hasUnsavedChanges = value;
+}
+
+export function getIsSaving() {
+    return isSaving;
+}
+
+export function setIsSaving(value) {
+    isSaving = value;
 }
 
 export default state;

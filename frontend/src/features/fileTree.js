@@ -4,6 +4,7 @@ import { getConfig, setSelectedPath, getSelectedPath, setCurrentFile, getCurrent
 import { setEditorContent, clearEditor, getScrollPosition, setScrollPosition, unlockEditor } from '../core/editor.js';
 import { updatePreview } from '../core/preview.js';
 import { getParentDir } from './fileOps.js';
+import { clearAutosaveStatus, updateSaveStatus } from './autosave.js';
 
 let onFileSelectCallback = null;
 let onFileTreeChangeCallback = null;
@@ -187,6 +188,8 @@ export async function selectFile(node) {
     try {
         const content = await go.ReadFile(node.path);
         setCurrentFile(node.path);
+        clearAutosaveStatus();
+        updateSaveStatus('saved');
         
         setEditorContent(content);
         

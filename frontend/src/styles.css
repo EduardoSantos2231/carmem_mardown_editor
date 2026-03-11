@@ -241,6 +241,39 @@ body {
     color: var(--text-secondary);
 }
 
+#save-status {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-weight: 500;
+}
+
+#save-status svg {
+    width: 14px;
+    height: 14px;
+}
+
+#save-status.saved {
+    color: #4ade80;
+}
+
+#save-status.saving {
+    color: #fbbf24;
+}
+
+#save-status.saving svg.spin {
+    animation: spin 1s linear infinite;
+}
+
+#save-status.unsaved {
+    color: #fb923c;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
 #file-status {
     color: var(--text-secondary);
     flex: 1;

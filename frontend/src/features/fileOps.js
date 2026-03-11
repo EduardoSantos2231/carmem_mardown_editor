@@ -3,6 +3,7 @@ import { getConfig, getSelectedPath, setSelectedPath, getCurrentFile, setCurrent
 import { clearEditor, setEditorContent, getEditorContent, lockEditor } from '../core/editor.js';
 import { loadFileTree } from './fileTree.js';
 import { showModal, showConfirm } from '../ui/modal.js';
+import { clearAutosaveStatus, saveNow } from './autosave.js';
 
 export async function getParentDir(path) {
     const parts = path.split('/');
@@ -26,15 +27,7 @@ async function getParentPathForSelection() {
 }
 
 export async function saveCurrentFile() {
-    const currentFile = getCurrentFile();
-    if (!currentFile) return;
-    
-    const content = getEditorContent();
-    try {
-        await go.WriteFile(currentFile, content);
-    } catch (err) {
-        console.error('Error saving file:', err);
-    }
+    saveNow();
 }
 
 export async function createNewFile() {
@@ -80,6 +73,7 @@ export async function deleteSelected() {
                 setCurrentFile(null);
                 clearEditor();
                 lockEditor();
+                clearAutosaveStatus();
                 
                 const placeholder = document.getElementById('editor-placeholder');
                 if (placeholder) {
@@ -114,6 +108,7 @@ export async function renameSelected() {
             await go.Rename(selectedPath, newName);
             setSelectedPath(null);
             setCurrentFile(null);
+            clearAutosaveStatus();
             await loadFileTree();
         } catch (err) {
             console.error('Error renaming:', err);
