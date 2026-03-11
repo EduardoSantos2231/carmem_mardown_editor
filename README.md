@@ -1,19 +1,40 @@
-# README
+# Carmem
 
-## About
+Um editor de Markdown desktop multiplataforma construído com Wails.
 
-This is the official Wails Vanilla template.
+## Downloads
 
-You can configure the project by editing `wails.json`. More information about the project settings can be found
-here: https://wails.io/docs/reference/project-config
+### Linux
 
-## Live Development
+1. Acesse a página de [releases](https://github.com/EduardoSantos2231/carmem_mardown_editor/releases)
+2. Baixe o arquivo `carmem-linux-*.tar.gz` da versão mais recente
+3. Extraia e execute:
 
-To run in live development mode, run `wails dev` in the project directory. This will run a Vite development
-server that will provide very fast hot reload of your frontend changes. If you want to develop in a browser
-and have access to your Go methods, there is also a dev server that runs on http://localhost:34115. Connect
-to this in your browser, and you can call your Go code from devtools.
+```bash
+tar -xzf carmem-linux-*.tar.gz
+chmod +x carmem
+./carmem
+```
 
-## Building
+### Windows
 
-To build a redistributable, production mode package, use `wails build`.
+1. Acesse a página de [releases](https://github.com/EduardoSantos2231/carmem_mardown_editor/releases)
+2. Baixe o arquivo `carmem-windows-*.zip` da versão mais recente
+3. Extraia e execute `carmem.exe`
+
+## Funcionalidades
+
+- Editor de Markdown
+- Preview em tempo real
+- Modo VIM
+- Autosave automático
+- Temas claro e escuro
+
+## Requisitos
+
+### Linux
+- Ubuntu 20.04+ ou distribuição derivada
+- WebKit2GTK 4.0
+
+### Windows
+- Windows 10/11 (WebView2 geralmente já incluso)
