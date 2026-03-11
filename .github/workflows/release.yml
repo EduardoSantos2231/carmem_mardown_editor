@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - uses: snider/build@v3
+      - uses: host-uk/build@v4
         with:
           build-name: carmem
           build-platform: linux/amd64
