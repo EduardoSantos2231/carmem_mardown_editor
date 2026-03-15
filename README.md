@@ -18,17 +18,7 @@ chmod +x carmem
 
 ### Windows
 
-1. Acesse a página de [releases](https://github.com/EduardoSantos2231/carmem_mardown_editor/releases)
-2. Baixe o arquivo `carmem-windows-*.zip` da versão mais recente
-3. Extraia e execute `carmem.exe`
-
-## Funcionalidades
-
-- Editor de Markdown
-- Preview em tempo real
-- Modo VIM
-- Autosave automático
-- Temas claro e escuro
+> Por vir
 
 ## Requisitos
 
@@ -37,4 +27,5 @@ chmod +x carmem
 - WebKit2GTK 4.0
 
 ### Windows
-- Windows 10/11 (WebView2 geralmente já incluso)
+
+> Por vir
