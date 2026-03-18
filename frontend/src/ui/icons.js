@@ -4,24 +4,42 @@ export { icons };
 
 export function initToolbarIcons() {
     const buttons = {
-        'btn-sidebar-toggle': icons.panelLeft,
-        'btn-new-file': icons.filePlus,
-        'btn-new-folder': icons.folderPlus,
-        'btn-delete': icons.trash2,
-        'btn-rename': icons.edit3,
-        'btn-vim': icons.keyboard,
-        'btn-preview': icons.eye,
-        'btn-theme': icons.sun
+        'btn-sidebar-toggle': { icon: icons.panelLeft, tooltip: 'Alternar barra lateral' },
+        'btn-new-file': { icon: icons.filePlus, tooltip: 'Novo arquivo' },
+        'btn-new-folder': { icon: icons.folderPlus, tooltip: 'Nova pasta' },
+        'btn-delete': { icon: icons.trash2, tooltip: 'Excluir item' },
+        'btn-rename': { icon: icons.edit3, tooltip: 'Renomear item' },
+        'btn-vim': { icon: icons.keyboard, tooltip: 'Modo Vim' },
+        'btn-preview': { icon: icons.eye, tooltip: 'Alternar preview' },
+        'btn-theme': { icon: icons.sun, tooltip: 'Alternar tema' }
     };
 
-    Object.entries(buttons).forEach(([id, icon]) => {
+    Object.entries(buttons).forEach(([id, { icon, tooltip }]) => {
         const btn = document.getElementById(id);
         if (btn) {
             btn.innerHTML = icon;
+            btn.setAttribute('data-tooltip', tooltip);
+            btn.classList.add('has-tooltip');
         }
     });
 }
 
+export function updateVimButton(isActive) {
+    const btn = document.getElementById('btn-vim');
+    if (btn) {
+        btn.classList.toggle('active', isActive);
+    }
+}
+
+export function updatePreviewButton(isActive) {
+    const btn = document.getElementById('btn-preview');
+    if (btn) {
+        btn.classList.toggle('active', isActive);
+    }
+}
+
 export default {
-    initToolbarIcons
+    initToolbarIcons,
+    updateVimButton,
+    updatePreviewButton
 };
