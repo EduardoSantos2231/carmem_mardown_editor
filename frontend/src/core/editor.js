@@ -1,8 +1,8 @@
 import { EditorView, basicSetup } from "codemirror";
 import { EditorState, Compartment } from "@codemirror/state";
 import { markdown } from "@codemirror/lang-markdown";
-import { oneDark } from "@codemirror/theme-one-dark";
 import { vim } from "@replit/codemirror-vim";
+import { carmemDark, carmemDarkSyntax, carmemLight, carmemLightSyntax } from '../theme/carmemTheme.js';
 import { getConfig, getIsVimEnabled, setEditor, getEditor, getIsEditorLocked, setIsEditorLocked } from './state.js';
 import { updatePreview } from './preview.js';
 
@@ -46,8 +46,10 @@ export function initEditor() {
     ];
 
     const config = getConfig();
-    if (config.theme !== 'light') {
-        extensions.push(oneDark);
+    if (config.theme === 'light') {
+        extensions.push(carmemLight, carmemLightSyntax);
+    } else {
+        extensions.push(carmemDark, carmemDarkSyntax);
     }
 
     const editor = new EditorView({
