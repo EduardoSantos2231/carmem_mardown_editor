@@ -3,6 +3,12 @@
   "name": "carmem",
   "outputfilename": "carmem",
   "icon": "assets/icons/256x256.png",
+  "info": {
+    "productName": "Carmem",
+    "productVersion": "1.0.1",
+    "copyright": "Copyright © 2026",
+    "comments": "Markdown editor built with Wails"
+  },
   "frontend:install": "npm install",
   "frontend:build": "npm run build",
   "frontend:dev:watcher": "npm run dev",

@@ -10,13 +10,22 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: 'linux/amd64'
+            os: 'ubuntu-latest'
+          - platform: 'windows/amd64'
+            os: 'windows-latest'
+
+    runs-on: ${{ matrix.os }}
+
     steps:
       - uses: actions/checkout@v4
-      
-      - uses: host-uk/build@v4.0.0
+
+      - uses: host-uk/build@v4
         with:
           build-name: carmem
-          build-platform: linux/amd64
+          build-platform: ${{ matrix.platform }}
           package: true
