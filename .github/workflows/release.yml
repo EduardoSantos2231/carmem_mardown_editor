@@ -60,3 +60,14 @@ jobs:
         run: wails build -platform ${{ matrix.platform }} -o carmem
         env:
           CGO_ENABLED: 1
+
+      - name: Upload Release Assets
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Carmem ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+          files: |
+            build/bin/*
