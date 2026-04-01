@@ -24,8 +24,24 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: host-uk/build@v4
+      - uses: actions/setup-go@v4
         with:
-          build-name: carmem
-          build-platform: ${{ matrix.platform }}
-          package: true
+          go-version: '1.23'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Wails
+        run: go install github.com/wailsapp/wails/v2/cmd/wails@latest
+
+      - name: Install frontend dependencies
+        run: npm ci
+        working-directory: ./frontend
+
+      - name: Build frontend
+        run: npm run build
+        working-directory: ./frontend
+
+      - name: Build with Wails
+        run: wails build -platform ${{ matrix.platform }} -o carmem
