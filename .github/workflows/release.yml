@@ -49,7 +49,14 @@ jobs:
         run: npm run build
         working-directory: ./frontend
 
-      - name: Build with Wails
+      - name: Build with Wails (Linux)
+        if: runner.os == 'Linux'
+        run: wails build -platform ${{ matrix.platform }} -tags webkit2_41 -o carmem
+        env:
+          CGO_ENABLED: 1
+
+      - name: Build with Wails (Windows)
+        if: runner.os == 'Windows'
         run: wails build -platform ${{ matrix.platform }} -o carmem
         env:
           CGO_ENABLED: 1
