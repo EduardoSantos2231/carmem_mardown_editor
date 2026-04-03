@@ -5,6 +5,9 @@ on:
     tags:
       - 'v*'
 
+permissions:
+  contents: write
+
 jobs:
   build:
     strategy:
@@ -23,11 +26,86 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Build Wails App
-        uses: host-uk/build@v4
+      - name: Install Linux dependencies
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.1-dev build-essential pkg-config
+
+      - uses: actions/setup-go@v5
         with:
-          build-name: carmem
-          build-platform: ${{ matrix.platform }}
-          nsis: ${{ matrix.platform == 'windows/amd64' && 'true' || 'false' }}
-          package: 'true'
-          wails-version: 'v2.11.0'
+          go-version: '1.23'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Wails
+        run: go install github.com/wailsapp/wails/v2/cmd/wails@v2.11.0
+
+      - name: Install frontend dependencies
+        run: npm ci
+        working-directory: ./frontend
+
+      - name: Build frontend
+        run: npm run build
+        working-directory: ./frontend
+
+      - name: Build with Wails
+        run: |
+          if [ "${{ matrix.platform }}" == "linux/amd64" ]; then
+            wails build -platform linux/amd64 -tags webkit2_41 -o carmem
+          else
+            wails build -platform windows/amd64 -nsis -o carmem
+          fi
+        env:
+          CGO_ENABLED: 1
+
+      - name: Rename Linux artifact
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          cd build/bin
+          tar -czf carmem-${{ github.ref_name }}-linux-amd64.tar.gz carmem
+          rm -f carmem
+
+      - name: Rename Windows artifact
+        if: matrix.os == 'windows-latest'
+        shell: bash
+        run: |
+          cd build/bin
+          for f in carmem-*.exe; do
+            if [ -f "$f" ]; then
+              mv "$f" "carmem-${{ github.ref_name }}-windows-amd64-installer.exe"
+            fi
+          done
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: carmem-${{ matrix.platform }}
+          path: build/bin/*
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts/
+
+      - name: List artifacts
+        run: ls -laR artifacts/
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Carmem ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+          files: artifacts/**/*
