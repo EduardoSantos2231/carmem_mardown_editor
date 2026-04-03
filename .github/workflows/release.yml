@@ -16,8 +16,10 @@ jobs:
         include:
           - platform: 'linux/amd64'
             os: 'ubuntu-latest'
+            artifact_name: 'carmem-linux-amd64'
           - platform: 'windows/amd64'
             os: 'windows-latest'
+            artifact_name: 'carmem-windows-amd64'
 
     runs-on: ${{ matrix.os }}
 
@@ -84,7 +86,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: carmem-${{ replace(matrix.platform, '/', '-') }}
+          name: ${{ matrix.artifact_name }}
           path: build/bin/*
 
   release:
