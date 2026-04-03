@@ -52,6 +52,7 @@ jobs:
         working-directory: ./frontend
 
       - name: Build with Wails
+        shell: bash
         run: |
           if [ "${{ matrix.platform }}" == "linux/amd64" ]; then
             wails build -platform linux/amd64 -tags webkit2_41 -o carmem
@@ -63,6 +64,7 @@ jobs:
 
       - name: Rename Linux artifact
         if: matrix.os == 'ubuntu-latest'
+        shell: bash
         run: |
           cd build/bin
           tar -czf carmem-${{ github.ref_name }}-linux-amd64.tar.gz carmem
@@ -82,7 +84,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: carmem-${{ matrix.platform }}
+          name: carmem-${{ replace(matrix.platform, '/', '-') }}
           path: build/bin/*
 
   release:
