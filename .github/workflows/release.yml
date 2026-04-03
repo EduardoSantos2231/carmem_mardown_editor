@@ -87,7 +87,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.artifact_name }}
-          path: build/bin/*
+          path: |
+            build/bin/*.tar.gz
+            build/bin/*-installer.exe
 
   release:
     needs: build
