@@ -45,6 +45,10 @@ jobs:
       - name: Install Wails
         run: go install github.com/wailsapp/wails/v2/cmd/wails@v2.11.0
 
+      - name: Install NSIS
+        if: matrix.os == 'windows-latest'
+        run: choco install nsis -y
+
       - name: Install frontend dependencies
         run: npm ci
         working-directory: ./frontend
