@@ -2,23 +2,25 @@
 
 Um editor de Markdown desktop multiplataforma construído com Wails.
 
-## Downloads
-
-### Linux
-
-1. Acesse a página de [releases](https://github.com/EduardoSantos2231/carmem_mardown_editor/releases)
-2. Baixe o arquivo `carmem-linux-*.tar.gz` da versão mais recente
-3. Extraia e execute:
-
-```bash
-tar -xzf carmem-linux-*.tar.gz
-chmod +x carmem
-./carmem
-```
+## Instalação
 
 ### Windows
 
-> Por vir
+1. Baixe `carmem-vX.X.X-windows-amd64.zip` da página de [releases](https://github.com/EduardoSantos2231/carmem_mardown_editor/releases)
+2. Extraia o arquivo ZIP
+3. Execute `carmem.exe`
+
+### Linux
+
+1. Baixe `carmem-vX.X.X-linux-amd64.tar.gz` da página de [releases](https://github.com/EduardoSantos2231/carmem_mardown_editor/releases)
+2. Extraia o arquivo:
+   ```bash
+   tar -xzf carmem-vX.X.X-linux-amd64.tar.gz
+   ```
+3. Execute:
+   ```bash
+   ./carmem
+   ```
 
 ## Requisitos
 
@@ -27,5 +29,5 @@ chmod +x carmem
 - WebKit2GTK 4.0
 
 ### Windows
-
-> Por vir
+- Windows 10/11
+- WebView2 Runtime (geralmente já instalado no Windows 10/11)
