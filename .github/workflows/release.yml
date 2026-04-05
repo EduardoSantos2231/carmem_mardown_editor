@@ -45,10 +45,6 @@ jobs:
       - name: Install Wails
         run: go install github.com/wailsapp/wails/v2/cmd/wails@v2.11.0
 
-      - name: Install NSIS
-        if: matrix.os == 'windows-latest'
-        run: choco install nsis -y
-
       - name: Install frontend dependencies
         run: npm ci
         working-directory: ./frontend
@@ -63,10 +59,18 @@ jobs:
           if [ "${{ matrix.platform }}" == "linux/amd64" ]; then
             wails build -platform linux/amd64 -tags webkit2_41 -o carmem
           else
-            wails build -platform windows/amd64 -nsis -o carmem
+            wails build -platform windows/amd64 -o carmem
           fi
         env:
           CGO_ENABLED: 1
+
+      - name: Create Windows ZIP
+        if: matrix.os == 'windows-latest'
+        shell: bash
+        run: |
+          cd build/bin
+          powershell -Command "Compress-Archive -Path carmem.exe -DestinationPath carmem-${{ github.ref_name }}-windows-amd64.zip -Force"
+          rm -f carmem.exe
 
       - name: Rename Linux artifact
         if: matrix.os == 'ubuntu-latest'
@@ -76,24 +80,13 @@ jobs:
           tar -czf carmem-${{ github.ref_name }}-linux-amd64.tar.gz carmem
           rm -f carmem
 
-      - name: Rename Windows artifact
-        if: matrix.os == 'windows-latest'
-        shell: bash
-        run: |
-          cd build/bin
-          for f in carmem-*.exe; do
-            if [ -f "$f" ]; then
-              mv "$f" "carmem-${{ github.ref_name }}-windows-amd64-installer.exe"
-            fi
-          done
-
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.artifact_name }}
           path: |
             build/bin/*.tar.gz
-            build/bin/*-installer.exe
+            build/bin/*.zip
 
   release:
     needs: build
