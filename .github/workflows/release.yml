@@ -66,11 +66,16 @@ jobs:
 
       - name: Create Windows ZIP
         if: matrix.os == 'windows-latest'
-        shell: bash
+        shell: pwsh
         run: |
-          cd build/bin
-          powershell -Command "Compress-Archive -Path carmem.exe -DestinationPath carmem-${{ github.ref_name }}-windows-amd64.zip -Force"
-          rm -f carmem.exe
+          $exe = Get-ChildItem -Path "build/bin" -Filter "carmem*" -File | Select-Object -First 1
+          if ($exe) {
+            Compress-Archive -Path $exe.FullName -DestinationPath "build/bin/carmem-${{ github.ref_name }}-windows-amd64.zip" -Force
+            Remove-Item $exe.FullName -Force
+          } else {
+            Write-Error "carmem executable not found"
+            exit 1
+          }
 
       - name: Rename Linux artifact
         if: matrix.os == 'ubuntu-latest'
