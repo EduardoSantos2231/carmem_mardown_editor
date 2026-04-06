@@ -59,7 +59,7 @@ jobs:
           if [ "${{ matrix.platform }}" == "linux/amd64" ]; then
             wails build -platform linux/amd64 -tags webkit2_41 -o carmem
           else
-            wails build -platform windows/amd64 -o carmem
+            wails build -platform windows/amd64 -o carmem.exe
           fi
         env:
           CGO_ENABLED: 1
