@@ -36,6 +36,17 @@ O preview pode ser exibido/ocultado de duas formas:
 
 **Layout:** O preview aparece ao lado do editor, com redimensionamento disponível.
 
+### Modo Leitura
+
+O modo leitura oculta o editor e exibe apenas o preview em tela cheia,
+ideal para revisar o texto finalizado sem distrações:
+
+- **Ativar**: Botão na toolbar ou `Ctrl+Shift+P`
+- **Desativar**: Mesmo botão/atalho — volta ao layout anterior
+- Salva automaticamente antes de ativar
+- Só funciona com arquivo aberto
+- O editor permanece montado (CSS hidden), evitando perda de estado
+
 ## Autosave
 
 O editor salva automaticamente após 2 segundos de inatividade:
@@ -122,6 +133,7 @@ Arquivos e pastas podem ser movidos via drag and drop:
 | Ctrl++ | Aumentar zoom |
 | Ctrl+- | Diminuir zoom |
 | Ctrl+0 | Resetar zoom |
+| Ctrl+Shift+P | Modo leitura |
 
 ## Configuração
 
@@ -156,3 +168,7 @@ Ao iniciar a aplicação, o editor inicia **bloqueado** (não é possível digit
 2. **Múltiplos arquivos**: Apenas um arquivo aberto por vez
 3. **Sync**: Sem sincronização em nuvem
 4. **Plugins**: Sem sistema de plugins
+
+## Roadmap
+
+- **Canvas**: Tela infinita para notas visuais, semelhante ao Obsidian Canvas

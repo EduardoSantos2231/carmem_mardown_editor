@@ -135,6 +135,12 @@ func (s *FileService) safePath(path string) (string, error) {
 
 O backend emite um evento `before-close` via Wails Runtime quando o usuário fecha a janela. O frontend intercepta `beforeunload` para alertar sobre alterações não salvas.
 
+### 7. Modo Leitura
+
+Ao ativar o modo leitura, o editor CodeMirror é ocultado via CSS (`display: hidden`) sem desmontar o componente React. Isso preserva a instância da CodeMirror view e o conteúdo no store Zustand. Ao desativar, o layout é restaurado sem necessidade de reinicialização.
+
+O preview é forçado como visível e ocupa 100% da largura. O resizer é ocultado.
+
 ## Limitações Conhecidas
 
 ### Ícone no Linux
