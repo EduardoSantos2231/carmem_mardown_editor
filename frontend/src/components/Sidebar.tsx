@@ -49,11 +49,11 @@ export default function Sidebar() {
           <span className="font-semibold text-lg">Carmem</span>
           <button
             onClick={toggle}
-            className="p-1 rounded hover:opacity-80 transition-opacity"
+            className="p-1.5 rounded hover:opacity-80 transition-opacity"
             title="Alternar barra lateral"
             style={{ color: "var(--color-text-muted)" }}
           >
-            <PanelLeft size={18} />
+            <PanelLeft size={20} />
           </button>
         </div>
         <SidebarActions />
@@ -62,7 +62,7 @@ export default function Sidebar() {
       <button
         id="btn-panel-left"
         onClick={toggle}
-        className="fixed left-2 top-2 z-40 p-1 rounded transition-opacity hover:opacity-80"
+        className="fixed left-2 top-2 z-40 p-1.5 rounded transition-opacity hover:opacity-80"
         title="Alternar barra lateral"
         style={{
           display: visible ? "none" : "flex",
@@ -71,7 +71,7 @@ export default function Sidebar() {
           color: "var(--color-text-muted)",
         }}
       >
-        <PanelLeft size={18} />
+        <PanelLeft size={20} />
       </button>
     </>
   );
@@ -147,17 +147,17 @@ function SidebarActions() {
       className="flex gap-1 px-3 py-2 border-b shrink-0"
       style={{ borderColor: "var(--color-border)" }}
     >
-      <button onClick={createFile} className="p-1.5 rounded hover:opacity-80 transition-opacity" title="Novo arquivo" style={{ color: "var(--color-text-muted)" }}>
-        <FilePlus size={16} />
+      <button onClick={createFile} className="p-2 rounded hover:opacity-80 transition-opacity" title="Novo arquivo" style={{ color: "var(--color-text-muted)" }}>
+        <FilePlus size={18} />
       </button>
-      <button onClick={createFolder} className="p-1.5 rounded hover:opacity-80 transition-opacity" title="Nova pasta" style={{ color: "var(--color-text-muted)" }}>
-        <FolderPlus size={16} />
+      <button onClick={createFolder} className="p-2 rounded hover:opacity-80 transition-opacity" title="Nova pasta" style={{ color: "var(--color-text-muted)" }}>
+        <FolderPlus size={18} />
       </button>
-      <button onClick={deleteSelected} className="p-1.5 rounded hover:opacity-80 transition-opacity" title="Excluir item selecionado" style={{ color: "var(--color-text-muted)" }}>
-        <Trash2 size={16} />
+      <button onClick={deleteSelected} className="p-2 rounded hover:opacity-80 transition-opacity" title="Excluir item selecionado" style={{ color: "var(--color-text-muted)" }}>
+        <Trash2 size={18} />
       </button>
-      <button onClick={renameSelected} className="p-1.5 rounded hover:opacity-80 transition-opacity" title="Renomear item selecionado" style={{ color: "var(--color-text-muted)" }}>
-        <Edit3 size={16} />
+      <button onClick={renameSelected} className="p-2 rounded hover:opacity-80 transition-opacity" title="Renomear item selecionado" style={{ color: "var(--color-text-muted)" }}>
+        <Edit3 size={18} />
       </button>
     </div>
   );

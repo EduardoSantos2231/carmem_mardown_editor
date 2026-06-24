@@ -6,6 +6,7 @@ import { togglePreview, toggleReadMode } from "@/components/MarkdownPreview";
 
 export default function Toolbar() {
   const currentFileName = useAppStore((s) => s.currentFileName);
+  const sidebarVisible = useAppStore((s) => s.sidebarVisible);
   const zoomLevel = useAppStore((s) => s.zoomLevel);
   const isPreviewVisible = useAppStore((s) => s.isPreviewVisible);
   const isReadMode = useAppStore((s) => s.isReadMode);
@@ -29,7 +30,7 @@ export default function Toolbar() {
     >
       <span
         id="current-file"
-        className="text-sm truncate min-w-0"
+        className={`text-sm truncate min-w-0 ${!sidebarVisible ? "pl-10" : ""}`}
         style={{ color: "var(--color-text-muted)" }}
       >
         {currentFileName || "Nenhum arquivo aberto"}
@@ -37,11 +38,11 @@ export default function Toolbar() {
       <div className="flex-1" />
       <button
         onClick={zoomOut}
-        className="p-1 rounded hover:opacity-80"
+        className="p-1.5 rounded hover:opacity-80"
         title="Zoom: Ctrl+- - Diminuir"
         style={{ color: "var(--color-text-muted)" }}
       >
-        <Minus size={16} />
+        <Minus size={18} />
       </button>
       <span
         id="zoom-level"
@@ -52,35 +53,35 @@ export default function Toolbar() {
       </span>
       <button
         onClick={zoomIn}
-        className="p-1 rounded hover:opacity-80"
+        className="p-1.5 rounded hover:opacity-80"
         title="Zoom: Ctrl++ - Aumentar"
         style={{ color: "var(--color-text-muted)" }}
       >
-        <Plus size={16} />
+        <Plus size={18} />
       </button>
       <button
         onClick={() => togglePreview()}
-        className={`p-1 rounded transition-opacity ${isPreviewVisible ? "opacity-100" : "opacity-50"}`}
+        className={`p-1.5 rounded transition-opacity ${isPreviewVisible ? "opacity-100" : "opacity-50"}`}
         title={isPreviewVisible ? "Preview: Ctrl+P - Ocultar" : "Preview: Ctrl+P - Mostrar"}
         style={{ color: isPreviewVisible ? "var(--color-accent)" : "var(--color-text-muted)" }}
       >
-        <Eye size={16} />
+        <Eye size={18} />
       </button>
       <button
         onClick={() => toggleReadMode()}
-        className={`p-1 rounded transition-opacity ${isReadMode ? "opacity-100" : "opacity-50"}`}
+        className={`p-1.5 rounded transition-opacity ${isReadMode ? "opacity-100" : "opacity-50"}`}
         title={isReadMode ? "Modo leitura: Ctrl+Shift+P - Desativar" : "Modo leitura: Ctrl+Shift+P - Ativar"}
         style={{ color: isReadMode ? "var(--color-accent)" : "var(--color-text-muted)" }}
       >
-        <BookOpen size={16} />
+        <BookOpen size={18} />
       </button>
       <button
         onClick={handleThemeToggle}
-        className="p-1 rounded hover:opacity-80"
+        className="p-1.5 rounded hover:opacity-80"
         title="Alternar tema"
         style={{ color: "var(--color-text-muted)" }}
       >
-        {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+        {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
       </button>
     </div>
   );
