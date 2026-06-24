@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"carmem/services"
+	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
 type App struct {
@@ -72,4 +73,9 @@ func (a *App) MoveFile(oldPath, newParentPath string) error {
 
 func (a *App) FileExists(path string) bool {
 	return a.fileSvc.FileExists(path)
+}
+
+func (a *App) beforeClose(ctx context.Context) bool {
+	runtime.EventsEmit(a.ctx, "before-close")
+	return false
 }

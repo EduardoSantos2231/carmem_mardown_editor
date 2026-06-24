@@ -2,10 +2,10 @@
   "$schema": "https://wails.io/schemas/config.v2.json",
   "name": "carmem",
   "outputfilename": "carmem",
-  "icon": "assets/icons/256x256.png",
+  "icon": "assets/icons/icon.png",
   "info": {
     "productName": "Carmem",
-    "productVersion": "1.0.1",
+    "productVersion": "1.1.0",
     "copyright": "Copyright © 2026",
     "comments": "Markdown editor built with Wails"
   },
@@ -16,10 +16,5 @@
   "author": {
     "name": "Dudu2231",
     "email": "eduardonascimento2231@gmail.com"
-  },
-  "build": {
-    "windows": {
-      "webviewTag": "webkit2_41"
-    }
   }
 }

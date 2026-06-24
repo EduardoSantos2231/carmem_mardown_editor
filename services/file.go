@@ -1,8 +1,10 @@
 package services
 
 import (
+	"errors"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 type FileNode struct {
@@ -62,14 +64,30 @@ func (s *FileService) readDir(path string) ([]FileNode, error) {
 	return nodes, nil
 }
 
+func (s *FileService) safePath(path string) (string, error) {
+	clean := filepath.Clean(path)
+	if !strings.HasPrefix(clean, s.rootPath) {
+		return "", errors.New("path traversal not allowed")
+	}
+	return clean, nil
+}
+
 func (s *FileService) CreateFile(name, parentPath string) error {
 	if parentPath == "" {
 		parentPath = s.rootPath
 	}
 
 	filePath := filepath.Join(parentPath, name)
-	_, err := os.Create(filePath)
-	return err
+	safePath, err := s.safePath(filePath)
+	if err != nil {
+		return err
+	}
+
+	f, err := os.Create(safePath)
+	if err != nil {
+		return err
+	}
+	return f.Close()
 }
 
 func (s *FileService) CreateFolder(name, parentPath string) error {
@@ -82,7 +100,11 @@ func (s *FileService) CreateFolder(name, parentPath string) error {
 }
 
 func (s *FileService) ReadFile(path string) (string, error) {
-	data, err := os.ReadFile(path)
+	safePath, err := s.safePath(path)
+	if err != nil {
+		return "", err
+	}
+	data, err := os.ReadFile(safePath)
 	if err != nil {
 		return "", err
 	}
@@ -90,31 +112,47 @@ func (s *FileService) ReadFile(path string) (string, error) {
 }
 
 func (s *FileService) WriteFile(path, content string) error {
-	return os.WriteFile(path, []byte(content), 0644)
+	safePath, err := s.safePath(path)
+	if err != nil {
+		return err
+	}
+	return os.WriteFile(safePath, []byte(content), 0644)
 }
 
 func (s *FileService) Delete(path string) error {
-	info, err := os.Stat(path)
+	safePath, err := s.safePath(path)
+	if err != nil {
+		return err
+	}
+	info, err := os.Stat(safePath)
 	if err != nil {
 		return err
 	}
 
 	if info.IsDir() {
-		return os.RemoveAll(path)
+		return os.RemoveAll(safePath)
 	}
-	return os.Remove(path)
+	return os.Remove(safePath)
 }
 
 func (s *FileService) Rename(oldPath, newName string) error {
-	dir := filepath.Dir(oldPath)
+	safeOld, err := s.safePath(oldPath)
+	if err != nil {
+		return err
+	}
+	dir := filepath.Dir(safeOld)
 	newPath := filepath.Join(dir, newName)
-	return os.Rename(oldPath, newPath)
+	return os.Rename(safeOld, newPath)
 }
 
 func (s *FileService) MoveFile(oldPath, newParentPath string) error {
-	fileName := filepath.Base(oldPath)
+	safeOld, err := s.safePath(oldPath)
+	if err != nil {
+		return err
+	}
+	fileName := filepath.Base(safeOld)
 	newPath := filepath.Join(newParentPath, fileName)
-	return os.Rename(oldPath, newPath)
+	return os.Rename(safeOld, newPath)
 }
 
 func (s *FileService) FileExists(path string) bool {

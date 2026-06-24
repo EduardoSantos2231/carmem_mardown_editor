@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Carmem
+Comment=Markdown editor built with Wails
+Exec=carmem
+Icon=carmem
+Categories=Office;WordProcessor;
+Terminal=false

@@ -1,6 +1,6 @@
 # Carmem
 
-Um editor de Markdown desktop multiplataforma construído com Wails.
+Um editor de Markdown desktop multiplataforma construído com Wails v2, React, TypeScript e Tailwind CSS.
 
 ## Instalação
 
@@ -21,13 +21,37 @@ Um editor de Markdown desktop multiplataforma construído com Wails.
    ```bash
    ./carmem
    ```
+4. (Opcional) Para ícone no lançador, copie `carmem.desktop` para `~/.local/share/applications/`.
 
 ## Requisitos
 
 ### Linux
-- Ubuntu 20.04+ ou distribuição derivada
-- WebKit2GTK 4.0
+
+| Distro | Dependências |
+|--------|-------------|
+| Ubuntu 24.04+ / Debian | `libwebkit2gtk-4.1-dev libgtk-3-dev` |
+| Fedora 40+ | `webkit2gtk4.1-devel gtk3-devel` |
+| Arch | `webkit2gtk-4.1 gtk3` |
 
 ### Windows
 - Windows 10/11
 - WebView2 Runtime (geralmente já instalado no Windows 10/11)
+
+## Desenvolvimento
+
+```bash
+# Requisitos: Go 1.24+, Node.js 20+, Wails CLI v2.12.0
+
+# Instalar Wails CLI
+go install github.com/wailsapp/wails/v2/cmd/wails@v2.12.0
+
+# Clonar
+git clone https://github.com/EduardoSantos2231/carmem_mardown_editor
+cd carmem_mardown_editor
+
+# Desenvolvimento (hot reload)
+wails dev -tags webkit2_41
+
+# Build
+wails build -tags webkit2_41
+```
