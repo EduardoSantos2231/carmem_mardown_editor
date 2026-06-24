@@ -7,6 +7,7 @@ interface AppState {
   currentFilePath: string | null;
   currentFileName: string | null;
   isEditorLocked: boolean;
+  isReadMode: boolean;
   isPreviewVisible: boolean;
   theme: "dark" | "light";
   saveStatus: SaveStatus;
@@ -32,6 +33,7 @@ interface AppState {
   setZoomLevel: (zoom: number) => void;
   setSidebarVisible: (visible: boolean) => void;
   setEditorLocked: (locked: boolean) => void;
+  setReadMode: (readMode: boolean) => void;
 }
 
 export const useAppStore = create<AppState>((set) => ({
@@ -39,6 +41,7 @@ export const useAppStore = create<AppState>((set) => ({
   currentFilePath: null,
   currentFileName: null,
   isEditorLocked: true,
+  isReadMode: false,
   isPreviewVisible: false,
   theme: "dark",
   saveStatus: "hidden",
@@ -66,4 +69,5 @@ export const useAppStore = create<AppState>((set) => ({
   setZoomLevel: (zoom) => set({ zoomLevel: zoom }),
   setSidebarVisible: (visible) => set({ sidebarVisible: visible }),
   setEditorLocked: (locked) => set({ isEditorLocked: locked }),
+  setReadMode: (readMode) => set({ isReadMode: readMode }),
 }));

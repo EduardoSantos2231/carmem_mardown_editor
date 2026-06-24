@@ -5,11 +5,12 @@ import { useAppStore } from "@/store/useAppStore";
 export default function EditorContainer() {
   const isPreviewVisible = useAppStore((s) => s.isPreviewVisible);
   const isLocked = useAppStore((s) => s.isEditorLocked);
+  const isReadMode = useAppStore((s) => s.isReadMode);
 
   return (
     <div id="editor-container" className="flex flex-1 min-h-0 overflow-hidden">
       <div className="flex flex-1 min-w-0 overflow-hidden">
-        <div className="flex flex-1 min-w-0 relative">
+        <div className={isReadMode ? "hidden" : "flex flex-1 min-w-0 relative"}>
           <CodeMirrorEditor />
           {isLocked && (
             <div
@@ -23,17 +24,15 @@ export default function EditorContainer() {
             </div>
           )}
         </div>
-        {isPreviewVisible && (
-          <div
-            id="editor-preview-resizer"
-            className="resizer-horizontal flex-shrink-0 cursor-col-resize visible"
-            style={{
-              width: "4px",
-              backgroundColor: "transparent",
-              zIndex: 10,
-            }}
-          />
-        )}
+        <div
+          id="editor-preview-resizer"
+          className={`resizer-horizontal flex-shrink-0 cursor-col-resize ${isPreviewVisible && !isReadMode ? "visible" : ""}`}
+          style={{
+            width: "4px",
+            backgroundColor: "transparent",
+            zIndex: 10,
+          }}
+        />
         <MarkdownPreview />
       </div>
     </div>

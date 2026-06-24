@@ -1,13 +1,14 @@
-import { Minus, Plus, Eye, Sun, Moon } from "lucide-react";
+import { Minus, Plus, Eye, Sun, Moon, BookOpen } from "lucide-react";
 import { useAppStore } from "@/store/useAppStore";
 import * as go from "../../wailsjs/go/main/App";
 import { zoomIn, zoomOut } from "@/hooks/useZoom";
-import { togglePreview } from "@/components/MarkdownPreview";
+import { togglePreview, toggleReadMode } from "@/components/MarkdownPreview";
 
 export default function Toolbar() {
   const currentFileName = useAppStore((s) => s.currentFileName);
   const zoomLevel = useAppStore((s) => s.zoomLevel);
   const isPreviewVisible = useAppStore((s) => s.isPreviewVisible);
+  const isReadMode = useAppStore((s) => s.isReadMode);
   const theme = useAppStore((s) => s.theme);
 
   const handleThemeToggle = async () => {
@@ -64,6 +65,14 @@ export default function Toolbar() {
         style={{ color: isPreviewVisible ? "var(--color-accent)" : "var(--color-text-muted)" }}
       >
         <Eye size={16} />
+      </button>
+      <button
+        onClick={() => toggleReadMode()}
+        className={`p-1 rounded transition-opacity ${isReadMode ? "opacity-100" : "opacity-50"}`}
+        title={isReadMode ? "Modo leitura: Ctrl+Shift+P - Desativar" : "Modo leitura: Ctrl+Shift+P - Ativar"}
+        style={{ color: isReadMode ? "var(--color-accent)" : "var(--color-text-muted)" }}
+      >
+        <BookOpen size={16} />
       </button>
       <button
         onClick={handleThemeToggle}

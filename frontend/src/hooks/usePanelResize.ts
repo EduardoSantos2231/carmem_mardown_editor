@@ -37,13 +37,22 @@ function saveEditorPreviewRatio() {
 }
 
 export function updateEditorPreviewLayout() {
-  const editorEl = document.getElementById("editor");
   const previewEl = document.getElementById("preview");
-  const resizer = document.getElementById("editor-preview-resizer");
-  if (!editorEl || !previewEl) return;
+  if (!previewEl) return;
 
-  const visible = useAppStore.getState().isPreviewVisible;
-  const editorWrapper = editorEl.parentElement;
+  const store = useAppStore.getState();
+  const visible = store.isPreviewVisible;
+  const isReadMode = store.isReadMode;
+
+  if (isReadMode) {
+    previewEl.style.flex = "1";
+    return;
+  }
+
+  const editorEl = document.getElementById("editor");
+  const resizer = document.getElementById("editor-preview-resizer");
+  const editorWrapper = editorEl?.parentElement;
+
   if (visible) {
     if (resizer) resizer.classList.add("visible");
     if (editorWrapper) editorWrapper.style.flex = `${editorPreviewRatio}`;

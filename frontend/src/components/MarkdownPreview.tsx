@@ -2,6 +2,23 @@ import { useEffect, useRef } from "react";
 import { useAppStore } from "@/store/useAppStore";
 import { renderMarkdown } from "@/lib/marked";
 import { updateEditorPreviewLayout } from "@/hooks/usePanelResize";
+import { saveNow } from "@/hooks/useAutosave";
+
+export async function toggleReadMode() {
+  const store = useAppStore.getState();
+  if (!store.currentFilePath) return;
+
+  const next = !store.isReadMode;
+  if (next) {
+    await saveNow();
+    store.setPreviewVisible(true);
+    store.setReadMode(true);
+  } else {
+    store.setReadMode(false);
+  }
+  updateEditorPreviewLayout();
+  updatePreview();
+}
 
 export function updatePreview() {
   const store = useAppStore.getState();
