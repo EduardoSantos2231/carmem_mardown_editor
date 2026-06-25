@@ -17,6 +17,7 @@ import type { FileNode } from "@/types";
 import { clearAutosaveStatus } from "@/hooks/useAutosave";
 import { initCodeMirror } from "@/components/CodeMirrorEditor";
 import { updatePreview } from "@/components/MarkdownPreview";
+import { updateEditorPreviewLayout } from "@/hooks/usePanelResize";
 
 const SIDEBAR_STORAGE_KEY = "carmem-sidebar-visible";
 
@@ -117,6 +118,9 @@ function SidebarActions() {
         useAppStore.getState().setSelectedPath(null);
         useAppStore.getState().clearCurrentFile();
         useAppStore.getState().setEditorLocked(true);
+        useAppStore.getState().setPreviewVisible(false);
+        updateEditorPreviewLayout();
+        updatePreview();
         clearAutosaveStatus();
         const ph = document.getElementById("editor-placeholder");
         if (ph) ph.style.display = "flex";
@@ -137,6 +141,9 @@ function SidebarActions() {
       await go.Rename(selectedPath, newName);
       useAppStore.getState().setSelectedPath(null);
       useAppStore.getState().clearCurrentFile();
+      useAppStore.getState().setPreviewVisible(false);
+      updateEditorPreviewLayout();
+      updatePreview();
       clearAutosaveStatus();
       await loadFileTree();
     });
@@ -196,6 +203,8 @@ function FileTreeItem({ node, depth }: { node: FileNode; depth: number }) {
       return;
     }
 
+    if (!node.name.endsWith(".md")) return;
+
     try {
       const content = await go.ReadFile(node.path);
       useAppStore.getState().setCurrentFile(node.path, node.name);
@@ -247,6 +256,9 @@ function FileTreeItem({ node, depth }: { node: FileNode; depth: number }) {
       await go.MoveFile(draggedPath, node.path);
       if (useAppStore.getState().currentFilePath === draggedPath) {
         useAppStore.getState().clearCurrentFile();
+        useAppStore.getState().setPreviewVisible(false);
+        updateEditorPreviewLayout();
+        updatePreview();
         const cf = document.getElementById("current-file");
         if (cf) cf.textContent = "Nenhum arquivo aberto";
       }
@@ -278,9 +290,9 @@ function FileTreeItem({ node, depth }: { node: FileNode; depth: number }) {
       <div
         data-path={node.path}
         data-is-dir={node.isDir}
-        className={`file-item flex items-center gap-1.5 px-2 py-1 cursor-pointer select-none text-sm transition-colors ${
+        className={`file-item flex items-center gap-1.5 px-2 py-1 select-none text-sm transition-colors ${
           isSelected ? "" : "hover:bg-white/5"
-        }`}
+        } ${!node.isDir && !node.name.endsWith(".md") ? "opacity-40" : "cursor-pointer"}`}
         style={{
           paddingLeft: `${8 + depth * 16}px`,
           ...(isSelected
