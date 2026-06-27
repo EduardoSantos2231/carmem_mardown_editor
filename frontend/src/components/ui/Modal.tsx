@@ -74,9 +74,9 @@ export default function Modal() {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ backgroundColor: "rgba(0,0,0,0.5)", backdropFilter: "blur(20px)" }}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center animate-fade-in" style={{ backgroundColor: "rgba(0,0,0,0.5)", backdropFilter: "blur(20px)" }}>
       <div
-        className="rounded-xl w-96 p-6 glass-panel glow-active"
+        className="rounded-xl w-96 p-6 glass-panel animate-scale-in"
         style={{
           boxShadow: "0 0 20px rgba(128,131,255,0.15)",
         }}

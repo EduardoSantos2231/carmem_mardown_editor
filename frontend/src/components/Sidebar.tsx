@@ -36,7 +36,7 @@ export default function Sidebar() {
     <>
       <aside
         id="sidebar"
-        className="flex flex-col flex-shrink-0 glass-panel"
+        className="flex flex-col flex-shrink-0 glass-panel transition-[width] duration-200 ease-out"
         style={{
           display: visible ? "flex" : "none",
           width: "250px",
@@ -277,7 +277,7 @@ function FileTreeItem({ node, depth }: { node: FileNode; depth: number }) {
       <div
         data-path={node.path}
         data-is-dir={node.isDir}
-        className={`file-item flex items-center gap-1.5 px-2 py-1 select-none text-sm transition-colors ${
+          className={`file-item flex items-center gap-1.5 px-2 py-1 select-none text-sm transition-all duration-150 ${
           isSelected ? "" : "hover:bg-[var(--hover-bg)]"
         } ${!node.isDir && !node.name.endsWith(".md") ? "opacity-40" : "cursor-pointer"}`}
         style={{

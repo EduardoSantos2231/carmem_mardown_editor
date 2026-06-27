@@ -122,7 +122,7 @@ export default function FloatingToolbar() {
   return (
     <div
       id="floating-toolbar"
-      className="absolute z-50 glass-panel rounded-xl px-1.5 py-1 flex items-center gap-0.5 shadow-lg transition-all duration-150"
+      className="absolute z-50 glass-panel rounded-xl px-1.5 py-1 flex items-center gap-0.5 shadow-lg animate-slide-down"
       style={{
         top: `${floating.top}px`,
         left: `${floating.left}px`,
