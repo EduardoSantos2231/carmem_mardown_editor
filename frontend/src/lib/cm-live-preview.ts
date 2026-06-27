@@ -107,7 +107,7 @@ function injectLivePreviewCSS() {
       background: var(--color-surface) !important;
       font-family: monospace !important;
       font-size: 0.875em !important;
-      display: inline-block; width: 100%;
+      padding: 0.15rem 0.5rem;
     }
     .cm-live-hr {
       display: inline-block; width: 100%;
