@@ -8,9 +8,8 @@ export default function StatusBar() {
   return (
     <div
       id="status-bar"
-      className="flex items-center gap-4 px-3 py-1 text-xs shrink-0 glass-surface"
+      className="flex items-center gap-4 px-3 py-1 text-xs shrink-0 glass-panel"
       style={{
-        backgroundColor: "var(--color-surface)",
         borderTop: "var(--border-width) solid var(--color-border)",
         color: "var(--color-text-muted)",
       }}
@@ -18,13 +17,13 @@ export default function StatusBar() {
       <span className="flex items-center gap-1">
         {saveStatus === "saved" && (
           <>
-            <CheckCircle size={14} style={{ color: "#adff2f" }} />
+            <CheckCircle size={14} style={{ color: "#6ee7b7" }} />
             Salvo
           </>
         )}
         {saveStatus === "saving" && (
           <>
-            <LoaderCircle size={14} className="animate-spin" style={{ color: "#ffd700" }} />
+            <LoaderCircle size={14} className="animate-spin" style={{ color: "#ffb783" }} />
             Salvando...
           </>
         )}

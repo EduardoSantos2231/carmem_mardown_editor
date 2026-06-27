@@ -74,12 +74,11 @@ export default function Modal() {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ backgroundColor: "rgba(0,0,0,0.4)", backdropFilter: "blur(4px)" }}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ backgroundColor: "rgba(0,0,0,0.5)", backdropFilter: "blur(20px)" }}>
       <div
-        className="rounded-lg w-96 p-6 glass-surface-lg"
+        className="rounded-xl w-96 p-6 glass-panel glow-active"
         style={{
-          backgroundColor: "var(--color-surface)",
-          border: "var(--border-width) solid var(--color-border)",
+          boxShadow: "0 0 20px rgba(128,131,255,0.15)",
         }}
       >
         <h3 className="text-lg font-semibold mb-4">{title}</h3>
@@ -94,12 +93,11 @@ export default function Modal() {
                   cancelCb?.();
                   close();
                 }}
-                className="px-4 py-2 rounded text-sm transition-colors"
+                className="px-4 py-2 rounded-lg text-sm transition-all hover:bg-white/5"
                 style={{
                   backgroundColor: "transparent",
                   border: "var(--border-width) solid var(--color-border)",
                   color: "var(--color-text)",
-                  boxShadow: "var(--shadow-hard)",
                 }}
               >
                 Cancelar
@@ -109,10 +107,9 @@ export default function Modal() {
                   confirmCb?.();
                   close();
                 }}
-                className="px-4 py-2 rounded text-sm text-white transition-colors"
+                className="px-4 py-2 rounded-lg text-sm text-white transition-all hover:opacity-90"
                 style={{
                   backgroundColor: danger ? "#dc2626" : "var(--color-accent)",
-                  boxShadow: "var(--shadow-hard)",
                 }}
               >
                 Confirmar
@@ -144,12 +141,11 @@ export default function Modal() {
             <div className="flex justify-end gap-3">
               <button
                 onClick={close}
-                className="px-4 py-2 rounded text-sm transition-colors"
+                className="px-4 py-2 rounded-lg text-sm transition-all hover:bg-white/5"
                 style={{
                   backgroundColor: "transparent",
                   border: "var(--border-width) solid var(--color-border)",
                   color: "var(--color-text)",
-                  boxShadow: "var(--shadow-hard)",
                 }}
               >
                 Cancelar
@@ -161,8 +157,8 @@ export default function Modal() {
                     close();
                   }
                 }}
-                className="px-4 py-2 rounded text-sm text-white transition-colors"
-                style={{ backgroundColor: "var(--color-accent)", boxShadow: "var(--shadow-hard)" }}
+                className="px-4 py-2 rounded-lg text-sm text-white transition-all hover:opacity-90"
+                style={{ backgroundColor: "var(--color-accent)" }}
               >
                 OK
               </button>

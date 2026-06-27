@@ -36,11 +36,10 @@ export default function Sidebar() {
     <>
       <aside
         id="sidebar"
-        className="flex flex-col flex-shrink-0 glass-surface"
+        className="flex flex-col flex-shrink-0 glass-panel"
         style={{
           display: visible ? "flex" : "none",
           width: "250px",
-          backgroundColor: "var(--color-surface)",
           borderRight: "var(--border-width) solid var(--color-border)",
         }}
       >
@@ -61,12 +60,10 @@ export default function Sidebar() {
       <button
         id="btn-panel-left"
         onClick={toggle}
-      className="fixed left-2 top-2 z-40 p-1.5 rounded transition-opacity hover:opacity-80 glass-surface"
+      className="fixed left-2 top-2 z-40 p-1.5 rounded transition-opacity hover:opacity-80 glass-panel"
       title="Alternar barra lateral"
       style={{
         display: visible ? "none" : "flex",
-        backgroundColor: "var(--color-surface)",
-        border: "var(--border-width) solid var(--color-border)",
         color: "var(--color-text-muted)",
       }}
       >
@@ -287,7 +284,7 @@ function FileTreeItem({ node, depth }: { node: FileNode; depth: number }) {
           paddingLeft: `${8 + depth * 16}px`,
           ...(isSelected
             ? {
-                backgroundColor: "rgba(37, 99, 235, 0.2)",
+                backgroundColor: "rgba(128, 131, 255, 0.2)",
                 color: "#ffffff",
                 borderLeft: "3px solid var(--color-accent)",
                 paddingLeft: `${8 + depth * 16 - 3}px`,

@@ -21,9 +21,8 @@ export default function Toolbar() {
   return (
     <div
       id="toolbar"
-      className="flex items-center gap-2 px-3 py-2 shrink-0 glass-surface"
+      className="flex items-center gap-2 px-3 py-2 shrink-0 glass-panel"
       style={{
-        backgroundColor: "var(--color-surface)",
         borderBottom: "var(--border-width) solid var(--color-border)",
       }}
     >

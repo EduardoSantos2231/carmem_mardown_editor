@@ -30,7 +30,6 @@ export default function App() {
       <div
         id="main"
         className="flex flex-1 flex-col min-w-0"
-        style={{ backgroundColor: "var(--color-bg)" }}
       >
         <Toolbar />
         <EditorContainer />
