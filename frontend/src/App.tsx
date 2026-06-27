@@ -4,8 +4,7 @@ import { loadFileTree } from "@/components/Sidebar";
 import { initResizers, loadPanelSizes } from "@/hooks/usePanelResize";
 import { loadZoomLevel, applyZoom } from "@/hooks/useZoom";
 import { initSidebar } from "@/components/Sidebar";
-import { initAutosaveStatus, markUnsaved } from "@/hooks/useAutosave";
-import { updatePreview } from "@/components/MarkdownPreview";
+import { initAutosaveStatus } from "@/hooks/useAutosave";
 import { setupKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 import Sidebar from "@/components/Sidebar";
 import SidebarResizer from "@/components/Resizer";
@@ -67,4 +66,4 @@ async function init() {
   }
 }
 
-export { updatePreview, markUnsaved };
+export { markUnsaved } from "@/hooks/useAutosave";

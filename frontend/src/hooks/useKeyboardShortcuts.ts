@@ -1,6 +1,6 @@
 import { useAppStore } from "@/store/useAppStore";
 import { saveNow } from "@/hooks/useAutosave";
-import { toggleReadMode } from "@/components/MarkdownPreview";
+import { togglePreview } from "@/lib/cm-live-preview";
 
 export function setupKeyboardShortcuts() {
   const handleKeyDown = (e: KeyboardEvent) => {
@@ -10,9 +10,6 @@ export function setupKeyboardShortcuts() {
     } else if (e.ctrlKey && e.key === "p") {
       e.preventDefault();
       togglePreview();
-    } else if (e.ctrlKey && e.shiftKey && e.key === "P") {
-      e.preventDefault();
-      toggleReadMode();
     } else if (e.ctrlKey && (e.key === "+" || e.key === "=")) {
       e.preventDefault();
       zoomIn();
@@ -33,11 +30,6 @@ export function setupKeyboardShortcuts() {
       e.preventDefault();
     }
   });
-}
-
-function togglePreview() {
-  const store = useAppStore.getState();
-  store.setPreviewVisible(!store.isPreviewVisible);
 }
 
 function zoomIn() {

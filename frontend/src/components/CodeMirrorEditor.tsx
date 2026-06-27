@@ -5,7 +5,7 @@ import { markdown } from "@codemirror/lang-markdown";
 import { useAppStore } from "@/store/useAppStore";
 import { getTheme } from "@/lib/cm-theme";
 import { markUnsaved } from "@/hooks/useAutosave";
-import { updatePreview } from "@/components/MarkdownPreview";
+import { livePreviewPlugin, editableState } from "@/lib/cm-live-preview";
 
 let cmView: EditorView | null = null;
 
@@ -15,11 +15,10 @@ function createEditor(parent: HTMLElement, initialDoc: string) {
     basicSetup,
     EditorView.lineWrapping,
     markdown(),
+    editableState,
+    livePreviewPlugin,
     EditorView.updateListener.of((update) => {
-      if (update.docChanged) {
-        updatePreview();
-        markUnsaved();
-      }
+      if (update.docChanged) markUnsaved();
     }),
     ...getTheme(theme),
   ];

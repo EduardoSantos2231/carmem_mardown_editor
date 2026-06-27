@@ -19,33 +19,28 @@ O editor utiliza **CodeMirror 6** com suporte nativo a Markdown. Elementos desta
 
 ## Preview
 
-### Renderização em Tempo Real
+### Live Preview Inline
 
-O preview atualiza automaticamente enquanto o usuário digita:
-- Markdown convertido para HTML
-- Syntax highlighting em blocos de código
-- Tabelas renderizadas
-- Links clicáveis
-- Suporte a KaTeX para fórmulas matemáticas
+O preview é renderizado **inline** dentro do próprio editor, sem painel HTML separado.
+Conforme o usuário digita e sai de uma linha, ela é automaticamente estilizada com
+tipografia visual:
 
-### Toggle Preview
+- Títulos aparecem grandes e verdes
+- Negrito e itálico renderizam inline
+- Código inline ganha fundo destacado
+- Blocos de código e citações recebem formatação visual
+- Links ganham sublinhado e cor
 
-O preview pode ser exibido/ocultado de duas formas:
-1. **Botão na toolbar**: Clique para alternar
-2. **Atalho de teclado**: Ctrl+P
+A linha ativa (onde o cursor está) permanece em markdown bruto para edição.
 
-**Layout:** O preview aparece ao lado do editor, com redimensionamento disponível.
+### Modo Preview (Lock)
 
-### Modo Leitura
+O botão **Eye** na toolbar (ou `Ctrl+P`) ativa o modo preview lockado:
+- Editor fica **readonly** (sem edição)
+- Números de linha (gutter) são ocultados
+- Ideal para revisar o documento sem risco de alterações acidentais
 
-O modo leitura oculta o editor e exibe apenas o preview em tela cheia,
-ideal para revisar o texto finalizado sem distrações:
-
-- **Ativar**: Botão na toolbar ou `Ctrl+Shift+P`
-- **Desativar**: Mesmo botão/atalho — volta ao layout anterior
-- Salva automaticamente antes de ativar
-- Só funciona com arquivo aberto
-- O editor permanece montado (CSS hidden), evitando perda de estado
+Para voltar a editar: clique no mesmo botão ou pressione `Ctrl+P` novamente.
 
 ## Autosave
 
@@ -99,11 +94,11 @@ Arquivos e pastas podem ser movidos via drag and drop:
 │          │                                              │
 │  📁 pasta│           Editor de Markdown                 │
 │   ▶ 📄 a │           (CodeMirror)                      │
-│     📄 x │◄────── Resizer ──────►│  Preview          │
-│   ▶ 📄 b │                         │  (Markdown        │
-│          │                         │   renderizado)    │
-├──────────┴─────────────────────────┴──────────────────┤
-│  ● Salvo │ Modo Vim: ATIVADO    │ /path/to/file.md   │
+│     📄 x │◄── Resizer           │                      │
+│   ▶ 📄 b │                      │                      │
+│          │                      │                      │
+├──────────┴──────────────────────────────────────────────┤
+│  ● Salvo │                     │ /path/to/file.md      │
 └─────────────────────────────────────────────────────────┘
 ```
 
@@ -114,26 +109,20 @@ Arquivos e pastas podem ser movidos via drag and drop:
 
 ### Painéis Redimensionáveis
 
-1. **Sidebar**: Arrastar borda direita
-   - Largura mínima: 200px
-   - Largura máxima: 500px
-   - Persistido em localStorage
-
-2. **Editor/Preview**: Arrastar divisor quando preview visível
-   - Proporção mínima: 20%
-   - Proporção máxima: 80%
-   - Persistido em localStorage
+- **Sidebar**: Arrastar borda direita
+  - Largura mínima: 200px
+  - Largura máxima: 500px
+  - Persistido em localStorage
 
 ## Atalhos de Teclado
 
 | Atalho | Ação |
 |--------|------|
 | Ctrl+S | Salvar arquivo |
-| Ctrl+P | Toggle preview |
+| Ctrl+P | Modo preview lockado (readonly + sem gutter) |
 | Ctrl++ | Aumentar zoom |
 | Ctrl+- | Diminuir zoom |
 | Ctrl+0 | Resetar zoom |
-| Ctrl+Shift+P | Modo leitura |
 
 ## Configuração
 

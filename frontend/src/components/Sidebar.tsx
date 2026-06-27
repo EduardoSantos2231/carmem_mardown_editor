@@ -16,8 +16,6 @@ import * as go from "../../wailsjs/go/main/App";
 import type { FileNode } from "@/types";
 import { clearAutosaveStatus } from "@/hooks/useAutosave";
 import { initCodeMirror } from "@/components/CodeMirrorEditor";
-import { updatePreview } from "@/components/MarkdownPreview";
-import { updateEditorPreviewLayout } from "@/hooks/usePanelResize";
 
 const SIDEBAR_STORAGE_KEY = "carmem-sidebar-visible";
 
@@ -119,8 +117,6 @@ function SidebarActions() {
         useAppStore.getState().clearCurrentFile();
         useAppStore.getState().setEditorLocked(true);
         useAppStore.getState().setPreviewVisible(false);
-        updateEditorPreviewLayout();
-        updatePreview();
         clearAutosaveStatus();
         const ph = document.getElementById("editor-placeholder");
         if (ph) ph.style.display = "flex";
@@ -142,8 +138,6 @@ function SidebarActions() {
       useAppStore.getState().setSelectedPath(null);
       useAppStore.getState().clearCurrentFile();
       useAppStore.getState().setPreviewVisible(false);
-      updateEditorPreviewLayout();
-      updatePreview();
       clearAutosaveStatus();
       await loadFileTree();
     });
@@ -220,8 +214,6 @@ function FileTreeItem({ node, depth }: { node: FileNode; depth: number }) {
 
       const cf = document.getElementById("current-file");
       if (cf) cf.textContent = node.name;
-
-      updatePreview();
     } catch (err) {
       console.error("Error reading file:", err);
     }
@@ -257,8 +249,6 @@ function FileTreeItem({ node, depth }: { node: FileNode; depth: number }) {
       if (useAppStore.getState().currentFilePath === draggedPath) {
         useAppStore.getState().clearCurrentFile();
         useAppStore.getState().setPreviewVisible(false);
-        updateEditorPreviewLayout();
-        updatePreview();
         const cf = document.getElementById("current-file");
         if (cf) cf.textContent = "Nenhum arquivo aberto";
       }

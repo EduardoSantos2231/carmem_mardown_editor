@@ -10,6 +10,7 @@
 | Build Tool | Vite | 6.x |
 | Editor | CodeMirror | 6.x |
 | Parser Markdown | marked | 15.x |
+| Parser Markdown (editor) | @lezer/markdown (via CodeMirror) | — |
 | Estilização | Tailwind CSS | 4.x |
 | Estado | Zustand | 5.x |
 | Ícones | lucide-react | 0.577.x |
@@ -41,9 +42,9 @@ carmem/
 │   │   ├── components/
 │   │   │   ├── Sidebar.tsx        # Sidebar + FileTree + SidebarActions
 │   │   │   ├── Toolbar.tsx        # Barra de ferramentas
-│   │   │   ├── EditorContainer.tsx # Container editor + preview
+│   │   │   ├── EditorContainer.tsx # Container editor (sem preview separado)
 │   │   │   ├── CodeMirrorEditor.tsx # Editor CodeMirror
-│   │   │   ├── MarkdownPreview.tsx  # Preview Markdown
+│   │   │   ├── MarkdownPreview.tsx  # Funções de compatibilidade (no-op)
 │   │   │   ├── StatusBar.tsx      # Barra de status
 │   │   │   ├── Resizer.tsx        # Redimensionador de painéis
 │   │   │   └── ui/
@@ -54,8 +55,9 @@ carmem/
 │   │   │   ├── useZoom.ts          # Controle de zoom
 │   │   │   └── usePanelResize.ts   # Redimensionamento de painéis
 │   │   ├── lib/
-│   │   │   ├── cm-theme.ts   # Temas CodeMirror (dark/light)
-│   │   │   └── marked.ts     # Configuração marked + KaTeX
+│   │   │   ├── cm-theme.ts        # Temas CodeMirror (dark/light + live preview CSS)
+│   │   │   ├── cm-live-preview.ts # ViewPlugin de live preview inline
+│   │   │   └── marked.ts          # Configuração marked + KaTeX (legacy)
 │   │   └── types/
 │   │       └── index.ts      # Tipos compartilhados
 │   └── wailsjs/               # Bindings auto-gerados Wails (não modificar)
@@ -114,7 +116,7 @@ markUnsaved() → atualiza UI + debounce 2s
 performSave() → go.WriteFile() → atualiza status
     ↓
 (em paralelo)
-updatePreview() → renderMarkdown() → atualiza HTML renderizado
+livePreviewPlugin → re-decora syntax tree → renderiza inline
 ```
 
 ### 5. Segurança de Path Traversal
@@ -135,11 +137,19 @@ func (s *FileService) safePath(path string) (string, error) {
 
 O backend emite um evento `before-close` via Wails Runtime quando o usuário fecha a janela. O frontend intercepta `beforeunload` para alertar sobre alterações não salvas.
 
-### 7. Modo Leitura
+### 7. Live Preview Inline
 
-Ao ativar o modo leitura, o editor CodeMirror é ocultado via CSS (`display: hidden`) sem desmontar o componente React. Isso preserva a instância da CodeMirror view e o conteúdo no store Zustand. Ao desativar, o layout é restaurado sem necessidade de reinicialização.
+O live preview é implementado via um **ViewPlugin** do CodeMirror (`cm-live-preview.ts`)
+que percorre a syntax tree do parser `@lezer/markdown` e aplica decorações CSS:
 
-O preview é forçado como visível e ocupa 100% da largura. O resizer é ocultado.
+- **`Decoration.line`** para elementos de bloco: headings (h1–h6), blockquote, blocos de código
+- **`Decoration.mark`** para elementos inline: negrito, itálico, riscado, código inline, links
+
+O plugin re-decora no evento `docChanged` ou `viewportChanged`, mantendo performance
+via `visibleRanges` (só decora o que está visível na viewport).
+
+O modo preview lockado (`Ctrl+P` / botão Eye) usa `EditorView.editable` facet para
+alternar readonly e oculta `.cm-gutters` via classe CSS `.cm-preview-mode`.
 
 ## Limitações Conhecidas
 

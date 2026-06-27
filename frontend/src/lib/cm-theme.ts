@@ -194,6 +194,71 @@ export const carmemDark = EditorView.theme(
     ".cm-searchMatch.cm-searchMatch-selected": {
       backgroundColor: "rgba(5, 150, 105, 0.3)",
     },
+    ".cm-line.cm-live-heading-1": {
+      fontSize: "1.75rem",
+      fontWeight: "700",
+      lineHeight: "1.3",
+      paddingTop: "0.75rem",
+      color: "#10b981",
+    },
+    ".cm-line.cm-live-heading-2": {
+      fontSize: "1.45rem",
+      fontWeight: "600",
+      lineHeight: "1.3",
+      paddingTop: "0.5rem",
+      color: "#10b981",
+    },
+    ".cm-line.cm-live-heading-3": {
+      fontSize: "1.2rem",
+      fontWeight: "600",
+      lineHeight: "1.3",
+      paddingTop: "0.4rem",
+      color: "#10b981",
+    },
+    ".cm-line.cm-live-heading-4": {
+      fontSize: "1.05rem",
+      fontWeight: "600",
+      color: "#10b981",
+    },
+    ".cm-line.cm-live-heading-5": {
+      fontSize: "0.95rem",
+      fontWeight: "600",
+      color: "#10b981",
+    },
+    ".cm-line.cm-live-heading-6": {
+      fontSize: "0.9rem",
+      fontWeight: "600",
+      color: "#6b7280",
+    },
+    ".cm-live-strong": { fontWeight: "bold" },
+    ".cm-live-emphasis": { fontStyle: "italic" },
+    ".cm-live-strikethrough": { textDecoration: "line-through" },
+    ".cm-live-inline-code": {
+      backgroundColor: "var(--color-surface)",
+      fontFamily:
+        'ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace',
+      fontSize: "0.85em",
+      padding: "0.15em 0.35em",
+      borderRadius: "3px",
+    },
+    ".cm-live-link": {
+      color: "#059669",
+      textDecoration: "underline",
+    },
+    ".cm-line.cm-live-blockquote": {
+      borderLeft: "3px solid var(--color-accent)",
+      paddingLeft: "1rem",
+      color: "#6b7280",
+    },
+    ".cm-line.cm-live-code-block": {
+      backgroundColor: "var(--color-surface)",
+      fontFamily: "monospace",
+      fontSize: "0.875em",
+      padding: "0 0.5rem",
+    },
+    ".cm-line.cm-live-hr": {
+      borderBottom: "1px solid var(--color-border)",
+    },
     ".cm-vim-panel": {
       backgroundColor: darkColors.guttersBackground,
       color: darkColors.foreground,
@@ -277,6 +342,71 @@ export const carmemLight = EditorView.theme(
     },
     ".cm-searchMatch.cm-searchMatch-selected": {
       backgroundColor: "rgba(5, 150, 105, 0.3)",
+    },
+    ".cm-line.cm-live-heading-1": {
+      fontSize: "1.75rem",
+      fontWeight: "700",
+      lineHeight: "1.3",
+      paddingTop: "0.75rem",
+      color: "#059669",
+    },
+    ".cm-line.cm-live-heading-2": {
+      fontSize: "1.45rem",
+      fontWeight: "600",
+      lineHeight: "1.3",
+      paddingTop: "0.5rem",
+      color: "#059669",
+    },
+    ".cm-line.cm-live-heading-3": {
+      fontSize: "1.2rem",
+      fontWeight: "600",
+      lineHeight: "1.3",
+      paddingTop: "0.4rem",
+      color: "#059669",
+    },
+    ".cm-line.cm-live-heading-4": {
+      fontSize: "1.05rem",
+      fontWeight: "600",
+      color: "#059669",
+    },
+    ".cm-line.cm-live-heading-5": {
+      fontSize: "0.95rem",
+      fontWeight: "600",
+      color: "#059669",
+    },
+    ".cm-line.cm-live-heading-6": {
+      fontSize: "0.9rem",
+      fontWeight: "600",
+      color: "#9ca3af",
+    },
+    ".cm-live-strong": { fontWeight: "bold" },
+    ".cm-live-emphasis": { fontStyle: "italic" },
+    ".cm-live-strikethrough": { textDecoration: "line-through" },
+    ".cm-live-inline-code": {
+      backgroundColor: "var(--color-surface)",
+      fontFamily:
+        'ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace',
+      fontSize: "0.85em",
+      padding: "0.15em 0.35em",
+      borderRadius: "3px",
+    },
+    ".cm-live-link": {
+      color: "#047857",
+      textDecoration: "underline",
+    },
+    ".cm-line.cm-live-blockquote": {
+      borderLeft: "3px solid var(--color-accent)",
+      paddingLeft: "1rem",
+      color: "#9ca3af",
+    },
+    ".cm-line.cm-live-code-block": {
+      backgroundColor: "var(--color-surface)",
+      fontFamily: "monospace",
+      fontSize: "0.875em",
+      padding: "0 0.5rem",
+    },
+    ".cm-line.cm-live-hr": {
+      borderBottom: "1px solid var(--color-border)",
     },
     ".cm-vim-panel": {
       backgroundColor: lightColors.guttersBackground,
