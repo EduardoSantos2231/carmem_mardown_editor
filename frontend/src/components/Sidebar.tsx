@@ -36,16 +36,16 @@ export default function Sidebar() {
     <>
       <aside
         id="sidebar"
-        className="flex flex-col flex-shrink-0"
+        className="flex flex-col flex-shrink-0 glass-surface"
         style={{
           display: visible ? "flex" : "none",
           width: "250px",
           backgroundColor: "var(--color-surface)",
-          borderRight: "1px solid var(--color-border)",
+          borderRight: "var(--border-width) solid var(--color-border)",
         }}
       >
-        <div className="flex items-center justify-between px-4 py-3 border-b shrink-0" style={{ borderColor: "var(--color-border)" }}>
-          <span className="font-semibold text-lg">Carmem</span>
+        <div className="flex items-center justify-between px-4 py-3 shrink-0" style={{ borderBottom: "var(--border-width) solid var(--color-border)", borderColor: "var(--color-border)" }}>
+          <span className="font-semibold text-lg" style={{ fontWeight: 800 }}>Carmem</span>
           <button
             onClick={toggle}
             className="p-1.5 rounded hover:opacity-80 transition-opacity"
@@ -61,14 +61,14 @@ export default function Sidebar() {
       <button
         id="btn-panel-left"
         onClick={toggle}
-        className="fixed left-2 top-2 z-40 p-1.5 rounded transition-opacity hover:opacity-80"
-        title="Alternar barra lateral"
-        style={{
-          display: visible ? "none" : "flex",
-          backgroundColor: "var(--color-surface)",
-          border: "1px solid var(--color-border)",
-          color: "var(--color-text-muted)",
-        }}
+      className="fixed left-2 top-2 z-40 p-1.5 rounded transition-opacity hover:opacity-80 glass-surface"
+      title="Alternar barra lateral"
+      style={{
+        display: visible ? "none" : "flex",
+        backgroundColor: "var(--color-surface)",
+        border: "var(--border-width) solid var(--color-border)",
+        color: "var(--color-text-muted)",
+      }}
       >
         <PanelLeft size={20} />
       </button>
@@ -145,8 +145,8 @@ function SidebarActions() {
 
   return (
     <div
-      className="flex gap-1 px-3 py-2 border-b shrink-0"
-      style={{ borderColor: "var(--color-border)" }}
+      className="flex gap-1 px-3 py-2 shrink-0"
+      style={{ borderBottom: "var(--border-width) solid var(--color-border)", borderColor: "var(--color-border)" }}
     >
       <button onClick={createFile} className="p-2 rounded hover:opacity-80 transition-opacity" title="Novo arquivo" style={{ color: "var(--color-text-muted)" }}>
         <FilePlus size={18} />
@@ -287,7 +287,7 @@ function FileTreeItem({ node, depth }: { node: FileNode; depth: number }) {
           paddingLeft: `${8 + depth * 16}px`,
           ...(isSelected
             ? {
-                backgroundColor: "rgba(5, 150, 105, 0.25)",
+                backgroundColor: "rgba(37, 99, 235, 0.2)",
                 color: "#ffffff",
                 borderLeft: "3px solid var(--color-accent)",
                 paddingLeft: `${8 + depth * 16 - 3}px`,

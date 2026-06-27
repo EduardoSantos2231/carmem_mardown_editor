@@ -4,8 +4,8 @@ export default function Resizer() {
       id="sidebar-resizer"
       className="resizer-vertical flex-shrink-0 cursor-col-resize"
       style={{
-        width: "4px",
-        backgroundColor: "transparent",
+        width: "var(--border-width)",
+        backgroundColor: "var(--color-border)",
         zIndex: 10,
       }}
       onMouseDown={(e) => {

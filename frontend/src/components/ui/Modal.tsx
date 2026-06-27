@@ -74,12 +74,12 @@ export default function Modal() {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+    <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ backgroundColor: "rgba(0,0,0,0.4)", backdropFilter: "blur(4px)" }}>
       <div
-        className="rounded-lg shadow-xl w-96 p-6"
+        className="rounded-lg w-96 p-6 glass-surface-lg"
         style={{
           backgroundColor: "var(--color-surface)",
-          border: "1px solid var(--color-border)",
+          border: "var(--border-width) solid var(--color-border)",
         }}
       >
         <h3 className="text-lg font-semibold mb-4">{title}</h3>
@@ -97,8 +97,9 @@ export default function Modal() {
                 className="px-4 py-2 rounded text-sm transition-colors"
                 style={{
                   backgroundColor: "transparent",
-                  border: "1px solid var(--color-border)",
+                  border: "var(--border-width) solid var(--color-border)",
                   color: "var(--color-text)",
+                  boxShadow: "var(--shadow-hard)",
                 }}
               >
                 Cancelar
@@ -111,6 +112,7 @@ export default function Modal() {
                 className="px-4 py-2 rounded text-sm text-white transition-colors"
                 style={{
                   backgroundColor: danger ? "#dc2626" : "var(--color-accent)",
+                  boxShadow: "var(--shadow-hard)",
                 }}
               >
                 Confirmar
@@ -135,7 +137,7 @@ export default function Modal() {
               className="w-full px-3 py-2 rounded mb-4 text-sm outline-none"
               style={{
                 backgroundColor: "var(--color-bg)",
-                border: "1px solid var(--color-border)",
+                border: "var(--border-width) solid var(--color-border)",
                 color: "var(--color-text)",
               }}
             />
@@ -145,8 +147,9 @@ export default function Modal() {
                 className="px-4 py-2 rounded text-sm transition-colors"
                 style={{
                   backgroundColor: "transparent",
-                  border: "1px solid var(--color-border)",
+                  border: "var(--border-width) solid var(--color-border)",
                   color: "var(--color-text)",
+                  boxShadow: "var(--shadow-hard)",
                 }}
               >
                 Cancelar
@@ -159,7 +162,7 @@ export default function Modal() {
                   }
                 }}
                 className="px-4 py-2 rounded text-sm text-white transition-colors"
-                style={{ backgroundColor: "var(--color-accent)" }}
+                style={{ backgroundColor: "var(--color-accent)", boxShadow: "var(--shadow-hard)" }}
               >
                 OK
               </button>

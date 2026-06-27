@@ -8,29 +8,29 @@ export default function StatusBar() {
   return (
     <div
       id="status-bar"
-      className="flex items-center gap-4 px-3 py-1 text-xs shrink-0"
+      className="flex items-center gap-4 px-3 py-1 text-xs shrink-0 glass-surface"
       style={{
         backgroundColor: "var(--color-surface)",
-        borderTop: "1px solid var(--color-border)",
+        borderTop: "var(--border-width) solid var(--color-border)",
         color: "var(--color-text-muted)",
       }}
     >
       <span className="flex items-center gap-1">
         {saveStatus === "saved" && (
           <>
-            <CheckCircle size={14} className="text-green-400" />
+            <CheckCircle size={14} style={{ color: "#adff2f" }} />
             Salvo
           </>
         )}
         {saveStatus === "saving" && (
           <>
-            <LoaderCircle size={14} className="animate-spin text-yellow-400" />
+            <LoaderCircle size={14} className="animate-spin" style={{ color: "#ffd700" }} />
             Salvando...
           </>
         )}
         {saveStatus === "unsaved" && (
           <>
-            <Circle size={14} className="text-orange-400" />
+            <Circle size={14} style={{ color: "#f87171" }} />
             Não salvo
           </>
         )}
