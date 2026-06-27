@@ -2,6 +2,11 @@ import { useEffect, useRef } from "react";
 import { EditorView, basicSetup } from "codemirror";
 import { EditorState } from "@codemirror/state";
 import { markdown } from "@codemirror/lang-markdown";
+import { javascript } from "@codemirror/lang-javascript";
+import { css } from "@codemirror/lang-css";
+import { html } from "@codemirror/lang-html";
+import { json } from "@codemirror/lang-json";
+import { python } from "@codemirror/lang-python";
 import { useAppStore } from "@/store/useAppStore";
 import { getTheme } from "@/lib/cm-theme";
 import { markUnsaved } from "@/hooks/useAutosave";
@@ -15,7 +20,17 @@ function createEditor(parent: HTMLElement, initialDoc: string) {
     basicSetup,
     EditorView.lineWrapping,
     ...getTheme(theme),
-    markdown(),
+    markdown({
+      codeLanguages: (info: string) => {
+        const lang = info.toLowerCase().trim();
+        if (lang === "js" || lang === "javascript" || lang === "ts" || lang === "typescript") return javascript().language;
+        if (lang === "css") return css().language;
+        if (lang === "html") return html().language;
+        if (lang === "json") return json().language;
+        if (lang === "py" || lang === "python") return python().language;
+        return null;
+      },
+    }),
     editableState,
     livePreviewPlugin,
     EditorView.updateListener.of((update) => {
