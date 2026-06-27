@@ -1,6 +1,7 @@
 import { useAppStore } from "@/store/useAppStore";
 import { saveNow } from "@/hooks/useAutosave";
 import { togglePreview } from "@/lib/cm-live-preview";
+import { zoomIn, zoomOut, resetZoom } from "@/hooks/useZoom";
 
 export function setupKeyboardShortcuts() {
   const handleKeyDown = (e: KeyboardEvent) => {
@@ -32,24 +33,3 @@ export function setupKeyboardShortcuts() {
   });
 }
 
-function zoomIn() {
-  const store = useAppStore.getState();
-  const newZoom = Math.min(2, store.zoomLevel + 0.05);
-  store.setZoomLevel(newZoom);
-  document.body.style.fontSize = `${newZoom * 16}px`;
-  localStorage.setItem("carmem-zoom-level", String(newZoom));
-}
-
-function zoomOut() {
-  const store = useAppStore.getState();
-  const newZoom = Math.max(0.5, store.zoomLevel - 0.05);
-  store.setZoomLevel(newZoom);
-  document.body.style.fontSize = `${newZoom * 16}px`;
-  localStorage.setItem("carmem-zoom-level", String(newZoom));
-}
-
-function resetZoom() {
-  useAppStore.getState().setZoomLevel(1);
-  document.body.style.fontSize = "16px";
-  localStorage.setItem("carmem-zoom-level", "1");
-}

@@ -17,6 +17,7 @@ const darkColors = {
   gutterForeground: "#6b7280",
   lineNumberForeground: "#6b7280",
   matchingBracket: "rgba(5, 150, 105, 0.4)",
+  matchingBracketColor: "white",
 };
 
 const lightColors = {
@@ -31,6 +32,7 @@ const lightColors = {
   gutterForeground: "#9ca3af",
   lineNumberForeground: "#9ca3af",
   matchingBracket: "rgba(5, 150, 105, 0.3)",
+  matchingBracketColor: "#047857",
 };
 
 function makeHighlightStyle(colors: Record<string, string>) {
@@ -138,173 +140,70 @@ const lightHighlight = makeHighlightStyle({
   content: "#1f2937",
 });
 
-export const carmemDark = EditorView.theme(
-  {
-    "&": {
-      backgroundColor: darkColors.background,
-      color: darkColors.foreground,
-    },
-    ".cm-content": { caretColor: darkColors.cursor, padding: "0" },
-    ".cm-cursor, .cm-dropCursor": {
-      borderLeftColor: darkColors.cursor,
-      borderLeftWidth: "2px",
-    },
-    "&.cm-focused .cm-selectionBackground, .cm-selectionBackground, .cm-content ::selection":
-      { backgroundColor: darkColors.selection },
-    ".cm-activeLine": { backgroundColor: darkColors.activeLine },
-    ".cm-gutters": {
-      backgroundColor: darkColors.guttersBackground,
-      color: darkColors.gutterForeground,
-      border: "none",
-      borderRight: `1px solid ${darkColors.guttersBorder}`,
-    },
-    ".cm-activeLineGutter": {
-      backgroundColor: darkColors.activeLineGutter,
-      color: darkColors.foreground,
-    },
-    ".cm-lineNumbers .cm-gutterElement": {
-      color: darkColors.lineNumberForeground,
-      padding: "0 0.75rem 0 0.5rem",
-      minWidth: "3rem",
-    },
-    ".cm-foldPlaceholder": {
-      backgroundColor: "transparent",
-      border: "none",
-      color: darkColors.cursor,
-    },
-    ".cm-tooltip": {
-      backgroundColor: darkColors.guttersBackground,
-      border: `1px solid ${darkColors.guttersBorder}`,
-      borderRadius: "4px",
-    },
-    ".cm-tooltip-autocomplete": {
-      "& > ul > li[aria-selected]": {
-        backgroundColor: darkColors.selection,
+function buildTheme(c: typeof darkColors, isDark: boolean) {
+  return EditorView.theme(
+    {
+      "&": {
+        backgroundColor: c.background,
+        color: c.foreground,
+      },
+      ".cm-content": { caretColor: c.cursor, padding: "0" },
+      ".cm-cursor, .cm-dropCursor": {
+        borderLeftColor: c.cursor,
+        borderLeftWidth: "2px",
+      },
+      "&.cm-focused .cm-selectionBackground, .cm-selectionBackground, .cm-content ::selection":
+        { backgroundColor: c.selection },
+      ".cm-activeLine": { backgroundColor: c.activeLine },
+      ".cm-gutters": {
+        backgroundColor: c.guttersBackground,
+        color: c.gutterForeground,
+        border: "none",
+        borderRight: `1px solid ${c.guttersBorder}`,
+      },
+      ".cm-activeLineGutter": {
+        backgroundColor: c.activeLineGutter,
+        color: c.foreground,
+      },
+      ".cm-lineNumbers .cm-gutterElement": {
+        color: c.lineNumberForeground,
+        padding: "0 0.75rem 0 0.5rem",
+        minWidth: "3rem",
+      },
+      ".cm-foldPlaceholder": {
+        backgroundColor: "transparent",
+        border: "none",
+        color: c.cursor,
+      },
+      ".cm-tooltip": {
+        backgroundColor: c.guttersBackground,
+        border: `1px solid ${c.guttersBorder}`,
+        borderRadius: "4px",
+      },
+      ".cm-tooltip-autocomplete": {
+        "& > ul > li[aria-selected]": {
+          backgroundColor: c.selection,
+        },
+      },
+      ".cm-matchingBracket": {
+        backgroundColor: c.matchingBracket,
+        color: `${c.matchingBracketColor} !important`,
+        borderRadius: "2px",
+      },
+      ".cm-searchMatch": {
+        backgroundColor: "rgba(251, 191, 36, 0.3)",
+        outline: "1px solid rgba(251, 191, 36, 0.5)",
+      },
+      ".cm-searchMatch.cm-searchMatch-selected": {
+        backgroundColor: "rgba(5, 150, 105, 0.3)",
       },
     },
-    ".cm-matchingBracket": {
-      backgroundColor: darkColors.matchingBracket,
-      color: "white !important",
-      borderRadius: "2px",
-    },
-    ".cm-searchMatch": {
-      backgroundColor: "rgba(251, 191, 36, 0.3)",
-      outline: "1px solid rgba(251, 191, 36, 0.5)",
-    },
-    ".cm-searchMatch.cm-searchMatch-selected": {
-      backgroundColor: "rgba(5, 150, 105, 0.3)",
-    },
-    ".cm-vim-panel": {
-      backgroundColor: darkColors.guttersBackground,
-      color: darkColors.foreground,
-      borderTop: `1px solid ${darkColors.guttersBorder}`,
-      padding: "2px 8px",
-      fontFamily: "monospace",
-      fontSize: "0.85rem",
-      minHeight: "1.5em",
-    },
-    ".cm-vim-panel .vim-panel-prompt": {
-      color: darkColors.cursor,
-      fontWeight: "bold",
-    },
-    ".cm-vim-panel input": {
-      backgroundColor: "transparent",
-      border: "none",
-      outline: "none",
-      fontFamily: "inherit",
-      fontSize: "inherit",
-      color: "inherit",
-    },
-    ".cm-vim-panel span": {
-      color: darkColors.foreground,
-    },
-  },
-  { dark: true }
-);
+    { dark: isDark }
+  );
+}
 
-export const carmemLight = EditorView.theme(
-  {
-    "&": {
-      backgroundColor: lightColors.background,
-      color: lightColors.foreground,
-    },
-    ".cm-content": { caretColor: lightColors.cursor, padding: "0" },
-    ".cm-cursor, .cm-dropCursor": {
-      borderLeftColor: lightColors.cursor,
-      borderLeftWidth: "2px",
-    },
-    "&.cm-focused .cm-selectionBackground, .cm-selectionBackground, .cm-content ::selection":
-      { backgroundColor: lightColors.selection },
-    ".cm-activeLine": { backgroundColor: lightColors.activeLine },
-    ".cm-gutters": {
-      backgroundColor: lightColors.guttersBackground,
-      color: lightColors.gutterForeground,
-      border: "none",
-      borderRight: `1px solid ${lightColors.guttersBorder}`,
-    },
-    ".cm-activeLineGutter": {
-      backgroundColor: lightColors.activeLineGutter,
-      color: lightColors.foreground,
-    },
-    ".cm-lineNumbers .cm-gutterElement": {
-      color: lightColors.lineNumberForeground,
-      padding: "0 0.75rem 0 0.5rem",
-      minWidth: "3rem",
-    },
-    ".cm-foldPlaceholder": {
-      backgroundColor: "transparent",
-      border: "none",
-      color: lightColors.cursor,
-    },
-    ".cm-tooltip": {
-      backgroundColor: lightColors.guttersBackground,
-      border: `1px solid ${lightColors.guttersBorder}`,
-      borderRadius: "4px",
-    },
-    ".cm-tooltip-autocomplete": {
-      "& > ul > li[aria-selected]": {
-        backgroundColor: lightColors.selection,
-      },
-    },
-    ".cm-matchingBracket": {
-      backgroundColor: lightColors.matchingBracket,
-      color: "#047857 !important",
-      borderRadius: "2px",
-    },
-    ".cm-searchMatch": {
-      backgroundColor: "rgba(251, 191, 36, 0.3)",
-      outline: "1px solid rgba(251, 191, 36, 0.5)",
-    },
-    ".cm-searchMatch.cm-searchMatch-selected": {
-      backgroundColor: "rgba(5, 150, 105, 0.3)",
-    },
-    ".cm-vim-panel": {
-      backgroundColor: lightColors.guttersBackground,
-      color: lightColors.foreground,
-      borderTop: `1px solid ${lightColors.guttersBorder}`,
-      padding: "2px 8px",
-      fontFamily: "monospace",
-      fontSize: "0.85rem",
-      minHeight: "1.5em",
-    },
-    ".cm-vim-panel .vim-panel-prompt": {
-      color: lightColors.cursor,
-      fontWeight: "bold",
-    },
-    ".cm-vim-panel input": {
-      backgroundColor: "transparent",
-      border: "none",
-      outline: "none",
-      fontFamily: "inherit",
-      fontSize: "inherit",
-      color: "inherit",
-    },
-    ".cm-vim-panel span": {
-      color: lightColors.foreground,
-    },
-  },
-  { dark: false }
-);
+export const carmemDark = buildTheme(darkColors, true);
+export const carmemLight = buildTheme(lightColors, false);
 
 export const carmemDarkSyntax = syntaxHighlighting(darkHighlight);
 export const carmemLightSyntax = syntaxHighlighting(lightHighlight);

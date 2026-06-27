@@ -8,6 +8,7 @@ import {
 import { StateEffect, StateField } from "@codemirror/state";
 import { syntaxTree } from "@codemirror/language";
 import { useAppStore } from "@/store/useAppStore";
+import "./live-preview.css";
 
 const headingClasses: Record<string, string> = {
   ATXHeading1: "cm-live-heading-1",
@@ -43,83 +44,6 @@ const hideMarkTypes = new Set([
   "StrikethroughMark",
   "QuoteMark",
 ]);
-
-let styleInjected = false;
-
-function injectLivePreviewCSS() {
-  if (styleInjected) return;
-  styleInjected = true;
-  const style = document.createElement("style");
-  style.textContent = `
-    .cm-live-heading-1 {
-      font-size: 1.75rem !important; font-weight: 700 !important;
-      line-height: 1.3; display: inline-block; width: 100%;
-      padding-top: 0.75rem;
-      color: var(--color-accent) !important;
-    }
-    .cm-live-heading-2 {
-      font-size: 1.45rem !important; font-weight: 600 !important;
-      line-height: 1.3; display: inline-block; width: 100%;
-      padding-top: 0.5rem;
-      color: var(--color-accent) !important;
-    }
-    .cm-live-heading-3 {
-      font-size: 1.2rem !important; font-weight: 600 !important;
-      line-height: 1.3; display: inline-block; width: 100%;
-      padding-top: 0.4rem;
-      color: var(--color-accent) !important;
-    }
-    .cm-live-heading-4 {
-      font-size: 1.05rem !important; font-weight: 600 !important;
-      display: inline-block; width: 100%;
-      color: var(--color-accent) !important;
-    }
-    .cm-live-heading-5 {
-      font-size: 0.95rem !important; font-weight: 600 !important;
-      display: inline-block; width: 100%;
-      color: var(--color-accent) !important;
-    }
-    .cm-live-heading-6 {
-      font-size: 0.9rem !important; font-weight: 600 !important;
-      display: inline-block; width: 100%;
-      color: var(--color-text-muted) !important;
-    }
-    .cm-live-strong { font-weight: bold !important; }
-    .cm-live-emphasis { font-style: italic !important; }
-    .cm-live-strikethrough { text-decoration: line-through !important; }
-    .cm-live-inline-code {
-      background: var(--color-surface) !important;
-      font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace !important;
-      font-size: 0.85em !important;
-      padding: 0.15em 0.35em !important; border-radius: 3px;
-    }
-    .cm-live-link {
-      color: var(--color-accent) !important;
-      text-decoration: underline !important;
-    }
-    .cm-live-blockquote {
-      border-left: 3px solid var(--color-accent) !important;
-      padding-left: 1rem !important; display: inline-block; width: 100%;
-      color: var(--color-text-muted) !important;
-      box-sizing: border-box;
-    }
-    .cm-live-code-block {
-      background: var(--color-surface) !important;
-      font-family: monospace !important;
-      font-size: 0.875em !important;
-      padding: 0.15rem 0.5rem;
-    }
-    .cm-line.cm-live-code-block-line {
-      background: var(--color-surface) !important;
-      line-height: 1 !important;
-    }
-    .cm-live-hr {
-      display: inline-block; width: 100%;
-      border-bottom: 1px solid var(--color-border) !important;
-    }
-  `;
-  document.head.appendChild(style);
-}
 
 function buildDecorations(view: EditorView): DecorationSet {
   const decorations: { from: number; to: number; value: Decoration }[] = [];
@@ -194,7 +118,6 @@ export const livePreviewPlugin = ViewPlugin.fromClass(
     decorations: DecorationSet;
 
     constructor(view: EditorView) {
-      injectLivePreviewCSS();
       this.decorations = buildDecorations(view);
     }
 
