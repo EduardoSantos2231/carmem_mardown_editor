@@ -9,12 +9,10 @@
 | Frontend | React + TypeScript | React 18, TS 5.7 |
 | Build Tool | Vite | 6.x |
 | Editor | CodeMirror | 6.x |
-| Parser Markdown | marked | 15.x |
 | Parser Markdown (editor) | @lezer/markdown (via CodeMirror) | — |
 | Estilização | Tailwind CSS | 4.x |
 | Estado | Zustand | 5.x |
 | Ícones | lucide-react | 0.577.x |
-| Matemática | KaTeX | 0.16.x |
 
 ## Estrutura de Arquivos
 
@@ -44,7 +42,7 @@ carmem/
 │   │   │   ├── Toolbar.tsx        # Barra de ferramentas
 │   │   │   ├── EditorContainer.tsx # Container editor (sem preview separado)
 │   │   │   ├── CodeMirrorEditor.tsx # Editor CodeMirror
-│   │   │   ├── MarkdownPreview.tsx  # Funções de compatibilidade (no-op)
+│   │   │   ├── FloatingToolbar.tsx  # Toolbar flutuante de formatação
 │   │   │   ├── StatusBar.tsx      # Barra de status
 │   │   │   ├── Resizer.tsx        # Redimensionador de painéis
 │   │   │   └── ui/
@@ -55,9 +53,10 @@ carmem/
 │   │   │   ├── useZoom.ts          # Controle de zoom
 │   │   │   └── usePanelResize.ts   # Redimensionamento de painéis
 │   │   ├── lib/
-│   │   │   ├── cm-theme.ts        # Temas CodeMirror (dark/light + live preview CSS)
-│   │   │   ├── cm-live-preview.ts # ViewPlugin de live preview inline
-│   │   │   └── marked.ts          # Configuração marked + KaTeX (legacy)
+│   │   │   ├── cm-theme.ts           # Temas CodeMirror (dark/light)
+│   │   │   ├── cm-live-preview.ts    # ViewPlugin de live preview inline
+│   │   │   ├── live-preview.css      # CSS do live preview (headings, code, blockquote)
+│   │   │   └── floating-toolbar-plugin.ts  # ViewPlugin da toolbar flutuante
 │   │   └── types/
 │   │       └── index.ts      # Tipos compartilhados
 │   └── wailsjs/               # Bindings auto-gerados Wails (não modificar)
@@ -144,6 +143,7 @@ que percorre a syntax tree do parser `@lezer/markdown` e aplica decorações CSS
 
 - **`Decoration.line`** para elementos de bloco: headings (h1–h6), blockquote, blocos de código
 - **`Decoration.mark`** para elementos inline: negrito, itálico, riscado, código inline, links
+- **`Decoration.replace({})`** para esconder caracteres de formatação (`#`, `**`, `~~`, etc.)
 
 O plugin re-decora no evento `docChanged` ou `viewportChanged`, mantendo performance
 via `visibleRanges` (só decora o que está visível na viewport).

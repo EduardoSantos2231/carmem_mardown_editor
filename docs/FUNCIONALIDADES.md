@@ -8,14 +8,13 @@ O editor utiliza **CodeMirror 6** com suporte nativo a Markdown. Elementos desta
 - Títulos (#, ##, ###, etc.)
 - Negrito e itálico
 - Links e URLs
-- Código inline e blocos de código (com syntax highlighting via highlight.js)
+- Código inline e blocos de código (com syntax highlighting via @codemirror/lang-*)
 - Listas (ordenadas e não ordenadas)
 - Citações (blockquote)
 - Tabelas
 - Listas de tarefas (`- [ ]`)
 - Texto riscado (`~~texto~~`)
 - Linha horizontal (`---`)
-- KaTeX para fórmulas matemáticas (`$E=mc^2$`)
 
 ## Preview
 
@@ -25,7 +24,7 @@ O preview é renderizado **inline** dentro do próprio editor, sem painel HTML s
 Conforme o usuário digita e sai de uma linha, ela é automaticamente estilizada com
 tipografia visual:
 
-- Títulos aparecem grandes e verdes
+- Títulos aparecem grandes e com cor de destaque
 - Negrito e itálico renderizam inline
 - Código inline ganha fundo destacado
 - Blocos de código e citações recebem formatação visual
@@ -41,6 +40,14 @@ O botão **Eye** na toolbar (ou `Ctrl+P`) ativa o modo preview lockado:
 - Ideal para revisar o documento sem risco de alterações acidentais
 
 Para voltar a editar: clique no mesmo botão ou pressione `Ctrl+P` novamente.
+
+### Floating Formatting Toolbar
+
+Ao selecionar texto no editor, uma **toolbar flutuante** aparece com botões de formatação:
+- **B** (Negrito), *I* (Itálico), H (Título), 🔗 (Link), ≡ (Lista), `</>` (Código inline)
+- Cada botão aplica/remove a marcação markdown no texto selecionado
+- Estilo glass-panel com backdrop-blur, aparece com animação slide-down
+- Desaparece ao pressionar Escape, perder foco, ou limpar a seleção
 
 ## Autosave
 
@@ -92,11 +99,11 @@ Arquivos e pastas podem ser movidos via drag and drop:
 │  [Carmem]           [+][📁][🗑][✏️]                    │
 ├──────────┬──────────────────────────────────────────────┤
 │          │                                              │
-│  📁 pasta│           Editor de Markdown                 │
-│   ▶ 📄 a │           (CodeMirror)                      │
-│     📄 x │◄── Resizer           │                      │
-│   ▶ 📄 b │                      │                      │
-│          │                      │                      │
+│  📁 pasta│         ┌ glass-panel ──────────────────┐   │
+│   ▶ 📄 a │         │  Editor de Markdown           │   │
+│     📄 x │◄ resizer│  (CodeMirror + live preview) │   │
+│   ▶ 📄 b │         │                               │   │
+│          │         └───────────────────────────────┘   │
 ├──────────┴──────────────────────────────────────────────┤
 │  ● Salvo │                     │ /path/to/file.md      │
 └─────────────────────────────────────────────────────────┘
@@ -104,8 +111,9 @@ Arquivos e pastas podem ser movidos via drag and drop:
 
 ### Temas
 
-- **Tema Escuro** (padrão): Fundo escuro, texto claro
-- **Tema Claro**: Fundo claro, texto escuro
+- **Tema Escuro** (padrão): Glassmorphism com mesh gradients coloridos, painéis translúcidos
+- **Tema Claro**: Inspirado no iOS, fundo `#f2f2f7`, glass panels brancos
+- Ambos com animações CSS (fade-in, scale-in, slide-down) para fluidez
 
 ### Painéis Redimensionáveis
 
