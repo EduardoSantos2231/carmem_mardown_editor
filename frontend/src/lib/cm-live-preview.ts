@@ -30,10 +30,10 @@ const markClasses: Record<string, string> = {
 
 const lineClasses: Record<string, string> = {
   Blockquote: "cm-live-blockquote",
-  FencedCode: "cm-live-code-block",
-  CodeBlock: "cm-live-code-block",
   HorizontalRule: "cm-live-hr",
 };
+
+const codeBlockTypes = new Set(["FencedCode", "CodeBlock"]);
 
 // ponytail: formatting marks to hide when cursor is on a different line
 const hideMarkTypes = new Set([
@@ -109,6 +109,10 @@ function injectLivePreviewCSS() {
       font-size: 0.875em !important;
       padding: 0.15rem 0.5rem;
     }
+    .cm-line.cm-live-code-block-line {
+      background: var(--color-surface) !important;
+      line-height: 1 !important;
+    }
     .cm-live-hr {
       display: inline-block; width: 100%;
       border-bottom: 1px solid var(--color-border) !important;
@@ -152,6 +156,17 @@ function buildDecorations(view: EditorView): DecorationSet {
             from: node.from,
             to: node.to,
             value: Decoration.mark({ class: markClasses[name] }),
+          });
+        } else if (codeBlockTypes.has(name)) {
+          decorations.push({
+            from: node.from,
+            to: node.from,
+            value: Decoration.line({ class: "cm-live-code-block-line" }),
+          });
+          decorations.push({
+            from: node.from,
+            to: node.to,
+            value: Decoration.mark({ class: "cm-live-code-block" }),
           });
         } else if (name in lineClasses) {
           decorations.push({
