@@ -158,11 +158,16 @@ function buildDecorations(view: EditorView): DecorationSet {
             value: Decoration.mark({ class: markClasses[name] }),
           });
         } else if (codeBlockTypes.has(name)) {
-          decorations.push({
-            from: node.from,
-            to: node.from,
-            value: Decoration.line({ class: "cm-live-code-block-line" }),
-          });
+          const lineFrom = view.state.doc.lineAt(node.from).number;
+          const lineTo = view.state.doc.lineAt(node.to).number;
+          for (let ln = lineFrom; ln <= lineTo; ln++) {
+            const line = view.state.doc.line(ln);
+            decorations.push({
+              from: line.from,
+              to: line.from,
+              value: Decoration.line({ class: "cm-live-code-block-line" }),
+            });
+          }
           decorations.push({
             from: node.from,
             to: node.to,
