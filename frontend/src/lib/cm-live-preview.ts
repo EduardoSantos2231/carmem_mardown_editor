@@ -31,7 +31,6 @@ const markClasses: Record<string, string> = {
 
 const lineClasses: Record<string, string> = {
   Blockquote: "cm-live-blockquote",
-  HorizontalRule: "cm-live-hr",
 };
 
 const codeBlockTypes = new Set(["FencedCode", "CodeBlock"]);
@@ -96,6 +95,20 @@ function buildDecorations(view: EditorView): DecorationSet {
             from: node.from,
             to: node.to,
             value: Decoration.mark({ class: "cm-live-code-block" }),
+          });
+        } else if (name === "HorizontalRule") {
+          const hrLine = view.state.doc.lineAt(node.from).number;
+          if (isPreview || hrLine !== cursorLine) {
+            decorations.push({
+              from: node.from,
+              to: node.to,
+              value: Decoration.replace({}),
+            });
+          }
+          decorations.push({
+            from: node.from,
+            to: node.to,
+            value: Decoration.mark({ class: "cm-live-hr" }),
           });
         } else if (name in lineClasses) {
           decorations.push({
