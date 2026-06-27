@@ -17,8 +17,10 @@ interface AppState {
   config: AppConfig | null;
   zoomLevel: number;
   sidebarVisible: boolean;
+  floatingToolbar: { visible: boolean; top: number; left: number };
 
   setEditor: (editor: EditorView | null) => void;
+  setFloatingToolbar: (state: { visible: boolean; top: number; left: number }) => void;
   setCurrentFile: (path: string | null, name: string | null) => void;
   clearCurrentFile: () => void;
   setTheme: (theme: "dark" | "light") => void;
@@ -50,8 +52,10 @@ export const useAppStore = create<AppState>((set) => ({
   config: null,
   zoomLevel: 1,
   sidebarVisible: true,
+  floatingToolbar: { visible: false, top: 0, left: 0 },
 
   setEditor: (editor) => set({ editor }),
+  setFloatingToolbar: (state) => set({ floatingToolbar: state }),
   setCurrentFile: (path, name) =>
     set({ currentFilePath: path, currentFileName: name }),
   clearCurrentFile: () =>

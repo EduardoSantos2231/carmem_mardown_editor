@@ -11,6 +11,7 @@ import { useAppStore } from "@/store/useAppStore";
 import { getTheme } from "@/lib/cm-theme";
 import { markUnsaved } from "@/hooks/useAutosave";
 import { livePreviewPlugin, editableState } from "@/lib/cm-live-preview";
+import { floatingToolbarPlugin } from "@/lib/floating-toolbar-plugin";
 
 let cmView: EditorView | null = null;
 
@@ -33,6 +34,8 @@ function createEditor(parent: HTMLElement, initialDoc: string) {
     }),
     editableState,
     livePreviewPlugin,
+    floatingToolbarPlugin,
+    floatingToolbarPlugin,
     EditorView.updateListener.of((update) => {
       if (update.docChanged) markUnsaved();
     }),
