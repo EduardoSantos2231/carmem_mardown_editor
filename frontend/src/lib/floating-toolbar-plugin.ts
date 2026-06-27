@@ -72,7 +72,7 @@ export const floatingToolbarPlugin = ViewPlugin.fromClass(
           debouncedHide();
         } else {
           cancelHide();
-          showToolbar(update.view);
+          requestAnimationFrame(() => showToolbar(update.view));
         }
       }
     }

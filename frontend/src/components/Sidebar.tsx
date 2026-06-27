@@ -145,16 +145,16 @@ function SidebarActions() {
       className="flex gap-1 px-3 py-2 shrink-0"
       style={{ borderBottom: "var(--border-width) solid var(--color-border)", borderColor: "var(--color-border)" }}
     >
-      <button onClick={createFile} className="p-2 rounded hover:opacity-80 transition-opacity" title="Novo arquivo" style={{ color: "var(--color-text-muted)" }}>
+      <button onClick={createFile} className="p-2 rounded-lg glass-panel transition-all hover:bg-white/10" title="Novo arquivo" style={{ color: "var(--color-text-muted)" }}>
         <FilePlus size={18} />
       </button>
-      <button onClick={createFolder} className="p-2 rounded hover:opacity-80 transition-opacity" title="Nova pasta" style={{ color: "var(--color-text-muted)" }}>
+      <button onClick={createFolder} className="p-2 rounded-lg glass-panel transition-all hover:bg-white/10" title="Nova pasta" style={{ color: "var(--color-text-muted)" }}>
         <FolderPlus size={18} />
       </button>
-      <button onClick={deleteSelected} className="p-2 rounded hover:opacity-80 transition-opacity" title="Excluir item selecionado" style={{ color: "var(--color-text-muted)" }}>
+      <button onClick={deleteSelected} className="p-2 rounded-lg glass-panel transition-all hover:bg-white/10" title="Excluir item selecionado" style={{ color: "var(--color-text-muted)" }}>
         <Trash2 size={18} />
       </button>
-      <button onClick={renameSelected} className="p-2 rounded hover:opacity-80 transition-opacity" title="Renomear item selecionado" style={{ color: "var(--color-text-muted)" }}>
+      <button onClick={renameSelected} className="p-2 rounded-lg glass-panel transition-all hover:bg-white/10" title="Renomear item selecionado" style={{ color: "var(--color-text-muted)" }}>
         <Edit3 size={18} />
       </button>
     </div>

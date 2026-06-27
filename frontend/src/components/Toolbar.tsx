@@ -36,7 +36,7 @@ export default function Toolbar() {
       <div className="flex-1" />
       <button
         onClick={zoomOut}
-        className="p-1.5 rounded hover:opacity-80"
+        className="p-1.5 rounded-lg glass-panel transition-all hover:bg-white/10"
         title="Zoom: Ctrl+- - Diminuir"
         style={{ color: "var(--color-text-muted)" }}
       >
@@ -51,7 +51,7 @@ export default function Toolbar() {
       </span>
       <button
         onClick={zoomIn}
-        className="p-1.5 rounded hover:opacity-80"
+        className="p-1.5 rounded-lg glass-panel transition-all hover:bg-white/10"
         title="Zoom: Ctrl++ - Aumentar"
         style={{ color: "var(--color-text-muted)" }}
       >
@@ -59,7 +59,7 @@ export default function Toolbar() {
       </button>
       <button
         onClick={() => togglePreview()}
-        className={`p-1.5 rounded transition-opacity ${isPreviewVisible ? "opacity-100" : "opacity-50"}`}
+        className={`p-1.5 rounded-lg glass-panel transition-all hover:bg-white/10 ${isPreviewVisible ? "opacity-100" : "opacity-50"}`}
         title={isPreviewVisible ? "Preview: Ctrl+P - Editar" : "Preview: Ctrl+P - Visualizar"}
         style={{ color: isPreviewVisible ? "var(--color-accent)" : "var(--color-text-muted)" }}
       >
@@ -67,7 +67,7 @@ export default function Toolbar() {
       </button>
       <button
         onClick={handleThemeToggle}
-        className="p-1.5 rounded hover:opacity-80"
+        className="p-1.5 rounded-lg glass-panel transition-all hover:bg-white/10"
         title="Alternar tema"
         style={{ color: "var(--color-text-muted)" }}
       >

@@ -7,8 +7,10 @@ export default function EditorContainer() {
 
   return (
     <div id="editor-container" className="flex flex-1 min-h-0 overflow-hidden">
-      <div className="flex flex-1 min-w-0 relative">
-        <CodeMirrorEditor />
+      <div className="flex flex-1 min-w-0 relative m-1">
+        <div className="glass-panel rounded-xl overflow-hidden flex-1 flex">
+          <CodeMirrorEditor />
+        </div>
         <FloatingToolbar />
         {isLocked && (
           <div
