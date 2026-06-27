@@ -14,13 +14,13 @@ function createEditor(parent: HTMLElement, initialDoc: string) {
   const extensions = [
     basicSetup,
     EditorView.lineWrapping,
+    ...getTheme(theme),
     markdown(),
     editableState,
     livePreviewPlugin,
     EditorView.updateListener.of((update) => {
       if (update.docChanged) markUnsaved();
     }),
-    ...getTheme(theme),
   ];
 
   const view = new EditorView({

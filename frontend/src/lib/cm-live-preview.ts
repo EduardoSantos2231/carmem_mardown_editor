@@ -5,7 +5,7 @@ import {
   ViewPlugin,
   ViewUpdate,
 } from "@codemirror/view";
-import { RangeSetBuilder, StateEffect, StateField } from "@codemirror/state";
+import { StateEffect, StateField } from "@codemirror/state";
 import { syntaxTree } from "@codemirror/language";
 import { useAppStore } from "@/store/useAppStore";
 
@@ -35,41 +35,115 @@ const lineClasses: Record<string, string> = {
   HorizontalRule: "cm-live-hr",
 };
 
+let styleInjected = false;
+
+function injectLivePreviewCSS() {
+  if (styleInjected) return;
+  styleInjected = true;
+  const style = document.createElement("style");
+  style.textContent = `
+    .cm-live-heading-1, .cm-line.cm-live-heading-1 {
+      font-size: 1.75rem !important; font-weight: 700 !important;
+      line-height: 1.3; padding-top: 0.75rem;
+      color: var(--color-accent) !important;
+    }
+    .cm-live-heading-2, .cm-line.cm-live-heading-2 {
+      font-size: 1.45rem !important; font-weight: 600 !important;
+      line-height: 1.3; padding-top: 0.5rem;
+      color: var(--color-accent) !important;
+    }
+    .cm-live-heading-3, .cm-line.cm-live-heading-3 {
+      font-size: 1.2rem !important; font-weight: 600 !important;
+      line-height: 1.3; padding-top: 0.4rem;
+      color: var(--color-accent) !important;
+    }
+    .cm-live-heading-4, .cm-line.cm-live-heading-4 {
+      font-size: 1.05rem !important; font-weight: 600 !important;
+      color: var(--color-accent) !important;
+    }
+    .cm-live-heading-5, .cm-line.cm-live-heading-5 {
+      font-size: 0.95rem !important; font-weight: 600 !important;
+      color: var(--color-accent) !important;
+    }
+    .cm-live-heading-6, .cm-line.cm-live-heading-6 {
+      font-size: 0.9rem !important; font-weight: 600 !important;
+      color: var(--color-text-muted) !important;
+    }
+    .cm-live-strong { font-weight: bold !important; }
+    .cm-live-emphasis { font-style: italic !important; }
+    .cm-live-strikethrough { text-decoration: line-through !important; }
+    .cm-live-inline-code {
+      background: var(--color-surface) !important;
+      font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace !important;
+      font-size: 0.85em !important;
+      padding: 0.15em 0.35em !important; border-radius: 3px;
+    }
+    .cm-live-link {
+      color: var(--color-accent) !important;
+      text-decoration: underline !important;
+    }
+    .cm-line.cm-live-blockquote, .cm-live-blockquote {
+      border-left: 3px solid var(--color-accent) !important;
+      padding-left: 1rem !important;
+      color: var(--color-text-muted) !important;
+    }
+    .cm-line.cm-live-code-block, .cm-live-code-block {
+      background: var(--color-surface) !important;
+      font-family: monospace !important;
+      font-size: 0.875em !important;
+    }
+    .cm-line.cm-live-hr {
+      border-bottom: 1px solid var(--color-border) !important;
+    }
+  `;
+  document.head.appendChild(style);
+  console.warn("[live-preview] CSS injected");
+}
+
 function buildDecorations(view: EditorView): DecorationSet {
-  const builder = new RangeSetBuilder<Decoration>();
+  const decorations: { from: number; to: number; value: Decoration }[] = [];
   const tree = syntaxTree(view.state);
 
+  let totalNodes = 0;
+  let matchedNodes = 0;
+
+  // ponytail: iterate visible ranges only
   for (const { from, to } of view.visibleRanges) {
     tree.iterate({
       from,
       to,
       enter: (node) => {
         const name = node.type.name;
+        totalNodes++;
 
         if (name in headingClasses) {
-          builder.add(
-            node.from,
-            node.from,
-            Decoration.line({ class: headingClasses[name] })
-          );
+          matchedNodes++;
+          decorations.push({
+            from: node.from,
+            to: node.from,
+            value: Decoration.line({ class: headingClasses[name] }),
+          });
         } else if (name in markClasses) {
-          builder.add(
-            node.from,
-            node.to,
-            Decoration.mark({ class: markClasses[name] })
-          );
+          matchedNodes++;
+          decorations.push({
+            from: node.from,
+            to: node.to,
+            value: Decoration.mark({ class: markClasses[name] }),
+          });
         } else if (name in lineClasses) {
-          builder.add(
-            node.from,
-            node.from,
-            Decoration.line({ class: lineClasses[name] })
-          );
+          matchedNodes++;
+          decorations.push({
+            from: node.from,
+            to: node.from,
+            value: Decoration.line({ class: lineClasses[name] }),
+          });
         }
       },
     });
   }
 
-  return builder.finish();
+  console.warn("[live-preview] nodes:", totalNodes, "matched:", matchedNodes, "decos:", decorations.length, "docLen:", view.state.doc.length);
+  return Decoration.set(decorations, true);
 }
 
 export const livePreviewPlugin = ViewPlugin.fromClass(
@@ -77,11 +151,16 @@ export const livePreviewPlugin = ViewPlugin.fromClass(
     decorations: DecorationSet;
 
     constructor(view: EditorView) {
+      injectLivePreviewCSS();
       this.decorations = buildDecorations(view);
     }
 
     update(update: ViewUpdate) {
-      if (update.docChanged || update.viewportChanged) {
+      if (
+        update.docChanged ||
+        update.viewportChanged ||
+        syntaxTree(update.startState) !== syntaxTree(update.state)
+      ) {
         this.decorations = buildDecorations(update.view);
       }
     }
