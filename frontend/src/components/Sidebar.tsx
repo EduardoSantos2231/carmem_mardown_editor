@@ -278,14 +278,14 @@ function FileTreeItem({ node, depth }: { node: FileNode; depth: number }) {
         data-path={node.path}
         data-is-dir={node.isDir}
         className={`file-item flex items-center gap-1.5 px-2 py-1 select-none text-sm transition-colors ${
-          isSelected ? "" : "hover:bg-white/5"
+          isSelected ? "" : "hover:bg-[var(--hover-bg)]"
         } ${!node.isDir && !node.name.endsWith(".md") ? "opacity-40" : "cursor-pointer"}`}
         style={{
           paddingLeft: `${8 + depth * 16}px`,
           ...(isSelected
             ? {
-                backgroundColor: "rgba(128, 131, 255, 0.2)",
-                color: "#ffffff",
+                backgroundColor: "var(--color-selected-bg)",
+                color: "var(--color-selected-text)",
                 borderLeft: "3px solid var(--color-accent)",
                 paddingLeft: `${8 + depth * 16 - 3}px`,
               }
@@ -321,7 +321,7 @@ function FileTreeItem({ node, depth }: { node: FileNode; depth: number }) {
       {node.isDir && expanded && node.children && (
         <div
           style={{
-            borderLeft: `1px solid var(--color-border)`,
+            borderLeft: `1px solid var(--color-tree-line)`,
             marginLeft: `${14 + depth * 16}px`,
           }}
         >

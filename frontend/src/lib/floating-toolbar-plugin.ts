@@ -29,7 +29,7 @@ function debouncedHide() {
   hideTimer = setTimeout(hideToolbar, 150);
 }
 
-function cancelHide() {
+export function cancelHide() {
   if (hideTimer) {
     clearTimeout(hideTimer);
     hideTimer = null;
@@ -38,14 +38,31 @@ function cancelHide() {
 
 export const floatingToolbarPlugin = ViewPlugin.fromClass(
   class {
+    private view: EditorView;
+    private mouseupHandler: () => void;
+    private keydownHandler: (e: KeyboardEvent) => void;
+    private blurHandler: () => void;
+
     constructor(view: EditorView) {
-      view.dom.addEventListener("mouseup", () => {
+      this.view = view;
+
+      this.mouseupHandler = () => {
         setTimeout(() => showToolbar(view), 50);
-      });
-      view.dom.addEventListener("keydown", (e: KeyboardEvent) => {
+      };
+      this.keydownHandler = (e: KeyboardEvent) => {
         if (e.key === "Escape") hideToolbar();
-      });
-      view.dom.addEventListener("blur", () => debouncedHide());
+      };
+      // ponytail: defer blur check so floating-toolbar mousedown can cancel it
+      this.blurHandler = () => {
+        setTimeout(() => {
+          if (document.activeElement?.closest("#floating-toolbar")) return;
+          debouncedHide();
+        }, 100);
+      };
+
+      view.dom.addEventListener("mouseup", this.mouseupHandler);
+      view.dom.addEventListener("keydown", this.keydownHandler);
+      view.dom.addEventListener("blur", this.blurHandler);
     }
 
     update(update: ViewUpdate) {
@@ -62,6 +79,9 @@ export const floatingToolbarPlugin = ViewPlugin.fromClass(
 
     destroy() {
       hideToolbar();
+      this.view.dom.removeEventListener("mouseup", this.mouseupHandler);
+      this.view.dom.removeEventListener("keydown", this.keydownHandler);
+      this.view.dom.removeEventListener("blur", this.blurHandler);
     }
   }
 );

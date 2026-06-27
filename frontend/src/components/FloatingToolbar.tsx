@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { useAppStore } from "@/store/useAppStore";
 import { markUnsaved } from "@/hooks/useAutosave";
+import { cancelHide } from "@/lib/floating-toolbar-plugin";
 
 type FormatAction = "bold" | "italic" | "heading" | "link" | "list" | "code";
 
@@ -120,6 +121,7 @@ export default function FloatingToolbar() {
 
   return (
     <div
+      id="floating-toolbar"
       className="absolute z-50 glass-panel rounded-xl px-1.5 py-1 flex items-center gap-0.5 shadow-lg transition-all duration-150"
       style={{
         top: `${floating.top}px`,
@@ -128,6 +130,7 @@ export default function FloatingToolbar() {
         opacity: floating.visible ? 1 : 0,
       }}
       onMouseDown={(e) => e.preventDefault()}
+      onMouseEnter={cancelHide}
     >
       {buttons.map(({ action, icon: Icon, title }) => (
         <button
@@ -139,14 +142,6 @@ export default function FloatingToolbar() {
           className="p-1.5 rounded-lg transition-colors"
           title={title}
           style={{ color: "var(--color-text-muted)" }}
-          onMouseEnter={(e) => {
-            (e.currentTarget as HTMLElement).style.color = "var(--color-accent)";
-            (e.currentTarget as HTMLElement).style.backgroundColor = "rgba(255,255,255,0.05)";
-          }}
-          onMouseLeave={(e) => {
-            (e.currentTarget as HTMLElement).style.color = "var(--color-text-muted)";
-            (e.currentTarget as HTMLElement).style.backgroundColor = "transparent";
-          }}
         >
           <Icon size={18} />
         </button>
