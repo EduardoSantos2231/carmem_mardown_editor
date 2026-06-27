@@ -35,6 +35,15 @@ const lineClasses: Record<string, string> = {
   HorizontalRule: "cm-live-hr",
 };
 
+// ponytail: formatting marks to hide when cursor is on a different line
+const hideMarkTypes = new Set([
+  "HeaderMark",
+  "EmphasisMark",
+  "CodeMark",
+  "StrikethroughMark",
+  "QuoteMark",
+]);
+
 let styleInjected = false;
 
 function injectLivePreviewCSS() {
@@ -106,41 +115,45 @@ function injectLivePreviewCSS() {
     }
   `;
   document.head.appendChild(style);
-  console.warn("[live-preview] CSS injected");
 }
 
 function buildDecorations(view: EditorView): DecorationSet {
   const decorations: { from: number; to: number; value: Decoration }[] = [];
   const tree = syntaxTree(view.state);
+  const isPreview = useAppStore.getState().isPreviewVisible;
+  const cursorLine = view.state.doc.lineAt(
+    view.state.selection.main.head
+  ).number;
 
-  let totalNodes = 0;
-  let matchedNodes = 0;
-
-  // ponytail: iterate visible ranges only
   for (const { from, to } of view.visibleRanges) {
     tree.iterate({
       from,
       to,
       enter: (node) => {
         const name = node.type.name;
-        totalNodes++;
 
-        if (name in headingClasses) {
-          matchedNodes++;
+        if (hideMarkTypes.has(name)) {
+          const markLine = view.state.doc.lineAt(node.from).number;
+          if (isPreview || markLine !== cursorLine) {
+            decorations.push({
+              from: node.from,
+              to: node.to,
+              value: Decoration.replace({}),
+            });
+          }
+        } else if (name in headingClasses) {
           decorations.push({
             from: node.from,
             to: node.to,
             value: Decoration.mark({ class: headingClasses[name] }),
           });
         } else if (name in markClasses) {
-          matchedNodes++;
           decorations.push({
             from: node.from,
             to: node.to,
             value: Decoration.mark({ class: markClasses[name] }),
           });
         } else if (name in lineClasses) {
-          matchedNodes++;
           decorations.push({
             from: node.from,
             to: node.to,
@@ -151,9 +164,10 @@ function buildDecorations(view: EditorView): DecorationSet {
     });
   }
 
-  console.warn("[live-preview] nodes:", totalNodes, "matched:", matchedNodes, "decos:", decorations.length, "docLen:", view.state.doc.length);
   return Decoration.set(decorations, true);
 }
+
+const previewToggledEffect = StateEffect.define();
 
 export const livePreviewPlugin = ViewPlugin.fromClass(
   class {
@@ -165,11 +179,19 @@ export const livePreviewPlugin = ViewPlugin.fromClass(
     }
 
     update(update: ViewUpdate) {
-      if (
+      let rebuild =
         update.docChanged ||
         update.viewportChanged ||
-        syntaxTree(update.startState) !== syntaxTree(update.state)
-      ) {
+        update.selectionSet ||
+        syntaxTree(update.startState) !== syntaxTree(update.state);
+
+      for (const tr of update.transactions) {
+        for (const eff of tr.effects) {
+          if (eff.is(previewToggledEffect)) rebuild = true;
+        }
+      }
+
+      if (rebuild) {
         this.decorations = buildDecorations(update.view);
       }
     }
@@ -196,7 +218,9 @@ export function togglePreview() {
   const next = !store.isPreviewVisible;
   store.setPreviewVisible(next);
 
-  view.dispatch({ effects: editableEffect.of(!next) });
+  view.dispatch({
+    effects: [editableEffect.of(!next), previewToggledEffect.of(null)],
+  });
 
   const wrapper = document.getElementById("editor")?.parentElement;
   wrapper?.classList.toggle("cm-preview-mode", next);
