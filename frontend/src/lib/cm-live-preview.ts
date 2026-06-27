@@ -42,31 +42,37 @@ function injectLivePreviewCSS() {
   styleInjected = true;
   const style = document.createElement("style");
   style.textContent = `
-    .cm-live-heading-1, .cm-line.cm-live-heading-1 {
+    .cm-live-heading-1 {
       font-size: 1.75rem !important; font-weight: 700 !important;
-      line-height: 1.3; padding-top: 0.75rem;
+      line-height: 1.3; display: inline-block; width: 100%;
+      padding-top: 0.75rem;
       color: var(--color-accent) !important;
     }
-    .cm-live-heading-2, .cm-line.cm-live-heading-2 {
+    .cm-live-heading-2 {
       font-size: 1.45rem !important; font-weight: 600 !important;
-      line-height: 1.3; padding-top: 0.5rem;
+      line-height: 1.3; display: inline-block; width: 100%;
+      padding-top: 0.5rem;
       color: var(--color-accent) !important;
     }
-    .cm-live-heading-3, .cm-line.cm-live-heading-3 {
+    .cm-live-heading-3 {
       font-size: 1.2rem !important; font-weight: 600 !important;
-      line-height: 1.3; padding-top: 0.4rem;
+      line-height: 1.3; display: inline-block; width: 100%;
+      padding-top: 0.4rem;
       color: var(--color-accent) !important;
     }
-    .cm-live-heading-4, .cm-line.cm-live-heading-4 {
+    .cm-live-heading-4 {
       font-size: 1.05rem !important; font-weight: 600 !important;
+      display: inline-block; width: 100%;
       color: var(--color-accent) !important;
     }
-    .cm-live-heading-5, .cm-line.cm-live-heading-5 {
+    .cm-live-heading-5 {
       font-size: 0.95rem !important; font-weight: 600 !important;
+      display: inline-block; width: 100%;
       color: var(--color-accent) !important;
     }
-    .cm-live-heading-6, .cm-line.cm-live-heading-6 {
+    .cm-live-heading-6 {
       font-size: 0.9rem !important; font-weight: 600 !important;
+      display: inline-block; width: 100%;
       color: var(--color-text-muted) !important;
     }
     .cm-live-strong { font-weight: bold !important; }
@@ -82,17 +88,20 @@ function injectLivePreviewCSS() {
       color: var(--color-accent) !important;
       text-decoration: underline !important;
     }
-    .cm-line.cm-live-blockquote, .cm-live-blockquote {
+    .cm-live-blockquote {
       border-left: 3px solid var(--color-accent) !important;
-      padding-left: 1rem !important;
+      padding-left: 1rem !important; display: inline-block; width: 100%;
       color: var(--color-text-muted) !important;
+      box-sizing: border-box;
     }
-    .cm-line.cm-live-code-block, .cm-live-code-block {
+    .cm-live-code-block {
       background: var(--color-surface) !important;
       font-family: monospace !important;
       font-size: 0.875em !important;
+      display: inline-block; width: 100%;
     }
-    .cm-line.cm-live-hr {
+    .cm-live-hr {
+      display: inline-block; width: 100%;
       border-bottom: 1px solid var(--color-border) !important;
     }
   `;
@@ -120,8 +129,8 @@ function buildDecorations(view: EditorView): DecorationSet {
           matchedNodes++;
           decorations.push({
             from: node.from,
-            to: node.from,
-            value: Decoration.line({ class: headingClasses[name] }),
+            to: node.to,
+            value: Decoration.mark({ class: headingClasses[name] }),
           });
         } else if (name in markClasses) {
           matchedNodes++;
@@ -134,8 +143,8 @@ function buildDecorations(view: EditorView): DecorationSet {
           matchedNodes++;
           decorations.push({
             from: node.from,
-            to: node.from,
-            value: Decoration.line({ class: lineClasses[name] }),
+            to: node.to,
+            value: Decoration.mark({ class: lineClasses[name] }),
           });
         }
       },
