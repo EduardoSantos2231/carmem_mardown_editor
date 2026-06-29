@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { EditorView, basicSetup } from "codemirror";
 import { EditorState } from "@codemirror/state";
-import { markdown } from "@codemirror/lang-markdown";
+import { markdown, markdownLanguage } from "@codemirror/lang-markdown";
 import { javascript } from "@codemirror/lang-javascript";
 import { css } from "@codemirror/lang-css";
 import { html } from "@codemirror/lang-html";
@@ -21,7 +21,7 @@ function createEditor(parent: HTMLElement, initialDoc: string) {
     basicSetup,
     EditorView.lineWrapping,
     ...getTheme(theme),
-    markdown({
+    markdown({ base: markdownLanguage,
       codeLanguages: (info: string) => {
         const lang = info.toLowerCase().trim();
         if (lang === "js" || lang === "javascript" || lang === "ts" || lang === "typescript") return javascript().language;
