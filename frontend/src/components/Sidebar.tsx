@@ -142,7 +142,7 @@ function SidebarActions() {
 
   return (
     <div
-      className="flex gap-1 px-3 py-2 shrink-0"
+      className="flex gap-1 px-3 py-2 shrink-0 justify-center"
       style={{ borderBottom: "var(--border-width) solid var(--color-border)", borderColor: "var(--color-border)" }}
     >
       <button onClick={createFile} className="p-2 rounded-lg glass-panel transition-all hover:bg-white/10" title="Novo arquivo" style={{ color: "var(--color-text-muted)" }}>

@@ -110,6 +110,7 @@ export default function Modal() {
                 className="px-4 py-2 rounded-lg text-sm text-white transition-all hover:opacity-90"
                 style={{
                   backgroundColor: danger ? "#dc2626" : "var(--color-accent)",
+                  boxShadow: danger ? "0 0 16px rgba(220,38,38,0.25)" : "none",
                 }}
               >
                 Confirmar
@@ -144,8 +145,8 @@ export default function Modal() {
                 className="px-4 py-2 rounded-lg text-sm transition-all hover:bg-white/5"
                 style={{
                   backgroundColor: "transparent",
-                  border: "var(--border-width) solid var(--color-border)",
-                  color: "var(--color-text)",
+                  border: "var(--border-width) solid var(--color-text-muted)",
+                  color: "var(--color-text-muted)",
                 }}
               >
                 Cancelar

@@ -31,6 +31,8 @@ const markClasses: Record<string, string> = {
 
 const lineClasses: Record<string, string> = {
   Blockquote: "cm-live-blockquote",
+  TableHeader: "cm-live-table-header",
+  TableRow: "cm-live-table-row",
 };
 
 const codeBlockTypes = new Set(["FencedCode", "CodeBlock"]);
@@ -104,12 +106,12 @@ function buildDecorations(view: EditorView): DecorationSet {
               to: node.to,
               value: Decoration.replace({}),
             });
+            decorations.push({
+              from: node.from,
+              to: node.from,
+              value: Decoration.line({ class: "cm-live-hr-line" }),
+            });
           }
-          decorations.push({
-            from: node.from,
-            to: node.to,
-            value: Decoration.mark({ class: "cm-live-hr" }),
-          });
         } else if (name in lineClasses) {
           decorations.push({
             from: node.from,
