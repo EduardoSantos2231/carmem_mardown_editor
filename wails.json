@@ -5,7 +5,7 @@
   "icon": "assets/icons/icon.png",
   "info": {
     "productName": "Carmem",
-    "productVersion": "1.1.0",
+    "productVersion": "1.2.0",
     "copyright": "Copyright © 2026",
     "comments": "Markdown editor built with Wails"
   },
