@@ -73,8 +73,12 @@ export default function CodeMirrorEditor() {
       prevTheme.current = theme;
       const content = cmView.state.doc.toString();
       cmView.destroy();
+      cmView = null;
       const el = document.getElementById("editor");
-      if (el) createEditor(el, content);
+      if (el) {
+        el.innerHTML = "";
+        createEditor(el, content);
+      }
     }
   }, [theme]);
 

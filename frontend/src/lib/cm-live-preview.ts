@@ -33,6 +33,7 @@ const lineClasses: Record<string, string> = {
   Blockquote: "cm-live-blockquote",
   TableHeader: "cm-live-table-header",
   TableRow: "cm-live-table-row",
+  TableCell: "cm-live-table-cell",
 };
 
 const codeBlockTypes = new Set(["FencedCode", "CodeBlock"]);
@@ -68,6 +69,20 @@ function buildDecorations(view: EditorView): DecorationSet {
               from: node.from,
               to: node.to,
               value: Decoration.replace({}),
+            });
+          }
+        } else if (name === "TableDelimiter") {
+          const parent = tree.resolve(node.from, -1);
+          if (parent && parent.type.name === "Table") {
+            decorations.push({
+              from: node.from,
+              to: node.to,
+              value: Decoration.replace({}),
+            });
+            decorations.push({
+              from: node.from,
+              to: node.from,
+              value: Decoration.line({ class: "cm-live-hr-line" }),
             });
           }
         } else if (name in headingClasses) {

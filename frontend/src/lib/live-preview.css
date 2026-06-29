@@ -72,3 +72,7 @@
 .cm-live-table-row {
   border-bottom: 1px solid var(--color-border);
 }
+.cm-live-table-cell {
+  padding: 0.15rem 0.75rem;
+  border-right: 1px solid var(--color-border);
+}
