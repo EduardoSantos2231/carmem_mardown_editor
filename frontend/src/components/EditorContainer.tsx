@@ -1,5 +1,4 @@
 import CodeMirrorEditor from "@/components/CodeMirrorEditor";
-import FloatingToolbar from "@/components/FloatingToolbar";
 import { useAppStore } from "@/store/useAppStore";
 
 export default function EditorContainer() {
@@ -11,7 +10,6 @@ export default function EditorContainer() {
         <div className="glass-panel rounded-xl overflow-hidden flex-1 flex">
           <CodeMirrorEditor />
         </div>
-        <FloatingToolbar />
         {isLocked && (
           <div
             id="editor-placeholder"

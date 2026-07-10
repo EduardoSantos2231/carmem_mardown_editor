@@ -10,12 +10,8 @@ function showToolbar(view: EditorView) {
   const coords = view.coordsAtPos(sel.head);
   if (!coords) return;
 
-  const editorEl = view.dom.closest("#editor");
-  if (!editorEl) return;
-  const editorRect = editorEl.getBoundingClientRect();
-
-  const top = coords.top - editorRect.top - 56;
-  const left = coords.left - editorRect.left;
+  const top = coords.top - 56;
+  const left = coords.left;
 
   useAppStore.getState().setFloatingToolbar({ visible: true, top, left });
 }
