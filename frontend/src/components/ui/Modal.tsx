@@ -45,7 +45,7 @@ export default function Modal() {
     setMode("prompt");
     setTitle(t);
     setPlaceholder(p);
-    setValue(p);
+    setValue("");
     setCb(() => c);
     setOpen(true);
   }, []);
