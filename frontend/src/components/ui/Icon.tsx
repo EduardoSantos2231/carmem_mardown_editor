@@ -70,7 +70,7 @@ export default function Icon({ name, size = 20, className = "", ...props }: Icon
       viewBox="0 0 24 24"
       fill={full ? "currentColor" : "none"}
       stroke="currentColor"
-      strokeWidth={2.5}
+      strokeWidth={2}
       strokeLinecap="square"
       strokeLinejoin="miter"
       className={`${spin ? "animate-spin" : ""} ${className}`}
