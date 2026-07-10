@@ -6,7 +6,7 @@ export default function EditorContainer() {
 
   return (
     <div id="editor-container" className="flex flex-1 min-h-0" style={{ backgroundColor: "var(--color-bg)", padding: 24 }}>
-      <div className="flex flex-1 min-w-0" style={{ border: "var(--border-width) solid var(--color-border)", backgroundColor: "var(--color-paper)" }}>
+      <div className="relative flex flex-1 min-w-0" style={{ border: "var(--border-width) solid var(--color-border)", backgroundColor: "var(--color-paper)" }}>
         <div className="flex-1 flex">
           <CodeMirrorEditor />
         </div>

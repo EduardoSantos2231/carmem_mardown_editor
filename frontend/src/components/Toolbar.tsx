@@ -33,13 +33,13 @@ export default function Toolbar() {
       </span>
       <div className="flex-1" />
       <div className="flex items-center" style={{ border: "var(--border-width) solid var(--color-border)", boxShadow: "var(--shadow-sm)" }}>
-        <button onClick={zoomOut} className="btn-press p-1.5" title="Zoom: Ctrl+- - Diminuir" style={{ color: "var(--color-ink)", borderRight: "var(--border-width) solid var(--color-border)" }}>
+        <button onClick={zoomOut} className="p-1.5" title="Zoom: Ctrl+- - Diminuir" style={{ color: "var(--color-ink)", borderRight: "var(--border-width) solid var(--color-border)" }}>
           <Icon name="minus" size={16} />
         </button>
         <span id="zoom-level" className="text-xs font-bold min-w-[2.5rem] text-center" style={{ color: "var(--color-ink-muted)" }}>
           {Math.round(zoomLevel * 100)}%
         </span>
-        <button onClick={zoomIn} className="btn-press p-1.5" title="Zoom: Ctrl++ - Aumentar" style={{ color: "var(--color-ink)", borderLeft: "var(--border-width) solid var(--color-border)" }}>
+        <button onClick={zoomIn} className="p-1.5" title="Zoom: Ctrl++ - Aumentar" style={{ color: "var(--color-ink)", borderLeft: "var(--border-width) solid var(--color-border)" }}>
           <Icon name="plus" size={16} />
         </button>
       </div>
