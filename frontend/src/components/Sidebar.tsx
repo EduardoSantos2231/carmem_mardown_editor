@@ -40,10 +40,10 @@ export default function Sidebar() {
         style={{
           display: visible ? "flex" : "none",
           width: "250px",
-          borderRight: "var(--border-width) solid var(--color-border)",
+          boxShadow: "var(--divider-shadow)",
         }}
       >
-        <div className="flex items-center justify-between px-4 py-3 shrink-0" style={{ borderBottom: "var(--border-width) solid var(--color-border)", borderColor: "var(--color-border)" }}>
+        <div className="flex items-center justify-between px-4 py-3 shrink-0" style={{ boxShadow: "var(--divider-shadow-h)" }}>
           <span className="font-semibold text-lg" style={{ fontWeight: 800 }}>Carmem</span>
           <button
             onClick={toggle}
@@ -143,7 +143,7 @@ function SidebarActions() {
   return (
     <div
       className="flex gap-1 px-3 py-2 shrink-0 justify-center"
-      style={{ borderBottom: "var(--border-width) solid var(--color-border)", borderColor: "var(--color-border)" }}
+      style={{ boxShadow: "var(--divider-shadow-h)" }}
     >
       <button onClick={createFile} className="p-2 rounded-lg glass-panel transition-all hover:bg-white/10" title="Novo arquivo" style={{ color: "var(--color-text-muted)" }}>
         <FilePlus size={18} />

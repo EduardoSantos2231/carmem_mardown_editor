@@ -10,7 +10,7 @@ export default function StatusBar() {
       id="status-bar"
       className="flex items-center gap-4 px-3 py-1 text-xs shrink-0 glass-panel"
       style={{
-        borderTop: "var(--border-width) solid var(--color-border)",
+        boxShadow: "var(--divider-shadow-h-inv)",
         color: "var(--color-text-muted)",
       }}
     >

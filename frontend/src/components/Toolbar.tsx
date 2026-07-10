@@ -23,7 +23,7 @@ export default function Toolbar() {
       id="toolbar"
       className="flex items-center gap-2 px-3 py-2 shrink-0 glass-panel"
       style={{
-        borderBottom: "var(--border-width) solid var(--color-border)",
+        boxShadow: "var(--divider-shadow-h)",
       }}
     >
       <span
