@@ -1,4 +1,4 @@
-import { Minus, Plus, Eye, Sun, Moon } from "lucide-react";
+import Icon from "@/components/ui/Icon";
 import { useAppStore } from "@/store/useAppStore";
 import * as go from "../../wailsjs/go/main/App";
 import { zoomIn, zoomOut } from "@/hooks/useZoom";
@@ -21,57 +21,48 @@ export default function Toolbar() {
   return (
     <div
       id="toolbar"
-      className="flex items-center gap-2 px-3 py-2 shrink-0 glass-panel"
-      style={{
-        boxShadow: "var(--divider-shadow-h)",
-      }}
+      className="flex items-center gap-2 px-3 py-2 shrink-0 panel"
+      style={{ borderBottom: "var(--border-width) solid var(--color-border)", boxShadow: "none" }}
     >
       <span
         id="current-file"
-        className={`text-sm truncate min-w-0 ${!sidebarVisible ? "pl-10" : ""}`}
-        style={{ color: "var(--color-text-muted)" }}
+        className={`text-sm font-bold truncate min-w-0 ${!sidebarVisible ? "pl-10" : ""}`}
+        style={{ color: "var(--color-ink-muted)" }}
       >
         {currentFileName || "Nenhum arquivo aberto"}
       </span>
       <div className="flex-1" />
-      <button
-        onClick={zoomOut}
-        className="p-1.5 rounded-lg glass-panel transition-all hover:bg-white/10"
-        title="Zoom: Ctrl+- - Diminuir"
-        style={{ color: "var(--color-text-muted)" }}
-      >
-        <Minus size={18} />
-      </button>
-      <span
-        id="zoom-level"
-        className="text-xs min-w-[2.5rem] text-center"
-        style={{ color: "var(--color-text-muted)" }}
-      >
-        {Math.round(zoomLevel * 100)}%
-      </span>
-      <button
-        onClick={zoomIn}
-        className="p-1.5 rounded-lg glass-panel transition-all hover:bg-white/10"
-        title="Zoom: Ctrl++ - Aumentar"
-        style={{ color: "var(--color-text-muted)" }}
-      >
-        <Plus size={18} />
-      </button>
+      <div className="flex items-center" style={{ border: "var(--border-width) solid var(--color-border)", boxShadow: "var(--shadow-sm)" }}>
+        <button onClick={zoomOut} className="btn-press p-1.5" title="Zoom: Ctrl+- - Diminuir" style={{ color: "var(--color-ink)", borderRight: "var(--border-width) solid var(--color-border)" }}>
+          <Icon name="minus" size={16} />
+        </button>
+        <span id="zoom-level" className="text-xs font-bold min-w-[2.5rem] text-center" style={{ color: "var(--color-ink-muted)" }}>
+          {Math.round(zoomLevel * 100)}%
+        </span>
+        <button onClick={zoomIn} className="btn-press p-1.5" title="Zoom: Ctrl++ - Aumentar" style={{ color: "var(--color-ink)", borderLeft: "var(--border-width) solid var(--color-border)" }}>
+          <Icon name="plus" size={16} />
+        </button>
+      </div>
       <button
         onClick={() => togglePreview()}
-        className={`p-1.5 rounded-lg glass-panel transition-all hover:bg-white/10 ${isPreviewVisible ? "opacity-100" : "opacity-50"}`}
+        className="btn-press p-1.5"
         title={isPreviewVisible ? "Preview: Ctrl+P - Editar" : "Preview: Ctrl+P - Visualizar"}
-        style={{ color: isPreviewVisible ? "var(--color-accent)" : "var(--color-text-muted)" }}
+        style={{
+          border: "var(--border-width) solid var(--color-border)",
+          boxShadow: "var(--shadow-sm)",
+          backgroundColor: isPreviewVisible ? "var(--color-accent)" : "var(--color-chrome)",
+          color: isPreviewVisible ? "#ffffff" : "var(--color-ink)",
+        }}
       >
-        <Eye size={18} />
+        <Icon name="eye" size={18} />
       </button>
       <button
         onClick={handleThemeToggle}
-        className="p-1.5 rounded-lg glass-panel transition-all hover:bg-white/10"
+        className="btn-press p-1.5"
         title="Alternar tema"
-        style={{ color: "var(--color-text-muted)" }}
+        style={{ border: "var(--border-width) solid var(--color-border)", boxShadow: "var(--shadow-sm)", color: "var(--color-ink)" }}
       >
-        {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+        <Icon name={theme === "dark" ? "sun" : "moon"} size={18} />
       </button>
     </div>
   );

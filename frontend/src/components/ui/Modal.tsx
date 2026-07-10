@@ -74,43 +74,41 @@ export default function Modal() {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center animate-fade-in" style={{ backgroundColor: "rgba(0,0,0,0.5)", backdropFilter: "blur(20px)" }}>
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center"
+      style={{ backgroundColor: "rgba(0,0,0,0.7)" }}
+      onClick={close}
+    >
       <div
-        className="rounded-xl w-96 p-6 glass-panel animate-scale-in"
-        style={{
-          boxShadow: "0 0 20px rgba(128,131,255,0.15)",
-        }}
+        className="panel w-96 p-6"
+        style={{ boxShadow: "8px 8px 0 var(--color-border)" }}
+        onClick={(e) => e.stopPropagation()}
       >
-        <h3 className="text-lg font-semibold mb-4">{title}</h3>
+        <h3 className="text-lg font-bold mb-4">{title}</h3>
         {mode === "confirm" ? (
           <>
-            <p className="mb-6" style={{ color: "var(--color-text-muted)" }}>
+            <p className="mb-6 font-medium" style={{ color: "var(--color-ink-muted)" }}>
               {message}
             </p>
             <div className="flex justify-end gap-3">
               <button
-                onClick={() => {
-                  cancelCb?.();
-                  close();
-                }}
-                className="px-4 py-2 rounded-lg text-sm transition-all hover:bg-white/5"
+                onClick={() => { cancelCb?.(); close(); }}
+                className="btn-press px-4 py-2 text-sm font-bold"
                 style={{
-                  backgroundColor: "transparent",
                   border: "var(--border-width) solid var(--color-border)",
-                  color: "var(--color-text)",
+                  boxShadow: "var(--shadow-sm)",
+                  color: "var(--color-ink)",
                 }}
               >
                 Cancelar
               </button>
               <button
-                onClick={() => {
-                  confirmCb?.();
-                  close();
-                }}
-                className="px-4 py-2 rounded-lg text-sm text-white transition-all hover:opacity-90"
+                onClick={() => { confirmCb?.(); close(); }}
+                className="btn-press px-4 py-2 text-sm font-bold text-white"
                 style={{
-                  backgroundColor: danger ? "#dc2626" : "var(--color-accent)",
-                  boxShadow: danger ? "0 0 16px rgba(220,38,38,0.25)" : "none",
+                  backgroundColor: danger ? "var(--color-danger)" : "var(--color-accent)",
+                  border: "var(--border-width) solid var(--color-border)",
+                  boxShadow: "var(--shadow-sm)",
                 }}
               >
                 Confirmar
@@ -132,34 +130,33 @@ export default function Modal() {
                 if (e.key === "Escape") close();
               }}
               autoFocus
-              className="w-full px-3 py-2 rounded mb-4 text-sm outline-none"
+              className="w-full px-3 py-2 mb-4 text-sm font-medium outline-none"
               style={{
-                backgroundColor: "var(--color-bg)",
+                backgroundColor: "var(--color-paper)",
                 border: "var(--border-width) solid var(--color-border)",
-                color: "var(--color-text)",
+                color: "var(--color-ink)",
               }}
             />
             <div className="flex justify-end gap-3">
               <button
                 onClick={close}
-                className="px-4 py-2 rounded-lg text-sm transition-all hover:bg-white/5"
+                className="btn-press px-4 py-2 text-sm font-bold"
                 style={{
-                  backgroundColor: "transparent",
-                  border: "var(--border-width) solid var(--color-text-muted)",
-                  color: "var(--color-text-muted)",
+                  border: "var(--border-width) solid var(--color-border)",
+                  boxShadow: "var(--shadow-sm)",
+                  color: "var(--color-ink)",
                 }}
               >
                 Cancelar
               </button>
               <button
-                onClick={() => {
-                  if (value.trim()) {
-                    cb?.(value.trim());
-                    close();
-                  }
+                onClick={() => { if (value.trim()) { cb?.(value.trim()); close(); } }}
+                className="btn-press px-4 py-2 text-sm font-bold text-white"
+                style={{
+                  backgroundColor: "var(--color-accent)",
+                  border: "var(--border-width) solid var(--color-border)",
+                  boxShadow: "var(--shadow-sm)",
                 }}
-                className="px-4 py-2 rounded-lg text-sm text-white transition-all hover:opacity-90"
-                style={{ backgroundColor: "var(--color-accent)" }}
               >
                 OK
               </button>

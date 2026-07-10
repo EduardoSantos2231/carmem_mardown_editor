@@ -1,15 +1,5 @@
 import { useState } from "react";
-import {
-  PanelLeft,
-  FilePlus,
-  FolderPlus,
-  Trash2,
-  Edit3,
-  File,
-  FileText,
-  Folder,
-  ChevronRight,
-} from "lucide-react";
+import Icon from "@/components/ui/Icon";
 import { useAppStore } from "@/store/useAppStore";
 import { showModal, showConfirm } from "@/components/ui/Modal";
 import * as go from "../../wailsjs/go/main/App";
@@ -36,22 +26,21 @@ export default function Sidebar() {
     <>
       <aside
         id="sidebar"
-        className="flex flex-col flex-shrink-0 glass-panel transition-[width] duration-200 ease-out"
-        style={{
-          display: visible ? "flex" : "none",
-          width: "250px",
-          boxShadow: "var(--divider-shadow)",
-        }}
+        className="flex flex-col flex-shrink-0 panel"
+        style={{ display: visible ? "flex" : "none", width: "250px", boxShadow: "none" }}
       >
-        <div className="flex items-center justify-between px-4 py-3 shrink-0" style={{ boxShadow: "var(--divider-shadow-h)" }}>
-          <span className="font-semibold text-lg" style={{ fontWeight: 800 }}>Carmem</span>
+        <div
+          className="flex items-center justify-between px-4 py-3 shrink-0"
+          style={{ borderBottom: "var(--border-width) solid var(--color-border)", fontWeight: 700 }}
+        >
+          <span className="font-bold text-lg">Carmem</span>
           <button
             onClick={toggle}
-            className="p-1.5 rounded hover:opacity-80 transition-opacity"
+            className="btn-press p-1.5"
             title="Alternar barra lateral"
-            style={{ color: "var(--color-text-muted)" }}
+            style={{ border: "var(--border-width) solid var(--color-border)", color: "var(--color-ink)", boxShadow: "var(--shadow-sm)" }}
           >
-            <PanelLeft size={20} />
+            <Icon name="panel-left" size={18} />
           </button>
         </div>
         <SidebarActions />
@@ -60,14 +49,11 @@ export default function Sidebar() {
       <button
         id="btn-panel-left"
         onClick={toggle}
-      className="fixed left-2 top-2 z-40 p-1.5 rounded transition-opacity hover:opacity-80 glass-panel"
-      title="Alternar barra lateral"
-      style={{
-        display: visible ? "none" : "flex",
-        color: "var(--color-text-muted)",
-      }}
+        className="fixed left-2 top-2 z-40 btn-press panel p-1.5"
+        title="Alternar barra lateral"
+        style={{ display: visible ? "none" : "flex", color: "var(--color-ink)" }}
       >
-        <PanelLeft size={20} />
+        <Icon name="panel-left" size={18} />
       </button>
     </>
   );
@@ -142,20 +128,20 @@ function SidebarActions() {
 
   return (
     <div
-      className="flex gap-1 px-3 py-2 shrink-0 justify-center"
-      style={{ boxShadow: "var(--divider-shadow-h)" }}
+      className="flex gap-1.5 px-3 py-2 shrink-0 justify-center"
+      style={{ borderBottom: "var(--border-width) solid var(--color-border)" }}
     >
-      <button onClick={createFile} className="p-2 rounded-lg glass-panel transition-all hover:bg-white/10" title="Novo arquivo" style={{ color: "var(--color-text-muted)" }}>
-        <FilePlus size={18} />
+      <button onClick={createFile} className="btn-press p-2" title="Novo arquivo" style={{ border: "var(--border-width) solid var(--color-border)", color: "var(--color-ink)", boxShadow: "var(--shadow-sm)" }}>
+        <Icon name="file-plus" size={16} />
       </button>
-      <button onClick={createFolder} className="p-2 rounded-lg glass-panel transition-all hover:bg-white/10" title="Nova pasta" style={{ color: "var(--color-text-muted)" }}>
-        <FolderPlus size={18} />
+      <button onClick={createFolder} className="btn-press p-2" title="Nova pasta" style={{ border: "var(--border-width) solid var(--color-border)", color: "var(--color-ink)", boxShadow: "var(--shadow-sm)" }}>
+        <Icon name="folder-plus" size={16} />
       </button>
-      <button onClick={deleteSelected} className="p-2 rounded-lg glass-panel transition-all hover:bg-white/10" title="Excluir item selecionado" style={{ color: "var(--color-text-muted)" }}>
-        <Trash2 size={18} />
+      <button onClick={deleteSelected} className="btn-press p-2" title="Excluir item selecionado" style={{ border: "var(--border-width) solid var(--color-border)", color: "var(--color-ink)", boxShadow: "var(--shadow-sm)" }}>
+        <Icon name="trash-2" size={16} />
       </button>
-      <button onClick={renameSelected} className="p-2 rounded-lg glass-panel transition-all hover:bg-white/10" title="Renomear item selecionado" style={{ color: "var(--color-text-muted)" }}>
-        <Edit3 size={18} />
+      <button onClick={renameSelected} className="btn-press p-2" title="Renomear item selecionado" style={{ border: "var(--border-width) solid var(--color-border)", color: "var(--color-ink)", boxShadow: "var(--shadow-sm)" }}>
+        <Icon name="edit-3" size={16} />
       </button>
     </div>
   );
@@ -277,17 +263,17 @@ function FileTreeItem({ node, depth }: { node: FileNode; depth: number }) {
       <div
         data-path={node.path}
         data-is-dir={node.isDir}
-          className={`file-item flex items-center gap-1.5 px-2 py-1 select-none text-sm transition-all duration-150 ${
-          isSelected ? "" : "hover:bg-[var(--hover-bg)]"
+        className={`file-item flex items-center gap-1.5 px-2 py-1 select-none text-sm ${
+          isSelected ? "" : "hover:bg-[var(--color-accent)] hover:text-white"
         } ${!node.isDir && !node.name.endsWith(".md") ? "opacity-40" : "cursor-pointer"}`}
         style={{
           paddingLeft: `${8 + depth * 16}px`,
           ...(isSelected
             ? {
-                backgroundColor: "var(--color-selected-bg)",
-                color: "var(--color-selected-text)",
-                borderLeft: "3px solid var(--color-accent)",
-                paddingLeft: `${8 + depth * 16 - 3}px`,
+                backgroundColor: "var(--color-accent)",
+                color: "#ffffff",
+                borderLeft: "4px solid var(--color-border)",
+                paddingLeft: `${8 + depth * 16 - 4}px`,
               }
             : {}),
         }}
@@ -300,28 +286,29 @@ function FileTreeItem({ node, depth }: { node: FileNode; depth: number }) {
         onDrop={handleDrop}
       >
         {node.isDir && (
-          <ChevronRight
+          <Icon
+            name="chevron-right"
             size={14}
-            className="shrink-0 transition-transform"
+            className="shrink-0"
             style={{
               transform: expanded ? "rotate(90deg)" : "rotate(0deg)",
-              color: "var(--color-text-muted)",
+              color: isSelected ? "#ffffff" : "var(--color-ink-muted)",
             }}
           />
         )}
         {node.isDir ? (
-          <Folder size={14} className="shrink-0" style={{ color: "var(--color-accent)" }} />
+          <Icon name="folder" size={14} className="shrink-0" style={{ color: isSelected ? "#ffffff" : "var(--color-accent)" }} />
         ) : node.name.endsWith(".md") ? (
-          <FileText size={14} className="shrink-0" style={{ color: "var(--color-accent)" }} />
+          <Icon name="file-text" size={14} className="shrink-0" style={{ color: isSelected ? "#ffffff" : "var(--color-accent)" }} />
         ) : (
-          <File size={14} className="shrink-0" style={{ color: "var(--color-text-muted)" }} />
+          <Icon name="file" size={14} className="shrink-0" style={{ color: isSelected ? "#ffffff" : "var(--color-ink-muted)" }} />
         )}
         <span className="name truncate">{node.name}</span>
       </div>
       {node.isDir && expanded && node.children && (
         <div
           style={{
-            borderLeft: `1px solid var(--color-tree-line)`,
+            borderLeft: "3px solid var(--color-tree-line)",
             marginLeft: `${14 + depth * 16}px`,
           }}
         >

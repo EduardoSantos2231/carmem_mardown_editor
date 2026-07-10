@@ -1,11 +1,4 @@
-import {
-  Bold,
-  Italic,
-  Link,
-  List,
-  Code2,
-  Heading1,
-} from "lucide-react";
+import Icon from "@/components/ui/Icon";
 import { useAppStore } from "@/store/useAppStore";
 import { markUnsaved } from "@/hooks/useAutosave";
 import { cancelHide } from "@/lib/floating-toolbar-plugin";
@@ -24,8 +17,6 @@ function applyFormat(view: NonNullable<ReturnType<typeof useAppStore.getState>["
     case "bold": {
       if (text.startsWith("**") && text.endsWith("**")) {
         insert = text.slice(2, -2);
-        from = sel.from;
-        to = sel.to;
       } else {
         insert = `**${text || "texto"}**`;
       }
@@ -34,8 +25,6 @@ function applyFormat(view: NonNullable<ReturnType<typeof useAppStore.getState>["
     case "italic": {
       if (text.startsWith("*") && text.endsWith("*") && !text.startsWith("**")) {
         insert = text.slice(1, -1);
-        from = sel.from;
-        to = sel.to;
       } else {
         insert = `*${text || "texto"}*`;
       }
@@ -83,8 +72,6 @@ function applyFormat(view: NonNullable<ReturnType<typeof useAppStore.getState>["
     case "code": {
       if (text.startsWith("`") && text.endsWith("`")) {
         insert = text.slice(1, -1);
-        from = sel.from;
-        to = sel.to;
       } else {
         insert = "`" + (text || "code") + "`";
       }
@@ -102,15 +89,15 @@ function applyFormat(view: NonNullable<ReturnType<typeof useAppStore.getState>["
 
 const buttons: {
   action: FormatAction;
-  icon: typeof Bold;
+  icon: "bold" | "italic" | "heading-1" | "link" | "list" | "code-2";
   title: string;
 }[] = [
-  { action: "bold", icon: Bold, title: "Negrito" },
-  { action: "italic", icon: Italic, title: "Itálico" },
-  { action: "heading", icon: Heading1, title: "Título" },
-  { action: "link", icon: Link, title: "Link" },
-  { action: "list", icon: List, title: "Lista" },
-  { action: "code", icon: Code2, title: "Código inline" },
+  { action: "bold", icon: "bold", title: "Negrito" },
+  { action: "italic", icon: "italic", title: "Itálico" },
+  { action: "heading", icon: "heading-1", title: "Título" },
+  { action: "link", icon: "link", title: "Link" },
+  { action: "list", icon: "list", title: "Lista" },
+  { action: "code", icon: "code-2", title: "Código inline" },
 ];
 
 export default function FloatingToolbar() {
@@ -122,28 +109,32 @@ export default function FloatingToolbar() {
   return (
     <div
       id="floating-toolbar"
-      className="fixed z-50 glass-panel rounded-xl px-1.5 py-1 flex items-center gap-0.5 shadow-lg animate-slide-down"
+      className="fixed z-50 flex items-center gap-0.5 px-1.5 py-1 animate-slide-down"
       style={{
         top: `${floating.top}px`,
         left: `${floating.left}px`,
         transform: "translateX(-50%)",
+        backgroundColor: "var(--color-accent)",
+        border: "var(--border-width) solid var(--color-border)",
+        boxShadow: "var(--shadow)",
+        borderRadius: 6,
         opacity: floating.visible ? 1 : 0,
       }}
       onMouseDown={(e) => e.preventDefault()}
       onMouseEnter={cancelHide}
     >
-      {buttons.map(({ action, icon: Icon, title }) => (
+      {buttons.map(({ action, icon, title }) => (
         <button
           key={action}
           onMouseDown={(e) => {
             e.preventDefault();
             if (editor) applyFormat(editor, action);
           }}
-          className="p-1.5 rounded-lg transition-colors"
+          className="btn-press p-1.5"
           title={title}
-          style={{ color: "var(--color-text-muted)" }}
+          style={{ color: "#ffffff" }}
         >
-          <Icon size={18} />
+          <Icon name={icon} size={16} />
         </button>
       ))}
     </div>
