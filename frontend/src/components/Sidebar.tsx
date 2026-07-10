@@ -101,10 +101,6 @@ function SidebarActions() {
         useAppStore.getState().setEditorLocked(true);
         useAppStore.getState().setPreviewVisible(false);
         clearAutosaveStatus();
-        const ph = document.getElementById("editor-placeholder");
-        if (ph) ph.style.display = "flex";
-        const cf = document.getElementById("current-file");
-        if (cf) cf.textContent = "Nenhum arquivo aberto";
         await loadFileTree();
       },
       null,
@@ -120,6 +116,7 @@ function SidebarActions() {
       await go.Rename(selectedPath, newName);
       useAppStore.getState().setSelectedPath(null);
       useAppStore.getState().clearCurrentFile();
+      useAppStore.getState().setEditorLocked(true);
       useAppStore.getState().setPreviewVisible(false);
       clearAutosaveStatus();
       await loadFileTree();
@@ -188,15 +185,9 @@ function FileTreeItem({ node, depth }: { node: FileNode; depth: number }) {
       clearAutosaveStatus();
       useAppStore.getState().setSaveStatus("saved");
 
+      useAppStore.getState().setEditorLocked(false);
       initCodeMirror(content);
 
-      const ph = document.getElementById("editor-placeholder");
-      if (ph) ph.style.display = "none";
-
-      useAppStore.getState().setEditorLocked(false);
-
-      const cf = document.getElementById("current-file");
-      if (cf) cf.textContent = node.name;
     } catch (err) {
       console.error("Error reading file:", err);
     }
@@ -231,9 +222,8 @@ function FileTreeItem({ node, depth }: { node: FileNode; depth: number }) {
       await go.MoveFile(draggedPath, node.path);
       if (useAppStore.getState().currentFilePath === draggedPath) {
         useAppStore.getState().clearCurrentFile();
+        useAppStore.getState().setEditorLocked(true);
         useAppStore.getState().setPreviewVisible(false);
-        const cf = document.getElementById("current-file");
-        if (cf) cf.textContent = "Nenhum arquivo aberto";
       }
       await loadFileTree();
     } catch (err) {

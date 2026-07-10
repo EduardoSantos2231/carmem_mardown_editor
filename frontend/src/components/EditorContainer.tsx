@@ -14,7 +14,7 @@ export default function EditorContainer() {
           <div
             id="editor-placeholder"
             className="absolute inset-0 flex items-center justify-center z-10"
-            style={{ backgroundColor: "var(--color-paper)", margin: 24 }}
+            style={{ backgroundColor: "var(--color-paper)" }}
           >
             <p className="text-lg font-bold" style={{ color: "var(--color-ink-muted)" }}>
               Selecione ou crie um arquivo na barra lateral para come&ccedil;ar a editar.
