@@ -11,6 +11,7 @@ type App struct {
 	ctx       context.Context
 	configSvc *services.ConfigService
 	fileSvc   *services.FileService
+	updateSvc *services.UpdateService
 }
 
 func NewApp() *App {
@@ -26,6 +27,7 @@ func (a *App) startup(ctx context.Context) {
 	}
 
 	a.fileSvc = services.NewFileService(a.configSvc.GetDocumentsPath())
+	a.updateSvc = services.NewUpdateService(version)
 }
 
 func (a *App) GetConfig() map[string]string {
@@ -78,4 +80,8 @@ func (a *App) FileExists(path string) bool {
 func (a *App) beforeClose(ctx context.Context) bool {
 	runtime.EventsEmit(a.ctx, "before-close")
 	return false
+}
+
+func (a *App) CheckUpdate() services.UpdateInfo {
+	return a.updateSvc.Check()
 }

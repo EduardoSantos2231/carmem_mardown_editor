@@ -15,6 +15,8 @@ var assets embed.FS
 //go:embed assets/icons/icon.png
 var appIcon []byte
 
+var version = "dev"
+
 func main() {
 	app := NewApp()
 

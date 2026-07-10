@@ -168,4 +168,6 @@ Ao iniciar a aplicação, o editor inicia **bloqueado** (não é possível digit
 
 ## Roadmap
 
+- **Update Checker**: Verificação de novas versões via GitHub Releases API
+  → notificação in-app com changelog + link de download
 - **Canvas**: Tela infinita para notas visuais, semelhante ao Obsidian Canvas

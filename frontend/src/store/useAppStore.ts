@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { AppConfig, FileNode, SaveStatus } from "@/types";
+import type { AppConfig, FileNode, SaveStatus, UpdateInfo } from "@/types";
 import { EditorView } from "@codemirror/view";
 
 interface AppState {
@@ -18,6 +18,7 @@ interface AppState {
   zoomLevel: number;
   sidebarVisible: boolean;
   floatingToolbar: { visible: boolean; top: number; left: number };
+  updateInfo: UpdateInfo | null;
 
   setEditor: (editor: EditorView | null) => void;
   setFloatingToolbar: (state: { visible: boolean; top: number; left: number }) => void;
@@ -34,6 +35,7 @@ interface AppState {
   setZoomLevel: (zoom: number) => void;
   setSidebarVisible: (visible: boolean) => void;
   setEditorLocked: (locked: boolean) => void;
+  setUpdateInfo: (info: UpdateInfo | null) => void;
 
 }
 
@@ -53,6 +55,7 @@ export const useAppStore = create<AppState>((set) => ({
   zoomLevel: 1,
   sidebarVisible: true,
   floatingToolbar: { visible: false, top: 0, left: 0 },
+  updateInfo: null,
 
   setEditor: (editor) => set({ editor }),
   setFloatingToolbar: (state) => set({ floatingToolbar: state }),
@@ -71,5 +74,6 @@ export const useAppStore = create<AppState>((set) => ({
   setZoomLevel: (zoom) => set({ zoomLevel: zoom }),
   setSidebarVisible: (visible) => set({ sidebarVisible: visible }),
   setEditorLocked: (locked) => set({ isEditorLocked: locked }),
+  setUpdateInfo: (info) => set({ updateInfo: info }),
 
 }));

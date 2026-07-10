@@ -11,3 +11,11 @@ export interface AppConfig {
 }
 
 export type SaveStatus = "saved" | "saving" | "unsaved" | "hidden";
+
+export interface UpdateInfo {
+  hasUpdate: boolean;
+  latest: string;
+  current: string;
+  downloadUrl: string;
+  changelog: string;
+}

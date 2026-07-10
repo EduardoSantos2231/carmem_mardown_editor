@@ -10,6 +10,8 @@ import Sidebar from "@/components/Sidebar";
 import SidebarResizer from "@/components/Resizer";
 import Toolbar from "@/components/Toolbar";
 import EditorContainer from "@/components/EditorContainer";
+import FloatingToolbar from "@/components/FloatingToolbar";
+import UpdateAlert from "@/components/UpdateAlert";
 import StatusBar from "@/components/StatusBar";
 import Modal from "@/components/ui/Modal";
 import * as go from "../wailsjs/go/main/App";
@@ -36,6 +38,8 @@ export default function App() {
         <StatusBar />
       </div>
       <Modal />
+      <FloatingToolbar />
+      <UpdateAlert />
     </div>
   );
 }
@@ -60,6 +64,11 @@ async function init() {
     initResizers();
     loadPanelSizes();
     applyZoom();
+
+    const updateInfo = await go.CheckUpdate();
+    if (updateInfo.hasUpdate) {
+      store.setUpdateInfo(updateInfo);
+    }
   } catch (err) {
     console.error("Init error:", err);
   }

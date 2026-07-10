@@ -36,6 +36,26 @@ export namespace services {
 		    return a;
 		}
 	}
+	export class UpdateInfo {
+	    hasUpdate: boolean;
+	    latest: string;
+	    current: string;
+	    downloadUrl: string;
+	    changelog: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new UpdateInfo(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.hasUpdate = source["hasUpdate"];
+	        this.latest = source["latest"];
+	        this.current = source["current"];
+	        this.downloadUrl = source["downloadUrl"];
+	        this.changelog = source["changelog"];
+	    }
+	}
 
 }
 
