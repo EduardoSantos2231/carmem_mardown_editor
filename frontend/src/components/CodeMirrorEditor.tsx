@@ -1,6 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { EditorView, basicSetup } from "codemirror";
-import { EditorState } from "@codemirror/state";
+import { Compartment, EditorState } from "@codemirror/state";
+import { autocompletion } from "@codemirror/autocomplete";
 import { markdown, markdownLanguage } from "@codemirror/lang-markdown";
 import { javascript } from "@codemirror/lang-javascript";
 import { css } from "@codemirror/lang-css";
@@ -13,14 +14,15 @@ import { markUnsaved } from "@/hooks/useAutosave";
 import { livePreviewPlugin, editableState } from "@/lib/cm-live-preview";
 import { floatingToolbarPlugin } from "@/lib/floating-toolbar-plugin";
 
+const themeCompartment = new Compartment();
 let cmView: EditorView | null = null;
 
-function createEditor(parent: HTMLElement, initialDoc: string) {
-  const theme = useAppStore.getState().theme;
+function createEditor(parent: HTMLElement, initialDoc: string, theme: "dark" | "light") {
   const extensions = [
     basicSetup,
+    autocompletion({ override: [() => null] }),
     EditorView.lineWrapping,
-    ...getTheme(theme),
+    themeCompartment.of(getTheme(theme)),
     markdown({ base: markdownLanguage,
       codeLanguages: (info: string) => {
         const lang = info.toLowerCase().trim();
@@ -34,7 +36,6 @@ function createEditor(parent: HTMLElement, initialDoc: string) {
     }),
     editableState,
     livePreviewPlugin,
-    floatingToolbarPlugin,
     floatingToolbarPlugin,
     EditorView.updateListener.of((update) => {
       if (update.docChanged) markUnsaved();
@@ -61,24 +62,18 @@ export function initCodeMirror(initialContent: string) {
     cmView = null;
   }
 
-  createEditor(el, initialContent);
+  const theme = useAppStore.getState().theme;
+  createEditor(el, initialContent, theme);
 }
 
 export default function CodeMirrorEditor() {
   const theme = useAppStore((s) => s.theme);
-  const prevTheme = useRef(theme);
 
   useEffect(() => {
-    if (theme !== prevTheme.current && cmView) {
-      prevTheme.current = theme;
-      const content = cmView.state.doc.toString();
-      cmView.destroy();
-      cmView = null;
-      const el = document.getElementById("editor");
-      if (el) {
-        el.innerHTML = "";
-        createEditor(el, content);
-      }
+    if (cmView) {
+      cmView.dispatch({
+        effects: themeCompartment.reconfigure(getTheme(theme)),
+      });
     }
   }, [theme]);
 
