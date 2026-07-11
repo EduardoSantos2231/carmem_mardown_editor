@@ -123,7 +123,7 @@ function buildTheme(isDark: boolean) {
         borderLeftWidth: "3px",
       },
       "&.cm-focused .cm-selectionBackground, .cm-selectionBackground, .cm-content ::selection":
-        { backgroundColor: "rgba(0, 85, 255, 0.2)" },
+        { backgroundColor: "rgba(0, 85, 255, 0.3)" },
       ".cm-activeLine": { backgroundColor: "rgba(0, 85, 255, 0.05)" },
       ".cm-gutters": {
         backgroundColor: "transparent",
