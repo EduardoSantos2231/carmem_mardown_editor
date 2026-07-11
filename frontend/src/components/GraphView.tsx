@@ -93,8 +93,7 @@ function tick(nodes: SimNode[], edges: SimEdge[]) {
   }
 }
 
-const NODE_W = 140;
-const NODE_H = 32;
+const NODE_R = 22;
 
 export default function GraphView() {
   const [graphData, setGraphData] = useState<{
@@ -203,12 +202,14 @@ export default function GraphView() {
       const accent = "#0055ff";
       const border = theme === "dark" ? "#000" : "#1a1a1a";
       for (const n of simNodes.current) {
-        const w = 12 + n.name.length * 6;
+        const r = NODE_R;
         ctx.fillStyle = n.linkCount > 0 ? accent : chrome;
-        ctx.fillRect(n.x - w / 2, n.y - 8, w, 16);
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, r, 0, Math.PI * 2);
+        ctx.fill();
         ctx.strokeStyle = border;
         ctx.lineWidth = 3;
-        ctx.strokeRect(n.x - w / 2, n.y - 8, w, 16);
+        ctx.stroke();
         ctx.fillStyle = ink;
         ctx.font = `10px "Bricolage Grotesque", sans-serif`;
         ctx.textAlign = "center";
@@ -336,12 +337,10 @@ export default function GraphView() {
       })}
       {simNodes.current.map((n) => (
         <g key={n.id} onClick={() => openNode(n.path)} style={{ cursor: "pointer" }}>
-          <rect
-            x={n.x - NODE_W / 2}
-            y={n.y - NODE_H / 2}
-            width={NODE_W}
-            height={NODE_H}
-            rx={4}
+          <circle
+            cx={n.x}
+            cy={n.y}
+            r={NODE_R}
             fill={n.linkCount > 0 ? accent : chrome}
             stroke={border}
             strokeWidth={3}
