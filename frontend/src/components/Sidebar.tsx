@@ -260,9 +260,9 @@ function FileTreeItem({ node, depth }: { node: FileNode; depth: number }) {
           paddingLeft: `${8 + depth * 16}px`,
           ...(isSelected
             ? {
-                backgroundColor: "var(--color-accent)",
-                color: "#ffffff",
-                borderLeft: "4px solid var(--color-border)",
+                backgroundColor: "var(--color-selected)",
+                color: "var(--color-accent)",
+                borderLeft: "4px solid var(--color-accent)",
                 paddingLeft: `${8 + depth * 16 - 4}px`,
               }
             : {}),
@@ -282,7 +282,7 @@ function FileTreeItem({ node, depth }: { node: FileNode; depth: number }) {
             className="shrink-0"
             style={{
               transform: expanded ? "rotate(90deg)" : "rotate(0deg)",
-              color: isSelected ? "#ffffff" : "var(--color-ink-muted)",
+              color: isSelected ? "var(--color-accent)" : "var(--color-ink-muted)",
             }}
           />
         )}
