@@ -30,6 +30,10 @@ export function GetFileTree() {
   return window['go']['main']['App']['GetFileTree']();
 }
 
+export function GetGraphData() {
+  return window['go']['main']['App']['GetGraphData']();
+}
+
 export function MoveFile(arg1, arg2) {
   return window['go']['main']['App']['MoveFile'](arg1, arg2);
 }

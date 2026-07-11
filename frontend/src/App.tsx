@@ -10,6 +10,7 @@ import Sidebar from "@/components/Sidebar";
 import SidebarResizer from "@/components/Resizer";
 import Toolbar from "@/components/Toolbar";
 import EditorContainer from "@/components/EditorContainer";
+import GraphView from "@/components/GraphView";
 import FloatingToolbar from "@/components/FloatingToolbar";
 import UpdateAlert from "@/components/UpdateAlert";
 import StatusBar from "@/components/StatusBar";
@@ -19,6 +20,8 @@ import * as go from "../wailsjs/go/main/App";
 let initialized = false;
 
 export default function App() {
+  const showGraph = useAppStore((s) => s.showGraph);
+
   useEffect(() => {
     if (initialized) return;
     initialized = true;
@@ -34,7 +37,7 @@ export default function App() {
         className="flex flex-1 flex-col min-w-0"
       >
         <Toolbar />
-        <EditorContainer />
+        {showGraph ? <GraphView /> : <EditorContainer />}
         <StatusBar />
       </div>
       <Modal />

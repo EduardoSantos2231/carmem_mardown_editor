@@ -13,6 +13,7 @@ type App struct {
 	fileSvc   *services.FileService
 	updateSvc *services.UpdateService
 	linkSvc   *services.LinkService
+	graphSvc  *services.GraphService
 }
 
 func NewApp() *App {
@@ -30,6 +31,7 @@ func (a *App) startup(ctx context.Context) {
 	a.fileSvc = services.NewFileService(a.configSvc.GetDocumentsPath())
 	a.updateSvc = services.NewUpdateService(version)
 	a.linkSvc = services.NewLinkService(a.configSvc.GetDocumentsPath(), a.fileSvc)
+	a.graphSvc = services.NewGraphService(a.fileSvc, a.linkSvc)
 }
 
 func (a *App) GetConfig() map[string]string {
@@ -48,6 +50,7 @@ func (a *App) GetFileTree() ([]services.FileNode, error) {
 }
 
 func (a *App) CreateFile(name, parentPath string) error {
+	a.graphSvc.Invalidate()
 	return a.fileSvc.CreateFile(name, parentPath)
 }
 
@@ -60,18 +63,22 @@ func (a *App) ReadFile(path string) (string, error) {
 }
 
 func (a *App) WriteFile(path, content string) error {
+	a.graphSvc.Invalidate()
 	return a.fileSvc.WriteFile(path, content)
 }
 
 func (a *App) Delete(path string) error {
+	a.graphSvc.Invalidate()
 	return a.fileSvc.Delete(path)
 }
 
 func (a *App) Rename(oldPath, newName string) error {
+	a.graphSvc.Invalidate()
 	return a.fileSvc.Rename(oldPath, newName)
 }
 
 func (a *App) MoveFile(oldPath, newParentPath string) error {
+	a.graphSvc.Invalidate()
 	return a.fileSvc.MoveFile(oldPath, newParentPath)
 }
 
@@ -90,4 +97,8 @@ func (a *App) CheckUpdate() services.UpdateInfo {
 
 func (a *App) ResolveLink(linkName, currentPath string) string {
 	return a.linkSvc.ResolveLink(linkName, currentPath)
+}
+
+func (a *App) GetGraphData() services.GraphData {
+	return a.graphSvc.GetGraphData()
 }

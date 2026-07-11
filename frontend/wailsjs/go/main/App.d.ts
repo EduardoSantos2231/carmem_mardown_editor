@@ -16,6 +16,8 @@ export function GetConfig():Promise<Record<string, string>>;
 
 export function GetFileTree():Promise<Array<services.FileNode>>;
 
+export function GetGraphData():Promise<services.GraphData>;
+
 export function MoveFile(arg1:string,arg2:string):Promise<void>;
 
 export function ReadFile(arg1:string):Promise<string>;

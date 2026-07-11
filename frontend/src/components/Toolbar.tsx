@@ -9,6 +9,7 @@ export default function Toolbar() {
   const sidebarVisible = useAppStore((s) => s.sidebarVisible);
   const zoomLevel = useAppStore((s) => s.zoomLevel);
   const isPreviewVisible = useAppStore((s) => s.isPreviewVisible);
+  const showGraph = useAppStore((s) => s.showGraph);
   const theme = useAppStore((s) => s.theme);
 
   const handleThemeToggle = async () => {
@@ -63,6 +64,19 @@ export default function Toolbar() {
         style={{ border: "var(--border-width) solid var(--color-border)", boxShadow: "var(--shadow-sm)", color: "var(--color-ink)" }}
       >
         <Icon name={theme === "dark" ? "sun" : "moon"} size={18} />
+      </button>
+      <button
+        onClick={() => useAppStore.getState().setShowGraph(!showGraph)}
+        className="btn-press p-1.5"
+        title="Visualizar grafo de conexões"
+        style={{
+          border: "var(--border-width) solid var(--color-border)",
+          boxShadow: "var(--shadow-sm)",
+          backgroundColor: showGraph ? "var(--color-accent)" : "var(--color-chrome)",
+          color: showGraph ? "#ffffff" : "var(--color-ink)",
+        }}
+      >
+        <Icon name="graph" size={18} />
       </button>
     </div>
   );

@@ -23,7 +23,8 @@ type IconName =
   | "code-2"
   | "check-circle"
   | "circle"
-  | "loader-circle";
+  | "loader-circle"
+  | "graph";
 
 interface IconProps extends SVGProps<SVGSVGElement> {
   name: IconName;
@@ -54,6 +55,7 @@ const paths: Record<IconName, string> = {
   "check-circle": "M22 11.08V12a10 10 0 1 1-5.93-9.14M22 4 12 14.01l-3-3",
   "circle": "M12 2a10 10 0 1 0 0 20 10 10 0 1 0 0-20z",
   "loader-circle": "M21 12a9 9 0 1 1-6.219-8.56",
+  "graph": "M12 2a2 2 0 0 1 2 2 2 2 0 1 1-2 2M2 10a2 2 0 1 1 2 2M12 18a2 2 0 1 1-2 2M22 10a2 2 0 1 1-2 2M4 12v6M10 6l2 10M14 16l8-6",
 };
 
 // ponytail: inline SVGs com traço neobrutalista, substitui Lucide sem dependência extra
