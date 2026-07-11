@@ -71,3 +71,23 @@
 .cm-line.cm-live-hr-line {
   border-bottom: 3px solid var(--color-border) !important;
 }
+.cm-live-list-item {
+  padding-left: 1.5rem !important;
+}
+.cm-live-math {
+  font-family: var(--font-mono) !important;
+  color: var(--color-accent) !important;
+}
+.cm-line.cm-live-math-line {
+  background: var(--color-accent-bg) !important;
+}
+.cm-live-table-header {
+  font-weight: 700 !important;
+}
+.cm-live-table-row {
+  border-bottom: 1px solid var(--color-border);
+}
+.cm-live-table-cell {
+  font-family: var(--font-mono) !important;
+  padding: 0.1rem 0.75rem;
+}

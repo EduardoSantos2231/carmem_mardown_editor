@@ -298,14 +298,6 @@ export default function GraphView() {
     </div>;
   }
 
-  if (graphData.edges.length === 0 && graphData.nodes.length > 0) {
-    return <div className="flex-1 flex items-center justify-center" style={{ backgroundColor: "var(--color-bg)" }}>
-      <p className="text-lg font-bold" style={{ color: "var(--color-ink-muted)" }}>
-        Adicione [[links]] entre suas notas para ver as conex&otilde;es
-      </p>
-    </div>;
-  }
-
   const v = viewRef.current;
   const showLabels = simNodes.current.length <= LABEL_THRESHOLD;
 

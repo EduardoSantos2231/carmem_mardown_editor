@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 
 let modalState: {
-  show: (title: string, placeholder: string, cb: (value: string) => void, initialValue?: string) => void;
+  show: (title: string, placeholder: string, cb: (value: string) => void, initialValue?: string, hint?: string) => void;
   showConfirm: (
     title: string,
     message: string,
@@ -15,9 +15,10 @@ export function showModal(
   title: string,
   placeholder: string,
   callback: (value: string) => void,
-  initialValue?: string
+  initialValue?: string,
+  hint?: string
 ) {
-  modalState.show(title, placeholder, callback, initialValue);
+  modalState.show(title, placeholder, callback, initialValue, hint);
 }
 
 export function showConfirm(
@@ -38,15 +39,17 @@ export default function Modal() {
   const [message, setMessage] = useState("");
   const [value, setValue] = useState("");
   const [danger, setDanger] = useState(false);
+  const [hint, setHint] = useState("");
   const [cb, setCb] = useState<((v: string) => void) | null>(null);
   const [confirmCb, setConfirmCb] = useState<(() => void) | null>(null);
   const [cancelCb, setCancelCb] = useState<(() => void) | null>(null);
 
-  modalState.show = useCallback((t: string, p: string, c: (v: string) => void, init?: string) => {
+  modalState.show = useCallback((t: string, p: string, c: (v: string) => void, init?: string, h?: string) => {
     setMode("prompt");
     setTitle(t);
     setPlaceholder(p);
     setValue(init || "");
+    setHint(h || "");
     setCb(() => c);
     setOpen(true);
   }, []);
@@ -138,6 +141,11 @@ export default function Modal() {
                 color: "var(--color-ink)",
               }}
             />
+            {hint && (
+              <p className="text-xs mb-4 font-medium" style={{ color: "var(--color-ink-muted)" }}>
+                {hint}
+              </p>
+            )}
             <div className="flex justify-end gap-3">
               <button
                 onClick={close}

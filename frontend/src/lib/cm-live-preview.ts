@@ -31,6 +31,10 @@ const markClasses: Record<string, string> = {
 
 const lineClasses: Record<string, string> = {
   Blockquote: "cm-live-blockquote",
+  ListItem: "cm-live-list-item",
+  TableHeader: "cm-live-table-header",
+  TableRow: "cm-live-table-row",
+  TableCell: "cm-live-table-cell",
 };
 
 const codeBlockTypes = new Set(["FencedCode", "CodeBlock"]);
@@ -42,7 +46,11 @@ const hideMarkTypes = new Set([
   "CodeMark",
   "StrikethroughMark",
   "QuoteMark",
+  "ListMark",
 ]);
+
+const mathBlockRegex = /\$\$([^$]+)\$\$/g;
+const mathInlineRegex = /\$([^$\n]+)\$/g;
 
 function buildDecorations(view: EditorView): DecorationSet {
   const decorations: { from: number; to: number; value: Decoration }[] = [];
@@ -102,6 +110,17 @@ function buildDecorations(view: EditorView): DecorationSet {
             to: node.to,
             value: Decoration.mark({ class: "cm-live-code-info" }),
           });
+        } else if (name === "TableDelimiter") {
+          decorations.push({
+            from: node.from,
+            to: node.to,
+            value: Decoration.replace({}),
+          });
+          decorations.push({
+            from: node.from,
+            to: node.from,
+            value: Decoration.line({ class: "cm-live-hr-line" }),
+          });
         } else if (name === "HorizontalRule") {
           const hrLine = view.state.doc.lineAt(node.from).number;
           if (isPreview || hrLine !== cursorLine) {
@@ -125,6 +144,43 @@ function buildDecorations(view: EditorView): DecorationSet {
         }
       },
     });
+  }
+
+  for (const { from, to } of view.visibleRanges) {
+    const text = view.state.doc.sliceString(from, to);
+    let match: RegExpExecArray | null;
+
+    mathBlockRegex.lastIndex = 0;
+    while ((match = mathBlockRegex.exec(text)) !== null) {
+      const absFrom = from + match.index;
+      const absTo = absFrom + match[0].length;
+      const lineFrom = view.state.doc.lineAt(absFrom).number;
+      const lineTo = view.state.doc.lineAt(absTo).number;
+      for (let ln = lineFrom; ln <= lineTo; ln++) {
+        const line = view.state.doc.line(ln);
+        decorations.push({
+          from: line.from,
+          to: line.from,
+          value: Decoration.line({ class: "cm-live-math-line" }),
+        });
+      }
+      decorations.push({
+        from: absFrom,
+        to: absTo,
+        value: Decoration.mark({ class: "cm-live-math" }),
+      });
+    }
+
+    mathInlineRegex.lastIndex = 0;
+    while ((match = mathInlineRegex.exec(text)) !== null) {
+      const absFrom = from + match.index;
+      const absTo = absFrom + match[0].length;
+      decorations.push({
+        from: absFrom,
+        to: absTo,
+        value: Decoration.mark({ class: "cm-live-math" }),
+      });
+    }
   }
 
   return Decoration.set(decorations, true);

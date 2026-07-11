@@ -28,6 +28,10 @@ func (s *LinkService) ResolveLink(linkName, currentPath string) string {
 	if found := s.search(name, currentPath); found != "" {
 		return found
 	}
+
+	if found := s.searchTreeFuzzy(name); found != "" {
+		return found
+	}
 	return ""
 }
 
@@ -75,6 +79,33 @@ func (s *LinkService) findInTree(nodes []FileNode, target string) string {
 		}
 		if n.IsDir && n.Children != nil {
 			if found := s.findInTree(n.Children, target); found != "" {
+				return found
+			}
+		}
+	}
+	return ""
+}
+
+// ponytail: fuzzy fallback — busca por substring no nome base (ex: "nota" casa com "nota-antiga.md")
+func (s *LinkService) searchTreeFuzzy(target string) string {
+	base := strings.TrimSuffix(target, ".md")
+	tree, err := s.fileSvc.GetFileTree()
+	if err != nil {
+		return ""
+	}
+	return s.findInTreeFuzzy(tree, base)
+}
+
+func (s *LinkService) findInTreeFuzzy(nodes []FileNode, base string) string {
+	for _, n := range nodes {
+		if !n.IsDir && strings.HasSuffix(n.Name, ".md") {
+			nb := strings.TrimSuffix(n.Name, ".md")
+			if strings.Contains(strings.ToLower(nb), strings.ToLower(base)) {
+				return filepath.ToSlash(n.Path)
+			}
+		}
+		if n.IsDir && n.Children != nil {
+			if found := s.findInTreeFuzzy(n.Children, base); found != "" {
 				return found
 			}
 		}

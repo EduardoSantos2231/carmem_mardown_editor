@@ -71,12 +71,19 @@ function SidebarActions() {
     return parts.join("/") || useAppStore.getState().config?.documents || "";
   };
 
+  const getRelativeHint = (parentPath: string) => {
+    const docRoot = useAppStore.getState().config?.documents || "";
+    if (parentPath === docRoot) return "/";
+    if (parentPath.startsWith(docRoot + "/")) return parentPath.slice(docRoot.length + 1);
+    return parentPath;
+  };
+
   const createFile = async () => {
     const parentPath = getParentPathForSelection();
     showModal("Novo Arquivo", "nome-do-arquivo.md", async (name: string) => {
       await go.CreateFile(name, parentPath);
       await loadFileTree();
-    });
+    }, undefined, getRelativeHint(parentPath));
   };
 
   const createFolder = async () => {
@@ -84,7 +91,7 @@ function SidebarActions() {
     showModal("Nova Pasta", "nome da pasta", async (name: string) => {
       await go.CreateFolder(name, parentPath);
       await loadFileTree();
-    });
+    }, undefined, getRelativeHint(parentPath));
   };
 
   const deleteSelected = () => {

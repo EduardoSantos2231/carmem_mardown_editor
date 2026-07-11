@@ -19,7 +19,7 @@
   --color-accent: #0055ff;
   --color-accent-hover: #1a6eff;
   --color-accent-bg: rgba(0, 85, 255, 0.08);
-  --color-selected: rgba(0, 85, 255, 0.15);
+  --color-selected: rgba(0, 85, 255, 0.2);
   --color-danger: #dc2626;
   --color-success: #16a34a;
   --color-warning: #f59e0b;
@@ -47,7 +47,7 @@
   --color-accent: #0055ff;
   --color-accent-hover: #1a6eff;
   --color-accent-bg: rgba(0, 85, 255, 0.06);
-  --color-selected: rgba(0, 85, 255, 0.1);
+  --color-selected: rgba(0, 85, 255, 0.18);
   --color-danger: #dc2626;
   --color-success: #16a34a;
   --color-warning: #f59e0b;
