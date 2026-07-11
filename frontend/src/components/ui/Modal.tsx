@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 
 let modalState: {
-  show: (title: string, placeholder: string, cb: (value: string) => void) => void;
+  show: (title: string, placeholder: string, cb: (value: string) => void, initialValue?: string) => void;
   showConfirm: (
     title: string,
     message: string,
@@ -14,9 +14,10 @@ let modalState: {
 export function showModal(
   title: string,
   placeholder: string,
-  callback: (value: string) => void
+  callback: (value: string) => void,
+  initialValue?: string
 ) {
-  modalState.show(title, placeholder, callback);
+  modalState.show(title, placeholder, callback, initialValue);
 }
 
 export function showConfirm(
@@ -41,11 +42,11 @@ export default function Modal() {
   const [confirmCb, setConfirmCb] = useState<(() => void) | null>(null);
   const [cancelCb, setCancelCb] = useState<(() => void) | null>(null);
 
-  modalState.show = useCallback((t: string, p: string, c: (v: string) => void) => {
+  modalState.show = useCallback((t: string, p: string, c: (v: string) => void, init?: string) => {
     setMode("prompt");
     setTitle(t);
     setPlaceholder(p);
-    setValue("");
+    setValue(init || "");
     setCb(() => c);
     setOpen(true);
   }, []);

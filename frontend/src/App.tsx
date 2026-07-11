@@ -37,7 +37,12 @@ export default function App() {
         className="flex flex-1 flex-col min-w-0"
       >
         <Toolbar />
-        {showGraph ? <GraphView /> : <EditorContainer />}
+        <div style={{ display: showGraph ? "none" : "flex" }} className="flex-1 min-h-0">
+          <EditorContainer />
+        </div>
+        <div style={{ display: showGraph ? "flex" : "none" }} className="flex-1 min-h-0">
+          <GraphView />
+        </div>
         <StatusBar />
       </div>
       <Modal />

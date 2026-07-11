@@ -120,7 +120,7 @@ function SidebarActions() {
       useAppStore.getState().setPreviewVisible(false);
       clearAutosaveStatus();
       await loadFileTree();
-    });
+    }, currentName);
   };
 
   return (
