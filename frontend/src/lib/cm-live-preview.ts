@@ -96,6 +96,12 @@ function buildDecorations(view: EditorView): DecorationSet {
             to: node.to,
             value: Decoration.mark({ class: "cm-live-code-block" }),
           });
+        } else if (name === "CodeInfo") {
+          decorations.push({
+            from: node.from,
+            to: node.to,
+            value: Decoration.mark({ class: "cm-live-code-info" }),
+          });
         } else if (name === "HorizontalRule") {
           const hrLine = view.state.doc.lineAt(node.from).number;
           if (isPreview || hrLine !== cursorLine) {

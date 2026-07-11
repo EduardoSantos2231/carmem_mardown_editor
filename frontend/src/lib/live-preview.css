@@ -63,6 +63,11 @@
   padding-left: 1rem !important;
   line-height: 1.5 !important;
 }
+.cm-live-code-info {
+  color: var(--color-ink-muted) !important;
+  font-size: 0.75em !important;
+  font-style: italic !important;
+}
 .cm-line.cm-live-hr-line {
   border-bottom: 3px solid var(--color-border) !important;
 }
