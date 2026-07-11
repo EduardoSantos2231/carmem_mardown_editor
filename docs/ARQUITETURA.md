@@ -65,6 +65,7 @@ carmem/
 │   │   │   ├── live-preview.css      # CSS do live preview
 │   │   │   ├── cm-wikilinks.ts       # ViewPlugin de wikilinks [[link]]
 │   │   │   ├── wikilink.css          # CSS dos wikilinks
+│   │   │   ├── cm-markdown-math.ts   # MarkdownConfig para $...$ (InlineMath)
 │   │   │   └── floating-toolbar-plugin.ts  # ViewPlugin da toolbar flutuante
 │   │   └── types/
 │   │       └── index.ts      # Tipos compartilhados
@@ -225,6 +226,14 @@ Temas dark e light definidos via CSS custom properties em `:root/.dark` e `.ligh
 | `--color-border` | `#000000` | `#1a1a1a` | Cor da borda |
 | `--border-width` | `3px` | `3px` | Espessura da borda |
 | `--shadow` | `4px 4px 0 #000` | `4px 4px 0 #1a1a1a` | Sombra dura |
+
+### 13. Matemática `$...$` e `$$...$$`
+
+**Inline (`$...$`):** `MarkdownConfig.parseInline` registra nó `InlineMath` na syntax tree do `@lezer/markdown`. O `cm-live-preview.ts` detecta via `tree.iterate()` e aplica `Decoration.mark({ class: "cm-live-math" })`. Funciona porque `parseInline` opera em uma linha — não precisa de APIs de lookahead (`lineAt`/`lineCount`) que não existem na API pública.
+
+**Bloco (`$$...$$`):** `MarkdownConfig.parseBlock` foi tentado e **falhou** porque `BlockContext` não expõe `lineAt`/`lineCount` (nem em runtime, nem nos tipos). Solução adotada: regex `^\$\$` (âncora de linha) sobre o documento inteiro (`view.state.doc.toString()`), executado 1x por rebuild no `cm-live-preview.ts`. Busca abertura `$$` sozinho na linha → fecha no próximo `$$` na linha → decora linhas intermediárias como `.cm-live-math-line`.
+
+Ambos os estilos usam `font-family: var(--font-mono)`, `color: var(--color-accent)`. Blocos adicionam `background: var(--color-accent-bg)` por linha.
 
 ## Limitações Conhecidas
 

@@ -33,6 +33,10 @@ tipografia visual:
 - Blocos de código recebem fundo sutil com borda lateral accent
 - Citações ganham borda lateral grossa
 - Links ganham sublinhado e cor
+- Listas mostram marcadores (`-`, `*`, `1.`) sempre visíveis
+- Blocos de matemática (`$$...$$`) ganham fundo accent e fonte monospace
+- Matemática inline (`$...$`) renderiza em azul monospace
+- Tabelas GFM exibem colunas com bordas verticais e fonte monoespaçada
 
 A linha ativa (onde o cursor está) permanece em markdown bruto para edição.
 
@@ -217,5 +221,9 @@ Ao iniciar a aplicação, o editor inicia **bloqueado** (não é possível digit
 ## Roadmap
 
 - **Personalização de cores accent**: Trocar azul royal por qualquer cor via config
-- **Live preview de tabelas**: Estilização inline de tabelas GFM
+- **Live preview de tabelas GFM**: Colunas com largura uniforme e alinhamento automático
 - **Suporte a imagens**: Renderização inline de imagens em Markdown
+- **Múltiplos arquivos**: Sistema de abas para editar vários arquivos simultaneamente
+- **Sincronização em nuvem**: Backup e sync entre dispositivos
+
+Para issues conhecidas e histórico de bugs, veja [KNOWN_ISSUES.md](KNOWN_ISSUES.md).

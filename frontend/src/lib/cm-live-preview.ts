@@ -46,7 +46,6 @@ const hideMarkTypes = new Set([
   "CodeMark",
   "StrikethroughMark",
   "QuoteMark",
-  "ListMark",
 ]);
 
 const mathBlockRegex = /^\$\$\s*$/gm;
