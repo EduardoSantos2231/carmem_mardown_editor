@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"path/filepath"
 
 	"carmem/services"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
@@ -74,7 +75,13 @@ func (a *App) Delete(path string) error {
 
 func (a *App) Rename(oldPath, newName string) error {
 	a.graphSvc.Invalidate()
-	return a.fileSvc.Rename(oldPath, newName)
+	err := a.fileSvc.Rename(oldPath, newName)
+	if err != nil {
+		return err
+	}
+	oldName := filepath.Base(oldPath)
+	a.linkSvc.UpdateReferences(oldName, newName)
+	return nil
 }
 
 func (a *App) MoveFile(oldPath, newParentPath string) error {

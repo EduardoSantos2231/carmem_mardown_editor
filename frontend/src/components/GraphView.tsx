@@ -113,6 +113,7 @@ export default function GraphView() {
   const isCanvas = useRef(false);
 
   const theme = useAppStore((s) => s.theme);
+  const graphVersion = useAppStore((s) => s.graphVersion);
 
   useEffect(() => {
     go.GetGraphData().then((data) => {
@@ -157,7 +158,7 @@ export default function GraphView() {
       cancelAnimationFrame(animRef.current);
       runSim();
     });
-  }, []);
+  }, [graphVersion]);
 
   const runSim = useCallback(() => {
     tick(simNodes.current, simEdges.current);

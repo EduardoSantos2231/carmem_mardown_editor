@@ -20,6 +20,7 @@ interface AppState {
   floatingToolbar: { visible: boolean; top: number; left: number };
   updateInfo: UpdateInfo | null;
   showGraph: boolean;
+  graphVersion: number;
 
   setEditor: (editor: EditorView | null) => void;
   setFloatingToolbar: (state: { visible: boolean; top: number; left: number }) => void;
@@ -38,6 +39,7 @@ interface AppState {
   setEditorLocked: (locked: boolean) => void;
   setUpdateInfo: (info: UpdateInfo | null) => void;
   setShowGraph: (show: boolean) => void;
+  bumpGraphVersion: () => void;
 
 }
 
@@ -59,6 +61,7 @@ export const useAppStore = create<AppState>((set) => ({
   floatingToolbar: { visible: false, top: 0, left: 0 },
   updateInfo: null,
   showGraph: false,
+  graphVersion: 0,
 
   setEditor: (editor) => set({ editor }),
   setFloatingToolbar: (state) => set({ floatingToolbar: state }),
@@ -79,5 +82,6 @@ export const useAppStore = create<AppState>((set) => ({
   setEditorLocked: (locked) => set({ isEditorLocked: locked }),
   setUpdateInfo: (info) => set({ updateInfo: info }),
   setShowGraph: (show) => set({ showGraph: show }),
+  bumpGraphVersion: () => set((s) => ({ graphVersion: s.graphVersion + 1 })),
 
 }));

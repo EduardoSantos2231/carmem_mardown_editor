@@ -14,6 +14,7 @@ import { markUnsaved } from "@/hooks/useAutosave";
 import { livePreviewPlugin, editableState } from "@/lib/cm-live-preview";
 import { floatingToolbarPlugin } from "@/lib/floating-toolbar-plugin";
 import { wikiLinkPlugin } from "@/lib/cm-wikilinks";
+import { mathExtension } from "@/lib/cm-markdown-math";
 
 const themeCompartment = new Compartment();
 let cmView: EditorView | null = null;
@@ -24,7 +25,7 @@ function createEditor(parent: HTMLElement, initialDoc: string, theme: "dark" | "
     autocompletion({ override: [() => null] }),
     EditorView.lineWrapping,
     themeCompartment.of(getTheme(theme)),
-    markdown({ base: markdownLanguage,
+    markdown({ base: markdownLanguage, extensions: [mathExtension],
       codeLanguages: (info: string) => {
         const lang = info.toLowerCase().trim();
         if (lang === "js" || lang === "javascript" || lang === "ts" || lang === "typescript") return javascript().language;

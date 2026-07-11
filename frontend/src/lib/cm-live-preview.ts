@@ -49,8 +49,7 @@ const hideMarkTypes = new Set([
   "ListMark",
 ]);
 
-const mathBlockRegex = /\$\$([^$]+)\$\$/g;
-const mathInlineRegex = /\$([^$\n]+)\$/g;
+const mathBlockRegex = /^\$\$\s*$/gm;
 
 function buildDecorations(view: EditorView): DecorationSet {
   const decorations: { from: number; to: number; value: Decoration }[] = [];
@@ -121,6 +120,12 @@ function buildDecorations(view: EditorView): DecorationSet {
             to: node.from,
             value: Decoration.line({ class: "cm-live-hr-line" }),
           });
+        } else if (name === "InlineMath") {
+          decorations.push({
+            from: node.from,
+            to: node.to,
+            value: Decoration.mark({ class: "cm-live-math" }),
+          });
         } else if (name === "HorizontalRule") {
           const hrLine = view.state.doc.lineAt(node.from).number;
           if (isPreview || hrLine !== cursorLine) {
@@ -146,17 +151,21 @@ function buildDecorations(view: EditorView): DecorationSet {
     });
   }
 
-  for (const { from, to } of view.visibleRanges) {
-    const text = view.state.doc.sliceString(from, to);
-    let match: RegExpExecArray | null;
+  const text = view.state.doc.toString();
+  let match: RegExpExecArray | null;
+  mathBlockRegex.lastIndex = 0;
 
-    mathBlockRegex.lastIndex = 0;
-    while ((match = mathBlockRegex.exec(text)) !== null) {
-      const absFrom = from + match.index;
-      const absTo = absFrom + match[0].length;
-      const lineFrom = view.state.doc.lineAt(absFrom).number;
-      const lineTo = view.state.doc.lineAt(absTo).number;
-      for (let ln = lineFrom; ln <= lineTo; ln++) {
+  while ((match = mathBlockRegex.exec(text)) !== null) {
+    const openLine = view.state.doc.lineAt(match.index).number;
+    let closeLine = -1;
+
+    let searchPos = match.index + match[0].length;
+    mathBlockRegex.lastIndex = searchPos;
+    const closeMatch = mathBlockRegex.exec(text);
+
+    if (closeMatch) {
+      closeLine = view.state.doc.lineAt(closeMatch.index).number;
+      for (let ln = openLine; ln <= closeLine; ln++) {
         const line = view.state.doc.line(ln);
         decorations.push({
           from: line.from,
@@ -165,21 +174,11 @@ function buildDecorations(view: EditorView): DecorationSet {
         });
       }
       decorations.push({
-        from: absFrom,
-        to: absTo,
+        from: view.state.doc.line(openLine).from,
+        to: view.state.doc.line(closeLine).to,
         value: Decoration.mark({ class: "cm-live-math" }),
       });
-    }
-
-    mathInlineRegex.lastIndex = 0;
-    while ((match = mathInlineRegex.exec(text)) !== null) {
-      const absFrom = from + match.index;
-      const absTo = absFrom + match[0].length;
-      decorations.push({
-        from: absFrom,
-        to: absTo,
-        value: Decoration.mark({ class: "cm-live-math" }),
-      });
+      mathBlockRegex.lastIndex = closeMatch.index + closeMatch[0].length;
     }
   }
 

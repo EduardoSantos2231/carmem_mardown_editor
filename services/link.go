@@ -3,6 +3,7 @@ package services
 import (
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 )
 
@@ -111,4 +112,42 @@ func (s *LinkService) findInTreeFuzzy(nodes []FileNode, base string) string {
 		}
 	}
 	return ""
+}
+
+func (s *LinkService) UpdateReferences(oldName, newName string) {
+	oldBase := strings.TrimSuffix(oldName, ".md")
+	newBase := strings.TrimSuffix(newName, ".md")
+	if oldBase == newBase {
+		return
+	}
+
+	reLink := regexp.MustCompile(`\[\[` + regexp.QuoteMeta(oldBase) + `(\]\]|\|)`)
+	replacement := `[[` + newBase + `$1`
+
+	s.updateTreeReferences(reLink, replacement)
+}
+
+func (s *LinkService) updateTreeReferences(re *regexp.Regexp, replacement string) {
+	tree, err := s.fileSvc.GetFileTree()
+	if err != nil {
+		return
+	}
+	s.walkAndReplace(tree, re, replacement)
+}
+
+func (s *LinkService) walkAndReplace(nodes []FileNode, re *regexp.Regexp, replacement string) {
+	for _, n := range nodes {
+		if n.IsDir && n.Children != nil {
+			s.walkAndReplace(n.Children, re, replacement)
+		} else if strings.HasSuffix(n.Name, ".md") {
+			data, err := os.ReadFile(n.Path)
+			if err != nil {
+				continue
+			}
+			updated := re.ReplaceAllString(string(data), replacement)
+			if updated != string(data) {
+				os.WriteFile(n.Path, []byte(updated), 0644)
+			}
+		}
+	}
 }

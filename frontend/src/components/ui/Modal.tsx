@@ -121,6 +121,11 @@ export default function Modal() {
           </>
         ) : (
           <>
+            {hint && (
+              <p className="text-xs mb-2 font-medium" style={{ color: "var(--color-ink-muted)" }}>
+                {hint}
+              </p>
+            )}
             <input
               type="text"
               value={value}
@@ -141,11 +146,6 @@ export default function Modal() {
                 color: "var(--color-ink)",
               }}
             />
-            {hint && (
-              <p className="text-xs mb-4 font-medium" style={{ color: "var(--color-ink-muted)" }}>
-                {hint}
-              </p>
-            )}
             <div className="flex justify-end gap-3">
               <button
                 onClick={close}
