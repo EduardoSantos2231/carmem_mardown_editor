@@ -1,6 +1,16 @@
 # Carmem
 
 Um editor de Markdown desktop multiplataforma construído com Wails v2, React, TypeScript e Tailwind CSS.
+Design neobrutalista "papel & tinta" — escreva num papel escuro ou claro, conecte suas notas como no Obsidian.
+
+## Destaques
+
+- **Live preview inline** — markdown renderizado dentro do editor, linha a linha
+- **`[[wikilinks]]`** — conecte notas entre si, navegue com um clique
+- **Canvas / Grafo** — visualize conexões entre suas notas em um grafo interativo
+- **Neobrutalismo retro** — bordas grossas, sombras duras, tipografia Bricolage Grotesque
+- **Update checker** — notificação in-app de novas versões via GitHub Releases
+- **Offline-first** — fontes locais, zero dependência de CDN
 
 ## Instalação
 

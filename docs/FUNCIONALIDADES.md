@@ -16,6 +16,9 @@ O editor utiliza **CodeMirror 6** com suporte nativo a Markdown. Elementos desta
 - Texto riscado (`~~texto~~`)
 - Linha horizontal (`---`)
 
+A label de linguagem nos blocos de código (ex: `js`, `ts`, `python`) aparece esmaecida
+para não competir visualmente com o conteúdo.
+
 ## Preview
 
 ### Live Preview Inline
@@ -27,7 +30,8 @@ tipografia visual:
 - Títulos aparecem grandes e com cor de destaque
 - Negrito e itálico renderizam inline
 - Código inline ganha fundo destacado
-- Blocos de código e citações recebem formatação visual
+- Blocos de código recebem fundo sutil com borda lateral accent
+- Citações ganham borda lateral grossa
 - Links ganham sublinhado e cor
 
 A linha ativa (onde o cursor está) permanece em markdown bruto para edição.
@@ -44,9 +48,9 @@ Para voltar a editar: clique no mesmo botão ou pressione `Ctrl+P` novamente.
 ### Floating Formatting Toolbar
 
 Ao selecionar texto no editor, uma **toolbar flutuante** aparece com botões de formatação:
-- **B** (Negrito), *I* (Itálico), H (Título), 🔗 (Link), ≡ (Lista), `</>` (Código inline)
+- **B** (Negrito), *I* (Itálico), H (Título), Link, Lista, Código inline
 - Cada botão aplica/remove a marcação markdown no texto selecionado
-- Estilo glass-panel com backdrop-blur, aparece com animação slide-down
+- Estilo neobrutalista: fundo accent (`#0055ff`), borda 3px, sombra dura
 - Desaparece ao pressionar Escape, perder foco, ou limpar a seleção
 
 ## Autosave
@@ -59,6 +63,41 @@ O editor salva automaticamente após 2 segundos de inatividade:
   - **Salvo**: Arquivo salvo com sucesso
 - **Salvamento manual**: Ctrl+S continua funcionando
 - **Timeout**: 2 segundos de debounce
+
+## Wikilinks `[[link]]`
+
+Conexões entre notas no estilo Obsidian. Basta digitar `[[nome-da-nota]]` para criar
+um link clicável:
+
+- **Navegação**: Clique no link para abrir o arquivo referenciado
+- **Busca inteligente**: Procura no mesmo diretório → diretórios pais → árvore inteira
+- **Criação automática**: Se o arquivo não existir, o Carmem pergunta se deseja criá-lo
+- **Alias**: Use `[[nota|texto amigável]]` para exibir um texto diferente do nome do arquivo
+- **Estilo**: Sublinhado pontilhado na cor accent, igual a links da web
+
+## Canvas / Grafo
+
+Visualização interativa das conexões entre suas notas:
+
+- **Acesso**: Botão "Graph" na toolbar (ícone de rede)
+- **Nós**: Cada arquivo `.md` é um círculo. Azul = tem links, cinza = sem links
+- **Arestas**: Linhas conectam notas que possuem `[[links]]` entre si
+- **Interação**: Pan (arrastar), zoom (scroll), clique no nó para abrir o arquivo
+- **Força simulada**: Algoritmo de física posiciona os nós organicamente (spatial grid para performance)
+- **Renderização**: SVG para até 800 nós, Canvas 2D para grafos maiores
+- **Estados vazios**:
+  - Sem notas: mensagem + botão "Criar primeira nota"
+  - Notas sem links: mensagem instruindo uso de `[[links]]`
+
+## Update Checker
+
+O Carmem verifica automaticamente se há uma nova versão disponível via
+[GitHub Releases API](https://api.github.com/repos/EduardoSantos2231/carmem_mardown_editor/releases/latest):
+
+- **Ao iniciar**: Consulta silenciosa à API do GitHub
+- **Nova versão**: Modal com changelog da release + botão "Baixar" (abre a página de download)
+- **Sem rede**: A verificação falha silenciosamente — não bloqueia o app
+- **Dev mode**: Versão `dev` (sem tag) não consulta atualizações
 
 ## Gerenciamento de Arquivos
 
@@ -75,7 +114,7 @@ A sidebar exibe a estrutura de pastas e arquivos:
 |----------|------------|
 | **Criar arquivo** | Botão "+" na sidebar |
 | **Criar pasta** | Botão "pasta+" na sidebar |
-| **Renomear** | Selecionar item + botão "lápis" |
+| **Renomear** | Selecionar item + botão "lápis" — nome atual pré-preenchido |
 | **Excluir** | Selecionar item + botão "lixeira" |
 | **Mover** | Arrastar e soltar em outra pasta |
 
@@ -89,6 +128,7 @@ Arquivos e pastas podem ser movidos via drag and drop:
 **Validações:**
 - Impossível mover pasta para dentro de si mesma
 - Arquivo movido é atualizado na árvore automaticamente
+- Se o arquivo aberto for movido, o editor bloqueia
 
 ## Interface
 
@@ -99,21 +139,24 @@ Arquivos e pastas podem ser movidos via drag and drop:
 │  [Carmem]           [+][📁][🗑][✏️]                    │
 ├──────────┬──────────────────────────────────────────────┤
 │          │                                              │
-│  📁 pasta│         ┌ glass-panel ──────────────────┐   │
-│   ▶ 📄 a │         │  Editor de Markdown           │   │
-│     📄 x │◄ resizer│  (CodeMirror + live preview) │   │
-│   ▶ 📄 b │         │                               │   │
-│          │         └───────────────────────────────┘   │
+│  📁 pasta│         ╔══ papel ═══════════════════╗      │
+│   ▶ 📄 a │         ║  Editor de Markdown       ║      │
+│     📄 x │◄ resizer║  (CodeMirror + live prev) ║      │
+│   ▶ 📄 b │         ║                           ║      │
+│          │         ╚═══════════════════════════╝      │
 ├──────────┴──────────────────────────────────────────────┤
-│  ● Salvo │                     │ /path/to/file.md      │
+│  ■ Salvo │                     │ /path/to/file.md      │
 └─────────────────────────────────────────────────────────┘
 ```
 
-### Temas
+### Tema — Neobrutalismo "Papel & Tinta"
 
-- **Tema Escuro** (padrão): Glassmorphism com mesh gradients coloridos, painéis translúcidos
-- **Tema Claro**: Inspirado no iOS, fundo `#f2f2f7`, glass panels brancos
-- Ambos com animações CSS (fade-in, scale-in, slide-down) para fluidez
+- **Tema Escuro** (padrão): Papel escuro (`#2a2a2a`), tinta clara (`#e8dcc8`), accent azul royal (`#0055ff`)
+- **Tema Claro**: Papel creme (`#fafaf5`), tinta preta (`#1a1a1a`), accent azul royal (`#0055ff`)
+- **Bordas grossas**: 3px sólidas
+- **Sombras duras**: `4px 4px 0` — estilo neobrutalista inspirado em RetroUI
+- **Tipografia**: Bricolage Grotesque (carregada localmente, funciona offline)
+- **Ícones**: SVGs próprios com traço 1.5px, sem dependência de biblioteca externa
 
 ### Painéis Redimensionáveis
 
@@ -131,6 +174,11 @@ Arquivos e pastas podem ser movidos via drag and drop:
 | Ctrl++ | Aumentar zoom |
 | Ctrl+- | Diminuir zoom |
 | Ctrl+0 | Resetar zoom |
+
+## Zoom
+
+O zoom usa a propriedade CSS `zoom` — escala visualmente toda a interface sem
+recalcular layout. Sem flicker, sem salto no gutter, funciona de 50% a 200%.
 
 ## Configuração
 
@@ -168,6 +216,6 @@ Ao iniciar a aplicação, o editor inicia **bloqueado** (não é possível digit
 
 ## Roadmap
 
-- **Update Checker**: Verificação de novas versões via GitHub Releases API
-  → notificação in-app com changelog + link de download
-- **Canvas**: Tela infinita para notas visuais, semelhante ao Obsidian Canvas
+- **Personalização de cores accent**: Trocar azul royal por qualquer cor via config
+- **Live preview de tabelas**: Estilização inline de tabelas GFM
+- **Suporte a imagens**: Renderização inline de imagens em Markdown
