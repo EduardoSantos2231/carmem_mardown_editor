@@ -42,6 +42,10 @@ export function Rename(arg1, arg2) {
   return window['go']['main']['App']['Rename'](arg1, arg2);
 }
 
+export function ResolveLink(arg1, arg2) {
+  return window['go']['main']['App']['ResolveLink'](arg1, arg2);
+}
+
 export function SetTheme(arg1) {
   return window['go']['main']['App']['SetTheme'](arg1);
 }

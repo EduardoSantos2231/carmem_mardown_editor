@@ -13,6 +13,7 @@ import { getTheme } from "@/lib/cm-theme";
 import { markUnsaved } from "@/hooks/useAutosave";
 import { livePreviewPlugin, editableState } from "@/lib/cm-live-preview";
 import { floatingToolbarPlugin } from "@/lib/floating-toolbar-plugin";
+import { wikiLinkPlugin } from "@/lib/cm-wikilinks";
 
 const themeCompartment = new Compartment();
 let cmView: EditorView | null = null;
@@ -37,6 +38,7 @@ function createEditor(parent: HTMLElement, initialDoc: string, theme: "dark" | "
     editableState,
     livePreviewPlugin,
     floatingToolbarPlugin,
+    wikiLinkPlugin,
     EditorView.updateListener.of((update) => {
       if (update.docChanged) markUnsaved();
     }),

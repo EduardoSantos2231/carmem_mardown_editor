@@ -22,6 +22,8 @@ export function ReadFile(arg1:string):Promise<string>;
 
 export function Rename(arg1:string,arg2:string):Promise<void>;
 
+export function ResolveLink(arg1:string,arg2:string):Promise<string>;
+
 export function SetTheme(arg1:string):Promise<void>;
 
 export function WriteFile(arg1:string,arg2:string):Promise<void>;

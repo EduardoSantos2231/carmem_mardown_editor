@@ -1,0 +1,7 @@
+.cm-wikilink {
+  color: var(--color-accent) !important;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}

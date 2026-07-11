@@ -12,6 +12,7 @@ type App struct {
 	configSvc *services.ConfigService
 	fileSvc   *services.FileService
 	updateSvc *services.UpdateService
+	linkSvc   *services.LinkService
 }
 
 func NewApp() *App {
@@ -28,6 +29,7 @@ func (a *App) startup(ctx context.Context) {
 
 	a.fileSvc = services.NewFileService(a.configSvc.GetDocumentsPath())
 	a.updateSvc = services.NewUpdateService(version)
+	a.linkSvc = services.NewLinkService(a.configSvc.GetDocumentsPath(), a.fileSvc)
 }
 
 func (a *App) GetConfig() map[string]string {
@@ -84,4 +86,8 @@ func (a *App) beforeClose(ctx context.Context) bool {
 
 func (a *App) CheckUpdate() services.UpdateInfo {
 	return a.updateSvc.Check()
+}
+
+func (a *App) ResolveLink(linkName, currentPath string) string {
+	return a.linkSvc.ResolveLink(linkName, currentPath)
 }
