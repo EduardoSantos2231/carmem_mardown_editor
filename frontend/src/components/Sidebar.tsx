@@ -254,7 +254,7 @@ function FileTreeItem({ node, depth }: { node: FileNode; depth: number }) {
         data-path={node.path}
         data-is-dir={node.isDir}
         className={`file-item flex items-center gap-1.5 px-2 py-1 select-none text-sm ${
-          isSelected ? "" : "hover:bg-[var(--color-accent)] hover:text-white"
+          isSelected ? "" : "hover:bg-[var(--color-selected)]"
         } ${!node.isDir && !node.name.endsWith(".md") ? "opacity-40" : "cursor-pointer"}`}
         style={{
           paddingLeft: `${8 + depth * 16}px`,
