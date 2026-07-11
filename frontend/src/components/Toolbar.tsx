@@ -26,7 +26,7 @@ export default function Toolbar() {
     >
       <span
         id="current-file"
-        className={`text-sm font-bold truncate min-w-0 ${!sidebarVisible ? "pl-10" : ""}`}
+        className={`text-sm font-bold truncate min-w-0 ${!sidebarVisible ? "pl-14" : ""}`}
         style={{ color: "var(--color-ink-muted)" }}
       >
         {currentFileName || "Nenhum arquivo aberto"}
