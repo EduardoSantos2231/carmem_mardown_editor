@@ -81,14 +81,3 @@
 .cm-line.cm-live-math-line {
   background: var(--color-accent-bg) !important;
 }
-.cm-live-table-header {
-  font-weight: 700 !important;
-}
-.cm-live-table-row {
-  border-bottom: 1px solid var(--color-border);
-}
-.cm-live-table-cell {
-  font-family: var(--font-mono) !important;
-  padding: 0.1rem 0.75rem;
-  border-right: 1px solid var(--color-border);
-}

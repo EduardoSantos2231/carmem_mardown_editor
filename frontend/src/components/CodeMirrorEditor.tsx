@@ -15,6 +15,7 @@ import { livePreviewPlugin, editableState } from "@/lib/cm-live-preview";
 import { floatingToolbarPlugin } from "@/lib/floating-toolbar-plugin";
 import { wikiLinkPlugin } from "@/lib/cm-wikilinks";
 import { mathExtension } from "@/lib/cm-markdown-math";
+import { tablePreviewField } from "@/lib/cm-table";
 
 const themeCompartment = new Compartment();
 let cmView: EditorView | null = null;
@@ -38,6 +39,7 @@ function createEditor(parent: HTMLElement, initialDoc: string, theme: "dark" | "
     }),
     editableState,
     livePreviewPlugin,
+    tablePreviewField,
     floatingToolbarPlugin,
     wikiLinkPlugin,
     EditorView.updateListener.of((update) => {

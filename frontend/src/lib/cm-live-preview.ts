@@ -8,6 +8,7 @@ import {
 import { StateEffect, StateField } from "@codemirror/state";
 import { syntaxTree } from "@codemirror/language";
 import { useAppStore } from "@/store/useAppStore";
+import { tablePreviewToggled } from "@/lib/cm-table";
 import "./live-preview.css";
 
 const headingClasses: Record<string, string> = {
@@ -32,9 +33,6 @@ const markClasses: Record<string, string> = {
 const lineClasses: Record<string, string> = {
   Blockquote: "cm-live-blockquote",
   ListItem: "cm-live-list-item",
-  TableHeader: "cm-live-table-header",
-  TableRow: "cm-live-table-row",
-  TableCell: "cm-live-table-cell",
 };
 
 const codeBlockTypes = new Set(["FencedCode", "CodeBlock"]);
@@ -107,17 +105,6 @@ function buildDecorations(view: EditorView): DecorationSet {
             from: node.from,
             to: node.to,
             value: Decoration.mark({ class: "cm-live-code-info" }),
-          });
-        } else if (name === "TableDelimiter") {
-          decorations.push({
-            from: node.from,
-            to: node.to,
-            value: Decoration.replace({}),
-          });
-          decorations.push({
-            from: node.from,
-            to: node.from,
-            value: Decoration.line({ class: "cm-live-hr-line" }),
           });
         } else if (name === "InlineMath") {
           decorations.push({
@@ -235,7 +222,7 @@ export function togglePreview() {
   store.setPreviewVisible(next);
 
   view.dispatch({
-    effects: [editableEffect.of(!next), previewToggledEffect.of(null)],
+    effects: [editableEffect.of(!next), previewToggledEffect.of(null), tablePreviewToggled.of(null)],
   });
 
   const wrapper = document.getElementById("editor")?.parentElement;
