@@ -15,6 +15,7 @@ import { livePreviewPlugin, editableState } from "@/lib/cm-live-preview";
 import { floatingToolbarPlugin } from "@/lib/floating-toolbar-plugin";
 import { wikiLinkPlugin } from "@/lib/cm-wikilinks";
 import { mathExtension } from "@/lib/cm-markdown-math";
+import { katexPlugin } from "@/lib/cm-katex";
 import { tablePreviewField } from "@/lib/cm-table";
 
 const themeCompartment = new Compartment();
@@ -39,6 +40,7 @@ function createEditor(parent: HTMLElement, initialDoc: string, theme: "dark" | "
     }),
     editableState,
     livePreviewPlugin,
+    katexPlugin,
     tablePreviewField,
     floatingToolbarPlugin,
     wikiLinkPlugin,

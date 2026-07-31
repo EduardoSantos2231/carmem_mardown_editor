@@ -1,0 +1,17 @@
+@import "katex/dist/katex.min.css";
+
+.cm-katex-block {
+  display: block;
+  text-align: center;
+  padding: 1rem 0;
+  overflow-x: auto;
+}
+
+.cm-katex-block .katex-display {
+  margin: 0.5rem 0 !important;
+}
+
+.cm-katex-inline {
+  display: inline-block;
+  vertical-align: middle;
+}

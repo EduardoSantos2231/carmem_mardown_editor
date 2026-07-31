@@ -8,6 +8,7 @@ import {
 import { StateEffect, StateField } from "@codemirror/state";
 import { syntaxTree } from "@codemirror/language";
 import { useAppStore } from "@/store/useAppStore";
+import { katexPreviewToggled } from "@/lib/cm-katex";
 import { tablePreviewToggled } from "@/lib/cm-table";
 import "./live-preview.css";
 
@@ -45,8 +46,6 @@ const hideMarkTypes = new Set([
   "StrikethroughMark",
   "QuoteMark",
 ]);
-
-const mathBlockRegex = /^\$\$\s*$/gm;
 
 function buildDecorations(view: EditorView): DecorationSet {
   const decorations: { from: number; to: number; value: Decoration }[] = [];
@@ -112,6 +111,22 @@ function buildDecorations(view: EditorView): DecorationSet {
             to: node.to,
             value: Decoration.mark({ class: "cm-live-math" }),
           });
+        } else if (name === "MathBlock" && !isPreview) {
+          const lineFrom = view.state.doc.lineAt(node.from).number;
+          const lineTo = view.state.doc.lineAt(node.to).number;
+          for (let ln = lineFrom; ln <= lineTo; ln++) {
+            const line = view.state.doc.line(ln);
+            decorations.push({
+              from: line.from,
+              to: line.from,
+              value: Decoration.line({ class: "cm-live-math-line" }),
+            });
+          }
+          decorations.push({
+            from: node.from,
+            to: node.to,
+            value: Decoration.mark({ class: "cm-live-math" }),
+          });
         } else if (name === "HorizontalRule") {
           const hrLine = view.state.doc.lineAt(node.from).number;
           if (isPreview || hrLine !== cursorLine) {
@@ -135,37 +150,6 @@ function buildDecorations(view: EditorView): DecorationSet {
         }
       },
     });
-  }
-
-  const text = view.state.doc.toString();
-  let match: RegExpExecArray | null;
-  mathBlockRegex.lastIndex = 0;
-
-  while ((match = mathBlockRegex.exec(text)) !== null) {
-    const openLine = view.state.doc.lineAt(match.index).number;
-    let closeLine = -1;
-
-    let searchPos = match.index + match[0].length;
-    mathBlockRegex.lastIndex = searchPos;
-    const closeMatch = mathBlockRegex.exec(text);
-
-    if (closeMatch) {
-      closeLine = view.state.doc.lineAt(closeMatch.index).number;
-      for (let ln = openLine; ln <= closeLine; ln++) {
-        const line = view.state.doc.line(ln);
-        decorations.push({
-          from: line.from,
-          to: line.from,
-          value: Decoration.line({ class: "cm-live-math-line" }),
-        });
-      }
-      decorations.push({
-        from: view.state.doc.line(openLine).from,
-        to: view.state.doc.line(closeLine).to,
-        value: Decoration.mark({ class: "cm-live-math" }),
-      });
-      mathBlockRegex.lastIndex = closeMatch.index + closeMatch[0].length;
-    }
   }
 
   return Decoration.set(decorations, true);
@@ -222,7 +206,12 @@ export function togglePreview() {
   store.setPreviewVisible(next);
 
   view.dispatch({
-    effects: [editableEffect.of(!next), previewToggledEffect.of(null), tablePreviewToggled.of(null)],
+    effects: [
+      editableEffect.of(!next),
+      previewToggledEffect.of(null),
+      katexPreviewToggled.of(null),
+      tablePreviewToggled.of(null),
+    ],
   });
 
   const wrapper = document.getElementById("editor")?.parentElement;
